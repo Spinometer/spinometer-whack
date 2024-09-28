@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using GetBack.Spinometer.Screens.WhackGame;
-using GetBack.Spinometer.SpinalAlignmentVisualizer;
-using R3;
-using Unity.Plastic.Newtonsoft.Json;
+﻿using GetBack.Spinometer.SpinalAlignmentVisualizer;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace GetBack.Spinometer.Screens.WhackResult
 {
@@ -36,6 +30,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
 
     void Start()
     {
+      _visualizerStickFigure.ShowAlignmentValues = true;
       _whackResultUiDataSource.seekMax = _replayBuffer.entries.Count - 1;
       _whackResultUiDataSource.seekPosition = 0;
       StartPlaying();

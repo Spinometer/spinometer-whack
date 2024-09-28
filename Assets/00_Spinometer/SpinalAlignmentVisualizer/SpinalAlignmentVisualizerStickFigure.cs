@@ -83,11 +83,14 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
       _dist_C7_C2 = (_refC2.position - _refC7.position).magnitude;
     }
 
-    public void DrawAlignment(SpinalAlignment.SpinalAlignment spinalAlignment, bool verbose, bool onSide, float face_dist, float face_pitch)
+    public void DrawAlignment(SpinalAlignment.SpinalAlignment spinalAlignment, bool verbose, bool onSide,
+                              float face_dist, float face_pitch)
     {
       // FIXME:  pitch and dist should not be here
       if (!spinalAlignment.absoluteAngles.ContainsKey(SpinalAlignment.SpinalAlignment.AbsoluteAngleId.S))
-        return;      
+        return;
+
+      float scale = _avatar_skeleton.localScale.x;
 
       GrabSegmentLengths();
 
@@ -99,9 +102,10 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
 
       Vector3 DrawSegment_(Vector3 pos0, Vector3 dpos, bool draw = true)
       {
-        Vector3 pos1 = pos0 + dpos;
+        Vector3 pos1 = pos0 + dpos * scale;
         if (draw) {
-          var offset = 1.01f * Vector3.back + (onSide ? (0.5f * Vector3.right) : Vector3.zero); // FIXME: scale
+          var offset = 1.01f * Vector3.back + (onSide ? (0.5f * Vector3.right) : Vector3.zero);
+          offset *= scale;
           var normal = Vector3.back;
           using (Draw.ingame.WithLineWidth(SmallScreenMode ? 3f : 1f)) {
             Draw.ingame.Line(pos1 + offset, pos0 + offset);
@@ -133,6 +137,7 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
         var normalMax = normalCenter + normalHalfWidth;
 
         var offset = 1.01f * Vector3.back + (onSide ? (0.5f * Vector3.right) : Vector3.zero); // FIXME: scale
+        offset *= scale;
         pos0 += offset;
         pos1 += offset;
         pos2 += offset;
@@ -141,7 +146,7 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
         pos2 = Vector3.Lerp(pos1, pos2, 0.4f);
         var vec10 = (pos0 - pos1).normalized;
         var vec12 = (pos2 - pos1).normalized;
-        var radius = ((pos0 - pos1).magnitude + (pos2 - pos0).magnitude) * 0.5f * 0.2f;
+        var radius = ((pos0 - pos1).magnitude + (pos2 - pos0).magnitude) * 0.5f * 0.2f * scale;
         using (Draw.ingame.WithColor(color)) {
           if (!verbose) {
             if (n < _alignmentValueLabelElements.Length) {
@@ -163,8 +168,8 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
               var uiPosY = (1.0f - screenPos.y / Screen.height) * _alignmentValueLabelContainer.layout.height;
               el.visible = true;
               el.text = $"{label}\n{angle:0.0}";
-              el.style.left = uiPosX + labelOffset.x;
-              el.style.top = uiPosY + labelOffset.y - 20f;
+              el.style.left = uiPosX + labelOffset.x * scale * 0.25f;
+              el.style.top = uiPosY + (labelOffset.y - 80f) * scale * 0.25f;
               el.style.color = color;
               bool withinNormalBound = angle >= normalMin && angle <= normalMax;
               el.style.backgroundColor = withinNormalBound ? new Color(0f, 0f, 0f, 0f) : new Color(1f, 0f, 0f, 0.2f);
@@ -196,20 +201,23 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
       var pos_c2 = DrawSegment(pos_c7, _dist_C7_C2, SpinalAlignment.SpinalAlignment.AbsoluteAngleId.C7);
       // pos0 = NextPos(pos0, _dist_EyePost_EyeAnt, SpinalAlignment.SpinalAlignment.AbsoluteAngleId.EyePost);
       var headJointOffset = new Vector3(-0.086f, 0.102f, 0f); // FIXME: scale 
-      var pos_eyepost = pos_c2 + headJointOffset + Quaternion.AngleAxis(-face_pitch, Vector3.forward) * (new Vector3(-0.480f, 0.200f, 0f) - headJointOffset); // FIXME: scale
-      var vec_sight = Quaternion.AngleAxis(-face_pitch, Vector3.forward) * Vector3.left * 0.5f; // FIXME: scale
+      headJointOffset *= scale * 0.25f;
+      var pos_eyepost = pos_c2 + headJointOffset + Quaternion.AngleAxis(-face_pitch, Vector3.forward) * (new Vector3(-0.480f, 0.200f, 0f) * scale * 0.25f - headJointOffset); // FIXME: scale
+      var vec_sight = Quaternion.AngleAxis(-face_pitch, Vector3.forward) * Vector3.left * 0.5f * scale * 0.25f; // FIXME: scale
       var off_headCenter = new Vector3(-0.185f, 0.257f, 0f);
+      off_headCenter *= scale * 0.25f;
       {
         using (Draw.ingame.WithColor(Color.gray)) {
-          DrawSegment_(pos_t3 + 0.2f * Vector3.up, -0.2f * Vector3.up, true);
-          DrawSegment_(pos_c7 + 0.2f * Vector3.up, -0.2f * Vector3.up, true);
-          DrawSegment_(pos_eyepost + 0.5f * Vector3.left, -0.5f * Vector3.left, true);
+          DrawSegment_(pos_t3 + scale * 0.2f * Vector3.up * 0.25f, -0.2f * Vector3.up * scale * 0.25f, true);
+          DrawSegment_(pos_c7 + scale * 0.2f * Vector3.up * 0.25f, -0.2f * Vector3.up * scale * 0.25f, true);
+          DrawSegment_(pos_eyepost + scale * 0.5f * 0.25f * Vector3.left, -0.5f * Vector3.left * scale * 0.25f, true);
         }
         DrawSegment_(pos_eyepost, vec_sight, true);
         var normal = Vector3.back;
-        var radius = 0.35f;
+        var radius = 0.35f * scale * 0.25f;
         var headCenterPos = pos_c2 + headJointOffset + Quaternion.AngleAxis(-face_pitch, Vector3.forward) * (off_headCenter - headJointOffset); // FIXME: scale 
         var offset = 1.01f * Vector3.back + (onSide ? (0.5f * Vector3.right) : Vector3.zero);
+        offset *= scale;
         using (Draw.ingame.WithLineWidth(SmallScreenMode ? 3f : 1f)) {
           Draw.ingame.Circle(offset + headCenterPos, normal, radius, Color.white);
         }
@@ -254,10 +262,10 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
                 172.5f, 1.5f,
                 SpinalAlignment.SpinalAlignment.RelativeAngleId.T12_L3_S, "T12_L3_S", new Vector2(30f, 0f), color1, n++);
       {
-        DrawAngle_(pos_eyepost + Vector3.left * 2.0f, pos_eyepost, pos_eyepost + vec_sight, // FIXME: scale
+        DrawAngle_(pos_eyepost + scale * Vector3.left * 2.0f, pos_eyepost, pos_eyepost + vec_sight, // FIXME: scale
                    0f, 180f,
                    face_pitch,
-                   "pitch", new Vector2(-80f, -40f), color0, n++, true);
+                   "pitch", scale * new Vector2(-80f, -40f), color0, n++, true);
       }
 
 

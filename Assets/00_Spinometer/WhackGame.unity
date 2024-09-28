@@ -404,8 +404,8 @@ Transform:
   m_GameObject: {fileID: 457216869}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 1, z: 0.3}
+  m_LocalPosition: {x: 2.195, y: -0.34, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.25, z: 0.075}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1004904242}
@@ -820,7 +820,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1208489310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1220,7 +1220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1961506256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1292,7 +1292,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400102, guid: 314cd33b23684e24694478173d618d90, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5
+      value: 2.2
       objectReference: {fileID: 0}
     - target: {fileID: 400102, guid: 314cd33b23684e24694478173d618d90, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1710,7 +1710,7 @@ MonoBehaviour:
   _refC7: {fileID: 150061740}
   _refC2: {fileID: 815514600}
   _uiDocument: {fileID: 1822691517}
-  _alignmentValueLabelPrototype: {fileID: 9197481963319205126, guid: 967dc4b773ee4024ab9634d6d744adfc, type: 3}
+  _alignmentValueLabelPrototype: {fileID: 9197481963319205126, guid: 7b6928e6edde0cf4daac5efc6b875800, type: 3}
 --- !u!4 &2146258008 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400034, guid: 314cd33b23684e24694478173d618d90, type: 3}

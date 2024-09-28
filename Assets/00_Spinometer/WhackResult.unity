@@ -188,7 +188,7 @@ MonoBehaviour:
   _refC7: {fileID: 150061740}
   _refC2: {fileID: 815514600}
   _uiDocument: {fileID: 1822691517}
-  _alignmentValueLabelPrototype: {fileID: 9197481963319205126, guid: 967dc4b773ee4024ab9634d6d744adfc, type: 3}
+  _alignmentValueLabelPrototype: {fileID: 9197481963319205126, guid: 7b6928e6edde0cf4daac5efc6b875800, type: 3}
 --- !u!114 &142240997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1042,7 +1042,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400102, guid: 314cd33b23684e24694478173d618d90, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.27
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 400102, guid: 314cd33b23684e24694478173d618d90, type: 3}
       propertyPath: m_LocalPosition.y

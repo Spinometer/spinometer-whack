@@ -49,11 +49,11 @@ namespace GetBack.Spinometer
     private PoseEstimator.Face _lastPoseEstimatorFace; // used in calibration
     private TensorShape _lastInputTensorShape; // used in calibration
 
-    private bool _webCamFocused = true;
+    private bool _webCamFocused = false;
     private bool _showSkeleton = true;
-    private bool _showStickFigure = false;
+    private bool _showStickFigure = true;
     private bool _stickFigureOnSide = false;
-    private bool _smallScreenMode = false;
+    private bool _smallScreenMode = true;
     private TrackerStatus _trackerStatus = TrackerStatus.Initializing;
     private VisualElement _warningMessageTrackingLost = null;
     private VisualElement _warningMessageTrackingUnstable = null;
@@ -145,6 +145,8 @@ namespace GetBack.Spinometer
         _warningMessageTrackingUnstable.visible = false;
         _warningMessageCameraOffline.visible = false;
       }
+
+      UpdateSkeletonVisualizerVisibility();
     }
 
     void OnDisable()
@@ -182,7 +184,7 @@ namespace GetBack.Spinometer
                                     Color.green);
 
           Draw.ingame.Circle(tr.position + scale * new Vector3(_faceCircleCenter.x, _faceCircleCenter.y, 0f),
-                             Vector3.back, scale * _faceCircleRadius, Color.white);
+                             Vector3.back, 0.5f * scale * _faceCircleRadius, Color.white);
         }
       }
 

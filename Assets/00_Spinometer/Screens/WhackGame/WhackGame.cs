@@ -27,7 +27,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     void Start()
     {
       _state = State.GettingReady;
-      _initialTime = 10f;
+      _initialTime = 2f;
       _timeRemaining = _initialTime + 3f;
       _replayBuffer.Clear();
     }
