@@ -93,6 +93,12 @@ namespace GetBack.Spinometer
       LoadWhackResultScene();
     }
 
+    public void MoveFromResultToGame()
+    {
+      CloseScene(_sceneName_whackResult);
+      LoadWhackGameScene();
+    }
+
     private async void ToggleDebugUI()
     {
       var scene = SceneManager.GetSceneByName(_sceneName_debug);
@@ -205,6 +211,10 @@ namespace GetBack.Spinometer
         {
           var btn = uidoc.rootVisualElement.Q<Button>("settings");
           btn.clicked += LoadSettingsOrEasySetupScene;
+        }
+        {
+          var btn = uidoc.rootVisualElement.Q<Button>("btn-retry");
+          btn.clicked += MoveFromResultToGame;
         }
         RegisterLocaleChangeButtonEvents(uidoc);
       }

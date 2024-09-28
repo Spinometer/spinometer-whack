@@ -41,7 +41,7 @@
                     </Bindings>
                 </ui:Label>
             </ui:VisualElement>
-            <ui:Button text="Settings" name="settings" style="margin-right: 60px; margin-bottom: 60px; padding-right: 20px; padding-left: 20px; font-size: 18px;">
+            <ui:Button text="Settings" name="settings" style="margin-right: 60px; margin-bottom: 60px; padding-right: 20px; padding-left: 20px; font-size: 18px; display: none;">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(49534134239232)" />
                 </Bindings>
@@ -58,4 +58,5 @@
             <ui:DataBinding property="highValue" data-source-path="seekMax" data-source="project://database/Assets/00_Spinometer/Screens/WhackResult/whackResultUiDataSource.asset?fileID=11400000&amp;guid=91319722057a15147bdd5afca6198b80&amp;type=2#whackResultUiDataSource" binding-mode="ToTarget" />
         </Bindings>
     </ui:SliderInt>
+    <ui:Button text="Retry" name="btn-retry" style="margin-right: 0; margin-bottom: 0; padding-right: 20px; padding-left: 20px; font-size: 48px; display: flex; position: absolute; top: auto; left: 605px; align-self: center; align-items: flex-end; justify-content: center; align-content: center; margin-top: 0; margin-left: 0; bottom: 38px;" />
 </ui:UXML>
