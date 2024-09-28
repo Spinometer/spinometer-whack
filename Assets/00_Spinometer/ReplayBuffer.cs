@@ -8,7 +8,7 @@ namespace GetBack.Spinometer
   {
     public struct ReplayEntry
     {
-      public RenderTexture renderTexture;
+      public Texture2D texture;
       public float distance;
       public float pitch;
       public SpinalAlignment.SpinalAlignment spinalAlignment;

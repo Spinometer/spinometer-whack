@@ -8,6 +8,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
     [SerializeField] private ReplayBuffer _replayBuffer;
     [SerializeField] private UiDataSource _uiDataSource;
     [SerializeField] private WhackResultUiDataSource _whackResultUiDataSource;
+    [SerializeField] private Renderer _webcamPlane;
 
     public enum State
     {
@@ -67,13 +68,11 @@ namespace GetBack.Spinometer.Screens.WhackResult
 
       _whackResultUiDataSource.seekPosition = seekPosition;
       var entry = _replayBuffer.entries[seekPosition];
-      var distance = entry.distance;
-      var pitch = entry.pitch;
-      var spinalAlignment = entry.spinalAlignment;
-      _uiDataSource.distance = distance;
-      _uiDataSource.pitch = pitch;
-      _visualizerSkeleton.UpdateAvatarPose(spinalAlignment);
-      _visualizerStickFigure.DrawAlignment(spinalAlignment, true, false, distance, pitch);
+      _webcamPlane.material.mainTexture = entry.texture;
+      _uiDataSource.distance = entry.distance;
+      _uiDataSource.pitch = entry.pitch;
+      _visualizerSkeleton.UpdateAvatarPose(entry.spinalAlignment);
+      _visualizerStickFigure.DrawAlignment(entry.spinalAlignment, true, false, entry.distance, entry.pitch);
     }
   }
 }

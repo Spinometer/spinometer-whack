@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 namespace GetBack.Spinometer.Screens.WhackGame
 {
@@ -9,6 +10,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     [SerializeField] private UiDataSource _uiDataSource;
     [SerializeField] private WhackGameUiDataSource whackGameUiDataSource;
     [SerializeField] private TrackerNeuralNet _tracker;
+    [SerializeField] private WebCam _webcam;
 
     public App app; // injected by App
     private float _initialTime;
@@ -27,7 +29,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     void Start()
     {
       _state = State.GettingReady;
-      _initialTime = 2f;
+      _initialTime = 10f;
       _timeRemaining = _initialTime + 3f;
       _replayBuffer.Clear();
     }
@@ -68,9 +70,15 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private void AddReplayEntry()
     {
       Debug.Log($"Adding replay entry at time {_timeRemaining}");
+
+      var inTex = _webcam.ColorRenderTexture;
+      var textureCopy = new Texture2D(inTex.width, inTex.height, DefaultFormat.LDR, TextureCreationFlags.None);
+      Graphics.CopyTexture(inTex, textureCopy);
+
       var serialized = JsonConvert.SerializeObject(_tracker.spinalAlignment);
       var spinalAlignment_clone = JsonConvert.DeserializeObject<SpinalAlignment.SpinalAlignment>(serialized);
       var entry = new ReplayBuffer.ReplayEntry {
+        texture = textureCopy, 
         distance = _uiDataSource.distance,
         pitch = _uiDataSource.pitch,
         spinalAlignment = spinalAlignment_clone

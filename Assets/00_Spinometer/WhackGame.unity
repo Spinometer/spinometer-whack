@@ -523,6 +523,7 @@ MonoBehaviour:
   _uiDataSource: {fileID: 11400000, guid: b0642bbdcbe8c274cbcf9e8f7dee90dc, type: 2}
   whackGameUiDataSource: {fileID: 11400000, guid: 9d106daeec7772649a6b61e0a7579b8a, type: 2}
   _tracker: {fileID: 2074200215}
+  _webcam: {fileID: 1004904243}
   app: {fileID: 0}
 --- !u!4 &543946791
 Transform:
