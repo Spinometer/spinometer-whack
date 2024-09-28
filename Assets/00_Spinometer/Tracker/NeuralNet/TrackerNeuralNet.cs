@@ -108,6 +108,12 @@ namespace GetBack.Spinometer
       }
     }
 
+    public SpinalAlignment.SpinalAlignment spinalAlignment
+    {
+      get => _spinalAlignment;
+      set => _spinalAlignment = value;
+    }
+
     private void UpdateSkeletonVisualizerVisibility()
     {
       _visualizerSkeleton.ShowSkeleton = _showSkeleton;
@@ -182,7 +188,7 @@ namespace GetBack.Spinometer
 
       if (_showSkeleton || _showStickFigure) {
         // stick figure depends on skeleton bone positions
-        _visualizerSkeleton.UpdateAvatarPose(_spinalAlignment);
+        _visualizerSkeleton.UpdateAvatarPose(spinalAlignment);
       }
 
       if (_showSkeleton) {
@@ -190,7 +196,7 @@ namespace GetBack.Spinometer
       }
 
       if (_showStickFigure) {
-        _visualizerStickFigure.DrawAlignment(_spinalAlignment, true, _stickFigureOnSide, _uiDataSource.distance, _uiDataSource.pitch);
+        _visualizerStickFigure.DrawAlignment(spinalAlignment, true, _stickFigureOnSide, _uiDataSource.distance, _uiDataSource.pitch);
       }
     }
 
@@ -339,9 +345,13 @@ namespace GetBack.Spinometer
                                    _settings.opt_additionalPitchOffset,
                                    smoothingLambda, dt);
 
-        _uiDataSource.distance = CorrectDistance(Damp(_uiDataSource.distance, -pose.position.z, smoothingLambda, dt));
+        if (_uiDataSource.distance == Single.NaN) {
+          _uiDataSource.distance = -pose.position.z;
+        } else {
+          _uiDataSource.distance = CorrectDistance(Damp(_uiDataSource.distance, -pose.position.z, smoothingLambda, dt));
+        }
 
-        _spinalAlignmentEstimator.Estimate(_uiDataSource.distance, _uiDataSource.pitch, _spinalAlignment);
+        _spinalAlignmentEstimator.Estimate(_uiDataSource.distance, _uiDataSource.pitch, spinalAlignment);
       }
     }
 
