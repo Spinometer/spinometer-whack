@@ -500,6 +500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543946791}
   - component: {fileID: 543946790}
+  - component: {fileID: 543946792}
   m_Layer: 0
   m_Name: WhackGame
   m_TagString: Untagged
@@ -524,6 +525,7 @@ MonoBehaviour:
   whackGameUiDataSource: {fileID: 11400000, guid: 9d106daeec7772649a6b61e0a7579b8a, type: 2}
   _tracker: {fileID: 2074200215}
   _webcam: {fileID: 1004904243}
+  _initialTime: 10
   app: {fileID: 0}
 --- !u!4 &543946791
 Transform:
@@ -540,6 +542,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &543946792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543946789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28afeb76ba249ed9524be4ba79e76a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _whackGameUiDataSource: {fileID: 11400000, guid: 9d106daeec7772649a6b61e0a7579b8a, type: 2}
+  _uidoc: {fileID: 1822691517}
 --- !u!4 &606120420 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400052, guid: 314cd33b23684e24694478173d618d90, type: 3}
@@ -844,6 +860,37 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1208489309}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1251052220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1251052221}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1251052221
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251052220}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -1730,3 +1777,4 @@ SceneRoots:
   - {fileID: 1822691518}
   - {fileID: 2067541497}
   - {fileID: 1512761784}
+  - {fileID: 1251052221}

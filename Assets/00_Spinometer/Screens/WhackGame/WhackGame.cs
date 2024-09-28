@@ -11,10 +11,12 @@ namespace GetBack.Spinometer.Screens.WhackGame
     [SerializeField] private WhackGameUiDataSource whackGameUiDataSource;
     [SerializeField] private TrackerNeuralNet _tracker;
     [SerializeField] private WebCam _webcam;
+    [SerializeField] private float _initialTime = 10f;
+    public float initialTime => _initialTime;
 
     public App app; // injected by App
-    private float _initialTime;
     private float _timeRemaining;
+    public float timeRemaining => _timeRemaining;
 
     public enum State
     {
@@ -25,39 +27,43 @@ namespace GetBack.Spinometer.Screens.WhackGame
     }
 
     private State _state;
-    
+    public State state => _state;
+
     void Start()
     {
       _state = State.GettingReady;
-      _initialTime = 10f;
-      _timeRemaining = _initialTime + 3f;
+      //_initialTime = 10f;
+      _timeRemaining = initialTime + 3f;
       _replayBuffer.Clear();
     }
 
     void Update()
     {
-      var oldTimeRemaining = _timeRemaining;
+      var oldTimeRemaining = timeRemaining;
       _timeRemaining -= Time.deltaTime;
+      if (Mathf.Floor(oldTimeRemaining) != Mathf.Floor(timeRemaining)) {
+        OnCrossingSecondBoundary?.Invoke();
+      }
       switch (_state) {
       case State.GettingReady:
-        whackGameUiDataSource.timeRemaining = _initialTime;
-        if (_timeRemaining <= _initialTime) {
+        whackGameUiDataSource.timeRemaining = initialTime;
+        if (timeRemaining <= initialTime) {
           _state = State.GoingOn;
         }
         break;
       case State.GoingOn:
-        if (Mathf.Floor(oldTimeRemaining) != Mathf.Floor(_timeRemaining)) {
+        if (Mathf.Floor(oldTimeRemaining) != Mathf.Floor(timeRemaining)) {
           AddReplayEntry();
         }
-        if (_timeRemaining <= 0f) {
+        if (timeRemaining <= 0f) {
           _state = State.Finished;
           break;
         }
-        whackGameUiDataSource.timeRemaining = _timeRemaining;
+        whackGameUiDataSource.timeRemaining = timeRemaining;
         break;
       case State.Finished:
         whackGameUiDataSource.timeRemaining = 0f;
-        if (_timeRemaining <= -3f) {
+        if (timeRemaining <= -3f) {
           app.MoveFromGameToResult();
           _state = State.Closing;
         }
@@ -67,9 +73,12 @@ namespace GetBack.Spinometer.Screens.WhackGame
       }
     }
 
+    public delegate void OnCrossingSecondBoundaryHandler();
+    public event OnCrossingSecondBoundaryHandler OnCrossingSecondBoundary;
+
     private void AddReplayEntry()
     {
-      Debug.Log($"Adding replay entry at time {_timeRemaining}");
+      Debug.Log($"Adding replay entry at time {timeRemaining}");
 
       var inTex = _webcam.ColorRenderTexture;
       var textureCopy = new Texture2D(inTex.width, inTex.height, DefaultFormat.LDR, TextureCreationFlags.None);

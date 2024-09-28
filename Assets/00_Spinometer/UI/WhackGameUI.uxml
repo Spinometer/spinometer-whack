@@ -62,4 +62,10 @@
             <ui:DataBinding property="text" data-source-path="timeRemainingStr" data-source="project://database/Assets/00_Spinometer/Screens/WhackGame/whackGameUiDataSource.asset?fileID=11400000&amp;guid=9d106daeec7772649a6b61e0a7579b8a&amp;type=2#whackGameUiDataSource" binding-mode="ToTarget" />
         </Bindings>
     </ui:Label>
+    <ui:Label text="Ready" name="text-ready" picking-mode="Ignore" style="position: absolute; top: 182px; left: 743px; font-size: 96px; -unity-text-align: middle-center;">
+        <Bindings>
+            <ui:DataBinding property="style.opacity" data-source-path="text_ready_opacity" data-source="project://database/Assets/00_Spinometer/Screens/WhackGame/whackGameUiDataSource.asset?fileID=11400000&amp;guid=9d106daeec7772649a6b61e0a7579b8a&amp;type=2#whackGameUiDataSource" binding-mode="ToTarget" />
+            <ui:DataBinding property="style.scale" data-source="project://database/Assets/00_Spinometer/Screens/WhackGame/whackGameUiDataSource.asset?fileID=11400000&amp;guid=9d106daeec7772649a6b61e0a7579b8a&amp;type=2#whackGameUiDataSource" binding-mode="ToTarget" data-source-path="text_ready_scale" />
+        </Bindings>
+    </ui:Label>
 </ui:UXML>
