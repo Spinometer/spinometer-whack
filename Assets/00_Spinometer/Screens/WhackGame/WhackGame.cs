@@ -70,7 +70,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
       }
       switch (_state) {
       case State.GettingReady:
-        whackGameUiDataSource.timeRemaining = initialTime;
+        //whackGameUiDataSource.timeRemaining = initialTime;
+        whackGameUiDataSource.timeRemainingStr = $"{(Mathf.Floor(timeRemaining - initialTime) + 1):0}";
         if (timeRemaining <= initialTime) {
           _state = State.GoingOn;
           OnGameStarted?.Invoke();
