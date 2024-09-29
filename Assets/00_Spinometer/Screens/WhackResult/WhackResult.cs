@@ -1,5 +1,6 @@
 ﻿using GetBack.Spinometer.SpinalAlignmentVisualizer;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace GetBack.Spinometer.Screens.WhackResult
 {
@@ -35,6 +36,9 @@ namespace GetBack.Spinometer.Screens.WhackResult
       _whackResultUiDataSource.seekMax = _replayBuffer.entries.Count - 1;
       _whackResultUiDataSource.seekPosition = 0;
       StartPlaying();
+
+      var root = GameObject.Find("/WhackResultUIDocument").GetComponent<UIDocument>().rootVisualElement;
+      root.Q<SliderInt>("seek-position").RegisterValueChangedCallback(evt => ManualSeek(evt.newValue));
     }
 
     public void StartPlaying()
@@ -51,7 +55,6 @@ namespace GetBack.Spinometer.Screens.WhackResult
       _playbackSpeed = 0f;
     }
 
-
     public int Seek(int seekPosition, bool repeat = false)
     {
       if (seekPosition >= _replayBuffer.entries.Count) {
@@ -62,6 +65,14 @@ namespace GetBack.Spinometer.Screens.WhackResult
       }
       _whackResultUiDataSource.seekPosition = seekPosition;
       return seekPosition;
+    }
+
+    private void ManualSeek(int seekPosition)
+    {
+      if (_whackResultUiDataSource.seekPosition == seekPosition)
+        return;
+      StopPlaying();
+      Seek(seekPosition);
     }
 
     void Update()
