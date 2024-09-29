@@ -3,9 +3,9 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace GetBack.Spinometer.Screens.WhackGame
+namespace GetBack.Spinometer.Screens.WhackGame.Effects
 {
-  public class WhackGameEffects : MonoBehaviour
+  public class TimerText : MonoBehaviour
   {
     [SerializeField] private WhackGameUiDataSource _whackGameUiDataSource;
     [SerializeField] private UIDocument _uidoc;
