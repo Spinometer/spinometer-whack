@@ -11,7 +11,7 @@ namespace GetBack.Spinometer
       public Texture2D texture;
       public float distance;
       public float pitch;
-      public SpinalAlignment.SpinalAlignment spinalAlignment;
+      public SpinalAlignmentCore.SpinalAlignment spinalAlignment;
     }
 
     public List<ReplayEntry> entries = new();

@@ -1,6 +1,6 @@
 using System;
 using Drawing;
-using GetBack.Spinometer.SpinalAlignment;
+using GetBack.Spinometer.SpinalAlignmentCore;
 using GetBack.Spinometer.SpinalAlignmentVisualizer;
 using GetBack.Spinometer.TrackerNeuralNetImpl;
 using GetBack.Spinometer.UI;
@@ -59,7 +59,7 @@ namespace GetBack.Spinometer
     private VisualElement _warningMessageTrackingUnstable = null;
     private VisualElement _warningMessageCameraOffline = null;
 
-    private SpinalAlignment.SpinalAlignment _spinalAlignment = new SpinalAlignment.SpinalAlignment();
+    private SpinalAlignmentCore.SpinalAlignment _spinalAlignment = new SpinalAlignmentCore.SpinalAlignment();
     private SpinalAlignmentEstimator _spinalAlignmentEstimator = null;
     private float _dt = 1.0f;
 
@@ -108,7 +108,7 @@ namespace GetBack.Spinometer
       }
     }
 
-    public SpinalAlignment.SpinalAlignment spinalAlignment
+    public SpinalAlignmentCore.SpinalAlignment spinalAlignment
     {
       get => _spinalAlignment;
       set => _spinalAlignment = value;
