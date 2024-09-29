@@ -23,6 +23,10 @@ namespace GetBack.Spinometer.Screens.WhackGame
       public SpawnerStrategy spawnerStrategy;
       public Vector3 spawnBoundary0; // = new Vector3(-2f, -1f, -1.4f);
       public Vector3 spawnBoundary1; // = new Vector3(2f, 1f, -1.2f);
+      public float sizeMin; // = 0.5f;
+      public float sizeMax; // = 1.0f;
+      public float aspectRatioMin; // = 1.0f / 1.1f;
+      public float aspectRatioMax; // = 1.1f;
       public float vulnerableTimeMin; // = 0.6f;
       public float vulnerableTimeMax; // = 1.0f;
     }
@@ -43,6 +47,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
     }
 
     public WhackGame whackGame => _whackGame;
+
+    public Options options => _options;
 
     private void ChangeSpawnerStrategy(SpawnerStrategy strategyEnum)
     {
@@ -119,18 +125,23 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     public Mole Spawn(double currentTime)
     {
+      return Spawn(currentTime, _options);
+    }
+
+    public Mole Spawn(double currentTime, Options options)
+    {
       bool uppercase = Random.Range(0, 2) == 0;
       var text = ((char)(uppercase ? Random.Range('A', 'Z') : Random.Range('a', 'z'))).ToString();
       var mole = new Mole {
-        position = new Vector3(Random.Range(_options.spawnBoundary0.x, _options.spawnBoundary1.x),
-                               Random.Range(_options.spawnBoundary0.y, _options.spawnBoundary1.y),
-                               Random.Range(_options.spawnBoundary0.z, _options.spawnBoundary1.z)),
+        position = new Vector3(Random.Range(options.spawnBoundary0.x, options.spawnBoundary1.x),
+                               Random.Range(options.spawnBoundary0.y, options.spawnBoundary1.y),
+                               Random.Range(options.spawnBoundary0.z, options.spawnBoundary1.z)),
         text = text,
         score = 1,
-        size = Random.Range(0.5f, 1f),
-        aspectRatio = Random.Range(1.0f / 1.2f, 1.2f),
+        size = Random.Range(options.sizeMin, options.sizeMax),
+        aspectRatio = Random.Range(options.aspectRatioMin, options.aspectRatioMax),
         alive = true,
-        activeUntil = currentTime + Random.Range(_options.vulnerableTimeMin, _options.vulnerableTimeMax)
+        activeUntil = currentTime + Random.Range(options.vulnerableTimeMin, options.vulnerableTimeMax)
       };
       _moles.Insert(0, mole); // Insert() instead of Add() to ensure whacking is applied to oldest moles first
       mole.presenter = new MolePresenter(_presenterOptions, mole);

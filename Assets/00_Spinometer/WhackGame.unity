@@ -746,6 +746,10 @@ MonoBehaviour:
     spawnerStrategy: 2
     spawnBoundary0: {x: -2, y: -1, z: -1.4}
     spawnBoundary1: {x: 2, y: 1, z: -1.2}
+    sizeMin: 0.5
+    sizeMax: 1
+    aspectRatioMin: 0.90909094
+    aspectRatioMax: 1.1
     vulnerableTimeMin: 0.6
     vulnerableTimeMax: 1
   _presenterOptions:

@@ -40,15 +40,26 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     private async void StartBurst(double currentTime)
     {
       _burstCountLeft = 5;
-      _nextBurstStartTime = currentTime + 2.0;
+      _nextBurstStartTime = currentTime + 4.0;
+
+      var options = _moleManager.options;
+      options.spawnBoundary1 = new Vector3(options.spawnBoundary1.x - 0.8f, 0f, 0f);
+      options.sizeMin = 0.15f;
+      options.sizeMax = 0.2f;
+      options.vulnerableTimeMin = 3f;
+      options.vulnerableTimeMax = 4f;
 
       for (int i = 0; i < 5; i++) {
-        _moleManager.Spawn(currentTime);
-        var isCanceled = await UniTask.Delay(30, cancellationToken: _cts.Token).SuppressCancellationThrow();
-        if (isCanceled) {
-          Debug.Log("canceled");
+        var mole = _moleManager.Spawn(currentTime, options);
+        options.spawnBoundary0 = mole.position + new Vector3(mole.size, 0f, 0f);
+        options.spawnBoundary1 = options.spawnBoundary0;
+        options.vulnerableTimeMin = (float)(mole.activeUntil - currentTime);
+        options.vulnerableTimeMax = options.vulnerableTimeMin;
+        int interval_ms = 30;
+        currentTime += interval_ms * 1e-3;
+        var isCanceled = await UniTask.Delay(interval_ms, cancellationToken: _cts.Token).SuppressCancellationThrow();
+        if (isCanceled)
           return;
-        }
       }
     }
   }
