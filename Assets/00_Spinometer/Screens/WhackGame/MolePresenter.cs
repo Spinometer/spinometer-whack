@@ -1,7 +1,7 @@
 ﻿using System;
-using R3;
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Object = UnityEngine.Object;
 
 namespace GetBack.Spinometer.Screens.WhackGame
@@ -27,8 +27,14 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _mole.presenter = this;
       _moleGO = Object.Instantiate(_options.molePrefab, _mole.position, Quaternion.identity);
       _moleGO.transform.localScale = new Vector3(_mole.size / _mole.aspectRatio, _mole.size * _mole.aspectRatio, _mole.size);
-      var t = _moleGO.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+      var t = _moleGO.GetComponentInChildren<TextMeshProUGUI>();
       t.text = _mole.text;
+      var tw = DOTween.To(() => t.color,
+                          x => { t.color = x; },
+                          new Color(1f, 1f, 1f, 0f),
+                          0.3f)
+        .SetDelay((float)(_mole.activeUntil - Time.timeAsDouble) - 0.3f);
+      tw.Play();
     }
 
     public void NextTick(double currentTime, float deltaTime)
@@ -45,6 +51,18 @@ namespace GetBack.Spinometer.Screens.WhackGame
         _options.moleManager.RemoveMole(_mole);
         break;
       }
+    }
+
+    public void Whacked()
+    {
+      var t = _moleGO.GetComponentInChildren<TextMeshProUGUI>();
+      t.color = new Color(1f, 0.3f, 0.3f, 1f);
+      var tw = DOTween.To(() => t.color,
+                          x => { t.color = x; },
+                          new Color(1f, 0f, 0f, 0f),
+                          1f);
+      tw.Play();
+      _mole.activeUntil = Time.timeAsDouble + 1.0;
     }
 
     void IDisposable.Dispose()

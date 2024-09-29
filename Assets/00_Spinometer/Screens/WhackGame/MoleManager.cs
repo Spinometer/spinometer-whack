@@ -71,13 +71,20 @@ namespace GetBack.Spinometer.Screens.WhackGame
         if (Keyboard.current[mole.text].IsPressed()) {
           hit = true;
           _whackGame.AddScore(mole.score);
-          RemoveMole(i);
+          WhackMole(i);
         }
       }
 
       if (!hit) {
         _whackGame.AddScore(-1);
       }
+    }
+
+    private void WhackMole(int index)
+    {
+      var mole = _moles[index];
+      mole.alive = false;
+      mole.presenter.Whacked();
     }
 
     private Mole Spawn(double currentTime)
