@@ -68,9 +68,14 @@
             <ui:DataBinding property="style.scale" data-source="project://database/Assets/00_Spinometer/Screens/WhackGame/whackGameUiDataSource.asset?fileID=11400000&amp;guid=9d106daeec7772649a6b61e0a7579b8a&amp;type=2#whackGameUiDataSource" binding-mode="ToTarget" data-source-path="text_ready_scale" />
         </Bindings>
     </ui:Label>
-    <ui:Label text="Label" name="time-score-value" picking-mode="Ignore" style="position: absolute; top: 20px; left: 859px; font-size: 96px;">
+    <ui:Label text="Label" name="whacking-score-value" picking-mode="Ignore" style="position: absolute; top: 20px; left: 859px; font-size: 96px;">
         <Bindings>
-            <ui:DataBinding property="text" data-source-path="score" data-source="project://database/Assets/00_Spinometer/Screens/WhackGame/whackGameUiDataSource.asset?fileID=11400000&amp;guid=9d106daeec7772649a6b61e0a7579b8a&amp;type=2#whackGameUiDataSource" binding-mode="ToTarget" />
+            <ui:DataBinding property="text" data-source-path="whackingScore" data-source="project://database/Assets/00_Spinometer/Screens/WhackGame/whackGameUiDataSource.asset?fileID=11400000&amp;guid=9d106daeec7772649a6b61e0a7579b8a&amp;type=2#whackGameUiDataSource" binding-mode="ToTarget" />
+        </Bindings>
+    </ui:Label>
+    <ui:Label text="Label" name="alignment-score-value" picking-mode="Ignore" style="position: absolute; top: 151px; left: 856px; font-size: 96px;">
+        <Bindings>
+            <ui:DataBinding property="text" data-source-path="alignmentScoreStr" data-source="project://database/Assets/00_Spinometer/Screens/WhackGame/whackGameUiDataSource.asset?fileID=11400000&amp;guid=9d106daeec7772649a6b61e0a7579b8a&amp;type=2#whackGameUiDataSource" binding-mode="ToTarget" />
         </Bindings>
     </ui:Label>
 </ui:UXML>

@@ -1,4 +1,5 @@
-﻿using R3;
+﻿using System.Linq;
+using R3;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
@@ -34,7 +35,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
     }
 
     private State _state;
-    private int _score;
+    private int _whackingScore;
+    private float _alignmentScore;
     public State state => _state;
 
     void OnEnable()
@@ -53,8 +55,10 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     void Start()
     {
-      _score = 0;
-      _whackGameUiDataSource.score = _score;
+      _whackingScore = 0;
+      _alignmentScore = 0f;
+      _whackGameUiDataSource.whackingScore = _whackingScore;
+      _whackGameUiDataSource.alignmentScore = _alignmentScore;
       _state = State.GettingReady;
       _timeRemaining = initialTime + 3f;
       _replayBuffer.Clear();
@@ -88,6 +92,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
           break;
         }
         _whackGameUiDataSource.timeRemaining = timeRemaining;
+        UpdateAlignmentScore();
         break;
       case State.Finished:
         _whackGameUiDataSource.timeRemaining = 0f;
@@ -99,6 +104,14 @@ namespace GetBack.Spinometer.Screens.WhackGame
       case State.Closing:
         break;
       }
+    }
+
+    private void UpdateAlignmentScore()
+    {
+      var scores = _tracker.spinalAlignmentScore.scores;
+      var average = scores.Average(kv => kv.Value);
+      _alignmentScore += average * Time.deltaTime;
+      _whackGameUiDataSource.alignmentScore = _alignmentScore;
     }
 
     public delegate void OnGameStartedHandler();
@@ -130,8 +143,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     public void AddScore(int value)
     {
-      _score += value;
-      _whackGameUiDataSource.score = _score;
+      _whackingScore += value;
+      _whackGameUiDataSource.whackingScore = _whackingScore;
     }
   }
 }
