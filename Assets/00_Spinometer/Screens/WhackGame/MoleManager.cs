@@ -103,9 +103,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
         alive = true,
         activeUntil = currentTime + Random.Range(_options.vulnerableTimeMin, _options.vulnerableTimeMax)
       };
-      _moles.Add(mole);
+      _moles.Insert(0, mole); // Insert() instead of Add() to ensure whacking is applied to oldest moles first
       mole.presenter = new MolePresenter(_presenterOptions, mole);
-      Debug.Log(_moles.Count);
       return mole;
     }
 
