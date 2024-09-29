@@ -59,4 +59,14 @@
         </Bindings>
     </ui:SliderInt>
     <ui:Button text="Retry" name="btn-retry" style="margin-right: 0; margin-bottom: 0; padding-right: 20px; padding-left: 20px; font-size: 48px; display: flex; position: absolute; top: auto; left: 605px; align-self: center; align-items: flex-end; justify-content: center; align-content: center; margin-top: 0; margin-left: 0; bottom: 38px;" />
+    <ui:Label text="Label" name="whacking-score-value" picking-mode="Ignore" style="position: absolute; top: 27px; left: 1077px; font-size: 96px;">
+        <Bindings>
+            <ui:DataBinding property="text" data-source-path="whackingScore" data-source="project://database/Assets/00_Spinometer/Screens/WhackGame/whackGameUiDataSource.asset?fileID=11400000&amp;guid=9d106daeec7772649a6b61e0a7579b8a&amp;type=2#whackGameUiDataSource" binding-mode="ToTarget" />
+        </Bindings>
+    </ui:Label>
+    <ui:Label text="Label" name="alignment-score-value" picking-mode="Ignore" style="position: absolute; top: 136px; left: 1076px; font-size: 96px;">
+        <Bindings>
+            <ui:DataBinding property="text" data-source-path="alignmentScoreStr" data-source="project://database/Assets/00_Spinometer/Screens/WhackGame/whackGameUiDataSource.asset?fileID=11400000&amp;guid=9d106daeec7772649a6b61e0a7579b8a&amp;type=2#whackGameUiDataSource" binding-mode="ToTarget" />
+        </Bindings>
+    </ui:Label>
 </ui:UXML>
