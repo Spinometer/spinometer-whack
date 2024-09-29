@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using Random = UnityEngine.Random;
 
 namespace GetBack.Spinometer.Screens.WhackGame
@@ -51,7 +52,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       if (_whackGame.state != WhackGame.State.GoingOn)
         return;
 
-      if (Keyboard.current.anyKey.IsPressed())
+      if (Keyboard.current.anyKey.wasPressedThisFrame)
         HandleKeyboardInput();
 
       for (int i = _moles.Count - 1; i >= 0; i--) {
@@ -68,7 +69,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       bool hit = false;
       for (int i = _moles.Count - 1; i >= 0; i--) {
         var mole = _moles[i];
-        if (Keyboard.current[mole.text].IsPressed()) {
+        if (((KeyControl)(Keyboard.current[mole.text])).wasPressedThisFrame) {
           hit = true;
           _whackGame.AddScore(mole.score);
           WhackMole(i);
