@@ -74,6 +74,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
       if (_whackGame.state != WhackGame.State.GoingOn)
         return;
 
+      _spawnerStrategy?.NextTick(currentTime, deltaTime);
+
       bool anyKeyPressedThisFrame = Keyboard.current.allKeys.Any(key => key.wasPressedThisFrame);
       // Keyboard.current.allKeys can not be used here as it does not handle roll over.
       if (anyKeyPressedThisFrame) {

@@ -15,7 +15,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     {
     }
 
-    void ISpawnerStrategy.NextTick()
+    void ISpawnerStrategy.NextTick(double currentTime, float deltaTime)
     {
     }
   }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Random = UnityEngine.Random;
 
 namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 {
@@ -15,8 +16,11 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     {
     }
 
-    void ISpawnerStrategy.NextTick()
+    void ISpawnerStrategy.NextTick(double currentTime, float deltaTime)
     {
+      if (Random.value < deltaTime) {
+        _manager.Spawn(currentTime);
+      }
     }
   }
 }

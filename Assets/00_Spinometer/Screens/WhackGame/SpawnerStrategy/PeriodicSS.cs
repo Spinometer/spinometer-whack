@@ -20,7 +20,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       _whackGame.OnCrossingSecondBoundary -= OnCrossingSecondBoundary;
     }
 
-    public void NextTick()
+    public void NextTick(double currentTime, float deltaTime)
     {
     }
 
@@ -28,7 +28,8 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     {
       if (_whackGame.state == WhackGame.State.GettingReady &&
           _whackGame.timeRemaining <= _whackGame.initialTime + 0.01f)
-        _moleManager.Spawn(Time.timeAsDouble);
+        _moleManager.
+          Spawn(Time.timeAsDouble);
       else if (_whackGame.state == WhackGame.State.GoingOn && _whackGame.timeRemaining >= 0.5f)
         _moleManager.Spawn(Time.timeAsDouble);
     }
