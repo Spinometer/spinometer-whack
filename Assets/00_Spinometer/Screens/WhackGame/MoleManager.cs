@@ -28,16 +28,28 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _options = options;
       _presenterOptions = presenterOptions;
       _presenterOptions.moleManager = this;
+      _whackGame.OnCrossingSecondBoundary += OnCrossingSecondBoundary;
+    }
+
+    private void OnCrossingSecondBoundary()
+    {
+      if (_whackGame.state == WhackGame.State.GettingReady &&
+          _whackGame.timeRemaining <= _whackGame.initialTime + 0.01f)
+        Spawn(Time.timeAsDouble);
+      else if (_whackGame.state == WhackGame.State.GoingOn && _whackGame.timeRemaining >= 0.5f)
+        Spawn(Time.timeAsDouble);
+    }
+
+    void IDisposable.Dispose()
+    {
+      _whackGame.OnCrossingSecondBoundary -= OnCrossingSecondBoundary;
+      RemoveAllMoles();
     }
 
     public void NextTick(double currentTime, float deltaTime)
     {
       if (_whackGame.state != WhackGame.State.GoingOn)
         return;
-
-      if (Random.value < deltaTime) {
-        Spawn(currentTime);
-      }
 
       if (Keyboard.current.anyKey.IsPressed())
         HandleKeyboardInput();
@@ -108,11 +120,6 @@ namespace GetBack.Spinometer.Screens.WhackGame
       for (int i = _moles.Count - 1; i >= 0; i--) {
         RemoveMole(i);
       }
-    }
-
-    void IDisposable.Dispose()
-    {
-      RemoveAllMoles();
     }
   }
 }
