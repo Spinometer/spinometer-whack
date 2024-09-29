@@ -1,6 +1,7 @@
 ﻿using R3;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
+using UnityEngine.Serialization;
 
 namespace GetBack.Spinometer.Screens.WhackGame
 {
@@ -8,7 +9,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
   {
     [SerializeField] private ReplayBuffer _replayBuffer;
     [SerializeField] private UiDataSource _uiDataSource;
-    [SerializeField] private WhackGameUiDataSource whackGameUiDataSource;
+    [SerializeField] private WhackGameUiDataSource _whackGameUiDataSource;
     [SerializeField] private TrackerNeuralNet _tracker;
     [SerializeField] private WebCam _webcam;
     [SerializeField] private float _initialTime = 10f;
@@ -71,7 +72,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       switch (_state) {
       case State.GettingReady:
         //whackGameUiDataSource.timeRemaining = initialTime;
-        whackGameUiDataSource.timeRemainingStr = $"{(Mathf.Floor(timeRemaining - initialTime) + 1):0}";
+        _whackGameUiDataSource.timeRemainingStr = $"{(Mathf.Floor(timeRemaining - initialTime) + 1):0}";
         if (timeRemaining <= initialTime) {
           _state = State.GoingOn;
           OnGameStarted?.Invoke();
@@ -86,10 +87,10 @@ namespace GetBack.Spinometer.Screens.WhackGame
           OnGameFinished?.Invoke();
           break;
         }
-        whackGameUiDataSource.timeRemaining = timeRemaining;
+        _whackGameUiDataSource.timeRemaining = timeRemaining;
         break;
       case State.Finished:
-        whackGameUiDataSource.timeRemaining = 0f;
+        _whackGameUiDataSource.timeRemaining = 0f;
         if (timeRemaining <= -3f) {
           app.MoveFromGameToResult();
           _state = State.Closing;
@@ -129,6 +130,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     public void AddScore(int value)
     {
       _score += value;
+      _whackGameUiDataSource.score = _score;
     }
   }
 }

@@ -13,5 +13,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     public float text_ready_opacity = 1f;
     public Vector3 text_ready_scale = Vector3.one;
+
+    public int score = 0;
   }
 }
