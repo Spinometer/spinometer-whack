@@ -1,7 +1,6 @@
 ﻿using R3;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
-using UnityEngine.Serialization;
 
 namespace GetBack.Spinometer.Screens.WhackGame
 {
@@ -54,8 +53,9 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     void Start()
     {
+      _score = 0;
+      _whackGameUiDataSource.score = _score;
       _state = State.GettingReady;
-      //_initialTime = 10f;
       _timeRemaining = initialTime + 3f;
       _replayBuffer.Clear();
     }
