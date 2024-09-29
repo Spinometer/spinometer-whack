@@ -44,14 +44,14 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 
       var options = _moleManager.options;
       options.spawnBoundary1 = new Vector3(options.spawnBoundary1.x - 0.8f, 0f, 0f);
-      options.sizeMin = 0.15f;
-      options.sizeMax = 0.2f;
+      options.sizeMin = 0.04f;
+      options.sizeMax = 0.042f;
       options.vulnerableTimeMin = 3f;
       options.vulnerableTimeMax = 4f;
 
       for (int i = 0; i < 5; i++) {
         var mole = _moleManager.Spawn(currentTime, options);
-        options.spawnBoundary0 = mole.position + new Vector3(mole.size, 0f, 0f);
+        options.spawnBoundary0 = mole.position + new Vector3(mole.size, 0f, 0f) * 0.54f;
         options.spawnBoundary1 = options.spawnBoundary0;
         options.vulnerableTimeMin = (float)(mole.activeUntil - currentTime);
         options.vulnerableTimeMax = options.vulnerableTimeMin;
