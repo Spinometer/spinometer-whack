@@ -44,6 +44,26 @@ namespace GetBack.Spinometer.Screens.WhackResult
       _playbackSpeed = 1f;
     }
 
+    public void StopPlaying()
+    {
+      _state = State.Stopped;
+      _playbackTimer = 1f;
+      _playbackSpeed = 0f;
+    }
+
+
+    public int Seek(int seekPosition, bool repeat = false)
+    {
+      if (seekPosition >= _replayBuffer.entries.Count) {
+        seekPosition = repeat ? 0 : _replayBuffer.entries.Count - 1;
+      }
+      if (seekPosition < 0) {
+        seekPosition = 0;
+      }
+      _whackResultUiDataSource.seekPosition = seekPosition;
+      return seekPosition;
+    }
+
     void Update()
     {
       int seekPosition = _whackResultUiDataSource.seekPosition;
@@ -62,11 +82,11 @@ namespace GetBack.Spinometer.Screens.WhackResult
         break;
       }
 
-      if (seekPosition < 0 || seekPosition >= _replayBuffer.entries.Count) {
-        seekPosition = 0;
-      }
+      seekPosition = Seek(seekPosition, true);
 
-      _whackResultUiDataSource.seekPosition = seekPosition;
+      if (seekPosition > _replayBuffer.entries.Count)
+        return;
+
       var entry = _replayBuffer.entries[seekPosition];
       _webcamPlane.material.mainTexture = entry.texture;
       _uiDataSource.distance = entry.distance;
