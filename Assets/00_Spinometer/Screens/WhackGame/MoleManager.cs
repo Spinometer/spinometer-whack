@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -10,9 +11,16 @@ namespace GetBack.Spinometer.Screens.WhackGame
 {
   public class MoleManager : IDisposable
   {
+    public enum SpawnerStrategy {
+      periodic,
+      random,
+      burst,
+    }
+
     [Serializable]
     public struct Options
     {
+      public SpawnerStrategy spawnerStrategy;
       public Vector3 spawnBoundary0; // = new Vector3(-2f, -1f, -1.4f);
       public Vector3 spawnBoundary1; // = new Vector3(2f, 1f, -1.2f);
       public float vulnerableTimeMin; // = 0.6f;
@@ -23,6 +31,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private Options _options;
     private MolePresenter.Options _presenterOptions;
     private List<Mole> _moles = new List<Mole>();
+    private ISpawnerStrategy _spawnerStrategy = null;
 
     public MoleManager(WhackGame whackGame, Options options, MolePresenter.Options presenterOptions)
     {
@@ -30,21 +39,33 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _options = options;
       _presenterOptions = presenterOptions;
       _presenterOptions.moleManager = this;
-      _whackGame.OnCrossingSecondBoundary += OnCrossingSecondBoundary;
+      ChangeSpawnerStrategy(_options.spawnerStrategy);
     }
 
-    private void OnCrossingSecondBoundary()
+    public WhackGame whackGame => _whackGame;
+
+    private void ChangeSpawnerStrategy(SpawnerStrategy strategyEnum)
     {
-      if (_whackGame.state == WhackGame.State.GettingReady &&
-          _whackGame.timeRemaining <= _whackGame.initialTime + 0.01f)
-        Spawn(Time.timeAsDouble);
-      else if (_whackGame.state == WhackGame.State.GoingOn && _whackGame.timeRemaining >= 0.5f)
-        Spawn(Time.timeAsDouble);
+      if (_spawnerStrategy != null) {
+        _spawnerStrategy.Dispose();
+        _spawnerStrategy = null;
+      }
+      switch (strategyEnum) {
+      case SpawnerStrategy.periodic:
+        _spawnerStrategy = new PeriodicSS(this);
+        break;
+      case SpawnerStrategy.random:
+        _spawnerStrategy = new RandomSS(this);
+        break;
+      case SpawnerStrategy.burst:
+        _spawnerStrategy = new BurstSS(this);
+        break;
+      }
     }
 
     void IDisposable.Dispose()
     {
-      _whackGame.OnCrossingSecondBoundary -= OnCrossingSecondBoundary;
+      _spawnerStrategy.Dispose();
       RemoveAllMoles();
     }
 
@@ -94,7 +115,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       mole.presenter.Whacked();
     }
 
-    private Mole Spawn(double currentTime)
+    public Mole Spawn(double currentTime)
     {
       bool uppercase = Random.Range(0, 2) == 0;
       var text = ((char)(uppercase ? Random.Range('A', 'Z') : Random.Range('a', 'z'))).ToString();
