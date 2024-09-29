@@ -13,8 +13,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     [SerializeField] private TrackerNeuralNet _tracker;
     [SerializeField] private WebCam _webcam;
     [SerializeField] private float _initialTime = 10f;
-    [SerializeField] private Vector3 _spawnBoundary0 = new Vector3(-2f, -1f, 0f);
-    [SerializeField] private Vector3 _spawnBoundary1 = new Vector3(2f, 1f, 0f);
+    [SerializeField] private MoleManager.Options _managerOptions;
     [SerializeField] private MolePresenter.Options _presenterOptions;
 
     public float initialTime => _initialTime;
@@ -43,7 +42,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     {
       _disposables = new CompositeDisposable();
       _presenterOptions.whackGame = this;
-      _moleManager = new MoleManager(this, _spawnBoundary0, _spawnBoundary1, _presenterOptions);
+      _moleManager = new MoleManager(this, _managerOptions, _presenterOptions);
       _moleManager.AddTo(_disposables);
     }
 

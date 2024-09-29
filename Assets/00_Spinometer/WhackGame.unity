@@ -742,8 +742,11 @@ MonoBehaviour:
   _tracker: {fileID: 2074200215}
   _webcam: {fileID: 1004904243}
   _initialTime: 10
-  _spawnBoundary0: {x: -2, y: -1, z: -1.4}
-  _spawnBoundary1: {x: 2, y: 1, z: -1.2}
+  _managerOptions:
+    spawnBoundary0: {x: -2, y: -1, z: -1.4}
+    spawnBoundary1: {x: 2, y: 1, z: -1.2}
+    vulnerableTimeMin: 0.6
+    vulnerableTimeMax: 1
   _presenterOptions:
     whackGame: {fileID: 543946790}
     molePrefab: {fileID: 3737734631119212219, guid: 6b4a4809b85f54141bbcab04ac31ef69, type: 3}
