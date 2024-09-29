@@ -50,21 +50,25 @@ namespace GetBack.Spinometer
       ChangeLocale("en");
       _state = State.Disclaimer;
 #if UNITY_EDITOR
-      {
-        var scene = SceneManager.GetSceneByName(_sceneName_whackGame);
-        if (scene != null && scene.isLoaded)
-          _state = State.Running;
+      if (SceneLoaded(_sceneName_whackGame)) {
+        _state = State.Running;
+        LoadWhackGameScene(); // initialize already loaded scene
       }
-      {
-        var scene = SceneManager.GetSceneByName(_sceneName_whackResult);
-        if (scene != null && scene.isLoaded)
-          _state = State.Running;
+      if (SceneLoaded(_sceneName_whackResult)) {
+        _state = State.Running;
+        LoadWhackResultScene(); // initialize already loaded scene
       }
 #endif
       if (_state != State.Disclaimer)
         CloseDisclaimerScene();
       else
         LoadDisclaimerScene();
+    }
+
+    private bool SceneLoaded(string sceneName)
+    {
+      var scene = SceneManager.GetSceneByName(sceneName);
+      return scene != null && scene.isLoaded;
     }
 
     void Update()
@@ -81,10 +85,12 @@ namespace GetBack.Spinometer
     QualitySettings.vSyncCount = (int)Mathf.Clamp(vSyncCount, 1, 4);
 #endif
 
+#if false
       if (Keyboard.current.dKey.wasPressedThisFrame)
         ToggleDebugUI();
       if (Keyboard.current.eKey.wasPressedThisFrame)
         ToggleExtraUI();
+#endif
     }
 
     public void MoveFromGameToResult()
@@ -123,10 +129,10 @@ namespace GetBack.Spinometer
 
     private async void LoadDisclaimerScene()
     {
-      var scene = SceneManager.GetSceneByName(_sceneName_disclaimer);
-      if (scene == null || !scene.isLoaded) {
+      if (!SceneLoaded(_sceneName_disclaimer)) {
         await SceneManager.LoadSceneAsync(_sceneName_disclaimer, LoadSceneMode.Additive);
       }
+
       var uidoc = GameObject.Find("/DisclaimerUIDocument").GetComponent<UIDocument>();
       uidoc.rootVisualElement.style.opacity = 0f;
       RegisterLocaleChangeButtonEvents(uidoc);
@@ -152,7 +158,8 @@ namespace GetBack.Spinometer
         btnOk.clicked += CloseDisclaimerScene;
       }
 
-      LoadWhackGameScene();
+      if (!SceneLoaded(_sceneName_whackGame) && !SceneLoaded(_sceneName_whackResult))
+        LoadWhackGameScene();
 
       var scene = SceneManager.GetSceneByName(_sceneName_disclaimer);
       if (scene != null && scene.isLoaded) {
@@ -166,8 +173,7 @@ namespace GetBack.Spinometer
 
     private async void LoadSpinometerScene()
     {
-      var scene = SceneManager.GetSceneByName(_sceneName_spinometer);
-      if (scene == null || !scene.isLoaded) {
+      if (!SceneLoaded(_sceneName_spinometer)) {
         await SceneManager.LoadSceneAsync(_sceneName_spinometer, LoadSceneMode.Additive);
       }
       var uidoc = GameObject.Find("/SpinometerUIDocument")?.GetComponent<UIDocument>();
@@ -183,8 +189,7 @@ namespace GetBack.Spinometer
 
     private async void LoadWhackGameScene()
     {
-      var scene = SceneManager.GetSceneByName(_sceneName_whackGame);
-      if (scene == null || !scene.isLoaded) {
+      if (!SceneLoaded(_sceneName_whackGame)) {
         await SceneManager.LoadSceneAsync(_sceneName_whackGame, LoadSceneMode.Additive);
       }
       GameObject.Find("/WhackGame").GetComponent<WhackGame>().app = this;
@@ -201,8 +206,7 @@ namespace GetBack.Spinometer
 
     private async void LoadWhackResultScene()
     {
-      var scene = SceneManager.GetSceneByName(_sceneName_whackResult);
-      if (scene == null || !scene.isLoaded) {
+      if (!SceneLoaded(_sceneName_whackResult)) {
         await SceneManager.LoadSceneAsync(_sceneName_whackResult, LoadSceneMode.Additive);
       }
       //GameObject.Find("/WhackResult")?.GetComponent<WhackResult>().app = this;
@@ -255,8 +259,7 @@ namespace GetBack.Spinometer
 
     private async void LoadSettingsScene()
     {
-      var scene = SceneManager.GetSceneByName(_sceneName_settings);
-      if (scene == null || !scene.isLoaded) {
+      if (!SceneLoaded(_sceneName_settings)) {
         await SceneManager.LoadSceneAsync(_sceneName_settings, LoadSceneMode.Additive);
       }
       var uidoc = GameObject.Find("/SettingsUIDocument")?.GetComponent<UIDocument>();
@@ -277,8 +280,7 @@ namespace GetBack.Spinometer
 
     private async void LoadEasySetupCameraScene()
     {
-      var scene = SceneManager.GetSceneByName(_sceneName_easySetupCamera);
-      if (scene == null || !scene.isLoaded) {
+      if (!SceneLoaded(_sceneName_easySetupCamera)) {
         await SceneManager.LoadSceneAsync(_sceneName_easySetupCamera, LoadSceneMode.Additive);
       }
       var uidoc = GameObject.Find("/EasySetupCameraUIDocument")?.GetComponent<UIDocument>();
@@ -301,8 +303,7 @@ namespace GetBack.Spinometer
 
     private async void LoadEasySetupAngleScene()
     {
-      var scene = SceneManager.GetSceneByName(_sceneName_easySetupAngle);
-      if (scene == null || !scene.isLoaded) {
+      if (!SceneLoaded(_sceneName_easySetupAngle)) {
         await SceneManager.LoadSceneAsync(_sceneName_easySetupAngle, LoadSceneMode.Additive);
       }
       var uidoc = GameObject.Find("/EasySetupAngleUIDocument")?.GetComponent<UIDocument>();
@@ -330,8 +331,7 @@ namespace GetBack.Spinometer
     
     private async void LoadEasySetupDistanceScene()
     {
-      var scene = SceneManager.GetSceneByName(_sceneName_easySetupDistance);
-      if (scene == null || !scene.isLoaded) {
+      if (!SceneLoaded(_sceneName_easySetupDistance)) {
         await SceneManager.LoadSceneAsync(_sceneName_easySetupDistance, LoadSceneMode.Additive);
       }
       var uidoc = GameObject.Find("/EasySetupDistanceUIDocument")?.GetComponent<UIDocument>();
