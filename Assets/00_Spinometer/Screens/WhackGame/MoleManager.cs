@@ -108,6 +108,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
           hit = true;
           _whackGame.AddScore(mole.score);
           WhackMole(i);
+          return; // only one mole can be hit at a time
         }
       }
 
