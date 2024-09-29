@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using R3;
+﻿using R3;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
@@ -117,13 +116,11 @@ namespace GetBack.Spinometer.Screens.WhackGame
       var textureCopy = new Texture2D(inTex.width, inTex.height, DefaultFormat.LDR, TextureCreationFlags.None);
       Graphics.CopyTexture(inTex, textureCopy);
 
-      var serialized = JsonConvert.SerializeObject(_tracker.spinalAlignment);
-      var spinalAlignment_clone = JsonConvert.DeserializeObject<SpinalAlignment.SpinalAlignment>(serialized);
       var entry = new ReplayBuffer.ReplayEntry {
         texture = textureCopy, 
         distance = _uiDataSource.distance,
         pitch = _uiDataSource.pitch,
-        spinalAlignment = spinalAlignment_clone
+        spinalAlignment = _tracker.spinalAlignment.Clone()
       };
       _replayBuffer.entries.Add(entry);
     }
