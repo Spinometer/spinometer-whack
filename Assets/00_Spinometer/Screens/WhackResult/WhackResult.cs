@@ -103,7 +103,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
       _uiDataSource.distance = entry.distance;
       _uiDataSource.pitch = entry.pitch;
       _visualizerSkeleton.UpdateAvatarPose(entry.spinalAlignment);
-      _visualizerStickFigure.DrawAlignment(entry.spinalAlignment, true, false, entry.distance, entry.pitch);
+      _visualizerStickFigure.DrawAlignment(entry.spinalAlignment, entry.spinalAlignmentScore, true, false, entry.distance, entry.pitch);
     }
   }
 }

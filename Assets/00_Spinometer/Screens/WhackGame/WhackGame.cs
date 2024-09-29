@@ -122,7 +122,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
         texture = textureCopy, 
         distance = _uiDataSource.distance,
         pitch = _uiDataSource.pitch,
-        spinalAlignment = _tracker.spinalAlignment.Clone()
+        spinalAlignment = _tracker.spinalAlignment.Clone(),
+        spinalAlignmentScore = _tracker.spinalAlignmentScore.Clone()
       };
       _replayBuffer.entries.Add(entry);
     }

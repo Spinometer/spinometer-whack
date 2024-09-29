@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using GetBack.Spinometer.SpinalAlignmentAux;
+using GetBack.Spinometer.SpinalAlignmentCore;
 using UnityEngine;
 
 namespace GetBack.Spinometer
@@ -11,7 +13,8 @@ namespace GetBack.Spinometer
       public Texture2D texture;
       public float distance;
       public float pitch;
-      public SpinalAlignmentCore.SpinalAlignment spinalAlignment;
+      public SpinalAlignment spinalAlignment;
+      public SpinalAlignmentScore spinalAlignmentScore;
     }
 
     public List<ReplayEntry> entries = new();
