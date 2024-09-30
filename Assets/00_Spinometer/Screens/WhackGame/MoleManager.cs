@@ -15,6 +15,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       periodic,
       random,
       burst,
+      composite,
     }
 
     [Serializable]
@@ -49,12 +50,15 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     public Options options => _options;
 
-    private void PushSpawnerStrategy(SpawnerStrategy strategyEnum)
+    public SpawnerStrategyStack strategyStack => _spawnerStrategyStack;
+
+    public void PushSpawnerStrategy(SpawnerStrategy strategyEnum)
     {
       ISpawnerStrategy ss = strategyEnum switch {
         SpawnerStrategy.periodic => new PeriodicSS(this),
         SpawnerStrategy.random => new RandomSS(this),
-        SpawnerStrategy.burst => new BurstSS(this)
+        SpawnerStrategy.burst => new BurstSS(this),
+        SpawnerStrategy.composite => new CompositeSS(this)
       };
       _spawnerStrategyStack.Push(ss);
     }

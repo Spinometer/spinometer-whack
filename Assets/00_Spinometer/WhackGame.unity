@@ -741,9 +741,9 @@ MonoBehaviour:
   _whackGameUiDataSource: {fileID: 11400000, guid: 9d106daeec7772649a6b61e0a7579b8a, type: 2}
   _tracker: {fileID: 2074200215}
   _webcam: {fileID: 1004904243}
-  _initialTime: 10
+  _initialTime: 30
   _managerOptions:
-    spawnerStrategy: 0
+    spawnerStrategy: 3
     spawnBoundary0: {x: -2, y: -1, z: -1.4}
     spawnBoundary1: {x: 2, y: 1, z: -1.2}
     sizeMin: 0.5

@@ -34,6 +34,11 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       _stack.Push(ss);
     }
 
+    public ISpawnerStrategy Peek()
+    {
+      return _stack.Peek();
+    }
+
     public void NextTick(double currentTime, float deltaTime)
     {
       var ss = _stack.Peek();
