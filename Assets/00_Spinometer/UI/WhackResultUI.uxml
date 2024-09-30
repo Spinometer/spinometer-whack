@@ -59,14 +59,39 @@
         </Bindings>
     </ui:SliderInt>
     <ui:Button text="Retry" name="btn-retry" style="margin-right: 0; margin-bottom: 0; padding-right: 20px; padding-left: 20px; font-size: 48px; display: flex; position: absolute; top: auto; left: 605px; align-self: center; align-items: flex-end; justify-content: center; align-content: center; margin-top: 0; margin-left: 0; bottom: 38px;" />
-    <ui:Label text="Label" name="whacking-score-value" picking-mode="Ignore" style="position: absolute; top: 27px; left: 1077px; font-size: 96px;">
-        <Bindings>
-            <ui:DataBinding property="text" data-source-path="whackingScoreStr" data-source="project://database/Assets/00_Spinometer/Screens/WhackResult/whackResultUiDataSource.asset?fileID=11400000&amp;guid=91319722057a15147bdd5afca6198b80&amp;type=2#whackResultUiDataSource" binding-mode="ToTarget" />
-        </Bindings>
-    </ui:Label>
-    <ui:Label text="Label" name="alignment-score-value" picking-mode="Ignore" style="position: absolute; top: 136px; left: 1076px; font-size: 96px;">
-        <Bindings>
-            <ui:DataBinding property="text" data-source-path="alignmentScoreStr" data-source="project://database/Assets/00_Spinometer/Screens/WhackResult/whackResultUiDataSource.asset?fileID=11400000&amp;guid=91319722057a15147bdd5afca6198b80&amp;type=2#whackResultUiDataSource" binding-mode="ToTarget" />
-        </Bindings>
-    </ui:Label>
+    <ui:VisualElement name="scores" style="flex-grow: 1; position: absolute; top: 26px; left: 950px;">
+        <ui:VisualElement name="whacking-score" style="flex-grow: 1; flex-direction: column; -unity-text-align: upper-right;">
+            <ui:Label text="Whacking Score" picking-mode="Ignore" style="position: relative; top: auto; left: auto; font-size: 48px; margin-top: 0; margin-right: 0; margin-left: 0; margin-bottom: 0; padding-bottom: 0; padding-top: 0; padding-right: 0; padding-left: 0; align-self: flex-start;" />
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-items: flex-end; align-content: flex-start; justify-content: flex-end;">
+                <ui:Label text="Label" picking-mode="Ignore" style="position: relative; top: auto; left: auto; font-size: 64px; margin-top: 0; margin-right: 16px; margin-left: 0; margin-bottom: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                    <Bindings>
+                        <ui:DataBinding property="text" data-source-path="whackingScoreStr" data-source="project://database/Assets/00_Spinometer/Screens/WhackResult/whackResultUiDataSource.asset?fileID=11400000&amp;guid=91319722057a15147bdd5afca6198b80&amp;type=2#whackResultUiDataSource" binding-mode="ToTarget" />
+                    </Bindings>
+                </ui:Label>
+                <ui:Label text="of 50" picking-mode="Ignore" style="position: relative; top: 0; left: auto; font-size: 36px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="alignment-score" style="flex-grow: 1; flex-direction: column; -unity-text-align: upper-right;">
+            <ui:Label text="Alignment Score" picking-mode="Ignore" style="position: relative; top: auto; left: auto; font-size: 48px; margin-top: 0; margin-right: 0; margin-left: 0; margin-bottom: 0; padding-bottom: 0; padding-top: 0; padding-right: 0; padding-left: 0; align-self: flex-start;" />
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-items: flex-end; align-content: flex-start; justify-content: flex-end;">
+                <ui:Label text="Label" picking-mode="Ignore" style="position: relative; top: auto; left: auto; font-size: 64px; margin-top: 0; margin-right: 16px; margin-left: 0; margin-bottom: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                    <Bindings>
+                        <ui:DataBinding property="text" data-source-path="alignmentScoreStr" data-source="project://database/Assets/00_Spinometer/Screens/WhackResult/whackResultUiDataSource.asset?fileID=11400000&amp;guid=91319722057a15147bdd5afca6198b80&amp;type=2#whackResultUiDataSource" binding-mode="ToTarget" />
+                    </Bindings>
+                </ui:Label>
+                <ui:Label text="of 50" picking-mode="Ignore" style="position: relative; top: 0; left: auto; font-size: 36px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="total" style="flex-grow: 1; flex-direction: column; -unity-text-align: upper-right; margin-top: 16px;">
+            <ui:Label text="Total Score" picking-mode="Ignore" style="position: relative; top: auto; left: auto; font-size: 48px; margin-top: 0; margin-right: 0; margin-left: 0; margin-bottom: 0; padding-bottom: 0; padding-top: 0; padding-right: 0; padding-left: 0; align-self: flex-start;" />
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-items: flex-end; align-content: flex-start; justify-content: flex-end;">
+                <ui:Label text="Label" picking-mode="Ignore" style="position: relative; top: auto; left: auto; font-size: 64px; margin-top: 0; margin-right: 16px; margin-left: 0; margin-bottom: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                    <Bindings>
+                        <ui:DataBinding property="text" data-source-path="totalScoreStr" data-source="project://database/Assets/00_Spinometer/Screens/WhackResult/whackResultUiDataSource.asset?fileID=11400000&amp;guid=91319722057a15147bdd5afca6198b80&amp;type=2#whackResultUiDataSource" binding-mode="ToTarget" />
+                    </Bindings>
+                </ui:Label>
+                <ui:Label text="of 100&#x9;" picking-mode="Ignore" style="position: relative; top: 0; left: auto; font-size: 36px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
 </ui:UXML>
