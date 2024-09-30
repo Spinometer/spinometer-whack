@@ -16,6 +16,11 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     {
     }
 
+    bool ISpawnerStrategy.IsDone()
+    {
+      return false;
+    }
+
     void ISpawnerStrategy.NextTick(double currentTime, float deltaTime)
     {
       if (Random.value < deltaTime) {

@@ -8,18 +8,22 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
   public class BurstSS : ISpawnerStrategy
   {
     private MoleManager _moleManager;
-    private WhackGame _whackGame;
-    private double _nextBurstStartTime;
+    private double _burstStartedAt;
+    private double _burstEndsAt;
+    private bool _isDone;
     private int _burstCountLeft;
 
     private CancellationTokenSource _cts;
 
+    private const double durationPerBurst = 4.0;
+
     public BurstSS(MoleManager moleManager)
     {
       _moleManager = moleManager;
-      _whackGame = _moleManager.whackGame;
-      _nextBurstStartTime = Time.timeAsDouble;
+      _burstStartedAt = 0;
+      _burstEndsAt = 0;
       _burstCountLeft = 0;
+      _isDone = false;
       _cts = new();
     }
 
@@ -30,17 +34,26 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       _cts = null;
     }
 
+    bool ISpawnerStrategy.IsDone()
+    {
+      return _isDone;
+    }
+
     void ISpawnerStrategy.NextTick(double currentTime, float deltaTime)
     {
-      if (currentTime >= _nextBurstStartTime) {
+      if (_burstStartedAt == 0) {
         StartBurst(currentTime);
       }
+
+      _isDone = _isDone || currentTime >= _burstEndsAt;
     }
 
     private async void StartBurst(double currentTime)
     {
       _burstCountLeft = 5;
-      _nextBurstStartTime = currentTime + 4.0;
+      _burstStartedAt = currentTime;
+      _burstEndsAt = currentTime + durationPerBurst;
+      _isDone = false;
 
       var options = _moleManager.options;
       options.spawnBoundary1 = new Vector3(options.spawnBoundary1.x - 0.8f, 0f, 0f);

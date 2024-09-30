@@ -35,7 +35,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private Options _options;
     private MolePresenter.Options _presenterOptions;
     private List<Mole> _moles = new List<Mole>();
-    private ISpawnerStrategy _spawnerStrategy = null;
+    private SpawnerStrategyStack _spawnerStrategyStack = new();
 
     public MoleManager(WhackGame whackGame, Options options, MolePresenter.Options presenterOptions)
     {
@@ -43,35 +43,31 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _options = options;
       _presenterOptions = presenterOptions;
       _presenterOptions.moleManager = this;
-      ChangeSpawnerStrategy(_options.spawnerStrategy);
     }
 
     public WhackGame whackGame => _whackGame;
 
     public Options options => _options;
 
+    private void PushSpawnerStrategy(SpawnerStrategy strategyEnum)
+    {
+      ISpawnerStrategy ss = strategyEnum switch {
+        SpawnerStrategy.periodic => new PeriodicSS(this),
+        SpawnerStrategy.random => new RandomSS(this),
+        SpawnerStrategy.burst => new BurstSS(this)
+      };
+      _spawnerStrategyStack.Push(ss);
+    }
+
     private void ChangeSpawnerStrategy(SpawnerStrategy strategyEnum)
     {
-      if (_spawnerStrategy != null) {
-        _spawnerStrategy.Dispose();
-        _spawnerStrategy = null;
-      }
-      switch (strategyEnum) {
-      case SpawnerStrategy.periodic:
-        _spawnerStrategy = new PeriodicSS(this);
-        break;
-      case SpawnerStrategy.random:
-        _spawnerStrategy = new RandomSS(this);
-        break;
-      case SpawnerStrategy.burst:
-        _spawnerStrategy = new BurstSS(this);
-        break;
-      }
+      _spawnerStrategyStack.Clear();
+      PushSpawnerStrategy(strategyEnum);
     }
 
     void IDisposable.Dispose()
     {
-      _spawnerStrategy.Dispose();
+      ((IDisposable)_spawnerStrategyStack).Dispose();
       RemoveAllMoles();
     }
 
@@ -80,7 +76,11 @@ namespace GetBack.Spinometer.Screens.WhackGame
       if (_whackGame.state != WhackGame.State.GoingOn)
         return;
 
-      _spawnerStrategy?.NextTick(currentTime, deltaTime);
+      if (_spawnerStrategyStack.IsEmpty()) {
+        ChangeSpawnerStrategy(_options.spawnerStrategy);
+      }
+
+      _spawnerStrategyStack.NextTick(currentTime, deltaTime);
 
       bool anyKeyPressedThisFrame = Keyboard.current.allKeys.Any(key => key.wasPressedThisFrame);
       // Keyboard.current.allKeys can not be used here as it does not handle roll over.

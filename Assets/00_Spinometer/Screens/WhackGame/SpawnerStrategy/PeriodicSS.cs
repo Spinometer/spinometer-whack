@@ -20,6 +20,11 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       _whackGame.OnCrossingSecondBoundary -= OnCrossingSecondBoundary;
     }
 
+    bool ISpawnerStrategy.IsDone()
+    {
+      return false;
+    }
+
     public void NextTick(double currentTime, float deltaTime)
     {
     }
