@@ -627,7 +627,7 @@ MonoBehaviour:
   m_Version: 2
   m_TaaSettings:
     m_Quality: 3
-    m_FrameInfluence: 0.1
+    m_FrameInfluence: 0.100000024
     m_JitterScale: 1
     m_MipBias: 0
     m_VarianceClampScale: 0.9
@@ -750,8 +750,8 @@ MonoBehaviour:
     spawnBoundary1: {x: 2, y: 1, z: -1.2}
     sizeMin: 0.5
     sizeMax: 1
-    aspectRatioMin: 0.90909094
-    aspectRatioMax: 1.1
+    aspectRatioMin: 1
+    aspectRatioMax: 1
     vulnerableTimeMin: 0.6
     vulnerableTimeMax: 1
   _presenterOptions:

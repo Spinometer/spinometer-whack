@@ -64,7 +64,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 
       for (int i = 0; i < 5; i++) {
         var mole = _moleManager.Spawn(currentTime, options);
-        options.spawnBoundary0 = mole.position + new Vector3(mole.size, 0f, 0f) * 0.54f;
+        options.spawnBoundary0 = mole.position + new Vector3(mole.size, 0f, 0f) * 0.6f;
         options.spawnBoundary1 = options.spawnBoundary0;
         options.vulnerableTimeMin = (float)(mole.activeUntil - currentTime);
         options.vulnerableTimeMax = options.vulnerableTimeMin;
