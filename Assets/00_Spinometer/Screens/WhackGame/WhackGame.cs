@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using DG.Tweening;
 using R3;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
@@ -183,9 +184,19 @@ namespace GetBack.Spinometer.Screens.WhackGame
       RecordGameStateLog();
       if (value < 0) {
         _audioSource.PlayOneShot(_whackFailClip);
+        StartDamageAnimation();
       } else {
         _audioSource.PlayOneShot(_whackSuccessClip);
       }
+    }
+
+    private async void StartDamageAnimation()
+    {
+      // FIXME:  should not be here
+      _whackGameUiDataSource.damageOpacity = 0.4f;
+      DOTween.To(() => _whackGameUiDataSource.damageOpacity,
+                 x => _whackGameUiDataSource.damageOpacity = x,
+                 0f, 0.1f).Play();
     }
 
     public void AddPossibleMaximumWhackingScore(int moleScore)

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GetBack.Spinometer.Screens.WhackGame
 {
@@ -20,5 +21,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     {
       set { alignmentScoreStr = $"{value:0.0}"; }
     }
+
+    [FormerlySerializedAs("damageBackgroundOpacity")] public float damageOpacity = 0f;
   }
 }
