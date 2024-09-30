@@ -57,7 +57,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     {
       _disposables = new CompositeDisposable();
       _presenterOptions.whackGame = this;
-      _moleManager = new MoleManager(this, _managerOptions, _presenterOptions);
+      _moleManager = new MoleManager(this, _audioSource, _managerOptions, _presenterOptions);
       _moleManager.AddTo(_disposables);
     }
 

@@ -31,17 +31,20 @@ namespace GetBack.Spinometer.Screens.WhackGame
       public float aspectRatioMax; // = 1.1f;
       public float vulnerableTimeMin; // = 0.6f;
       public float vulnerableTimeMax; // = 1.0f;
+      public AudioClip spawningClip;
     }
 
-    WhackGame _whackGame;
+    private WhackGame _whackGame;
+    private AudioSource _audioSource;
     private Options _options;
     private MolePresenter.Options _presenterOptions;
     private List<Mole> _moles = new List<Mole>();
     private SpawnerStrategyStack _spawnerStrategyStack = new();
 
-    public MoleManager(WhackGame whackGame, Options options, MolePresenter.Options presenterOptions)
+    public MoleManager(WhackGame whackGame, AudioSource audioSource, Options options, MolePresenter.Options presenterOptions)
     {
       _whackGame = whackGame;
+      _audioSource = audioSource;
       _options = options;
       _presenterOptions = presenterOptions;
       _presenterOptions.moleManager = this;
@@ -152,6 +155,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _moles.Insert(0, mole); // Insert() instead of Add() to ensure whacking is applied to oldest moles first
       mole.presenter = new MolePresenter(_presenterOptions, mole);
       _whackGame.AddPossibleMaximumWhackingScore(mole.score);
+      _audioSource.PlayOneShot(_options.spawningClip, 0.5f);
       return mole;
     }
 

@@ -619,6 +619,7 @@ MonoBehaviour:
     aspectRatioMax: 1
     vulnerableTimeMin: 0.6
     vulnerableTimeMax: 1
+    spawningClip: {fileID: 8300000, guid: fa06e2104ee6ed7449d12e6920abd40c, type: 3}
   _presenterOptions:
     whackGame: {fileID: 543946790}
     molePrefab: {fileID: 3737734631119212219, guid: 6b4a4809b85f54141bbcab04ac31ef69, type: 3}
