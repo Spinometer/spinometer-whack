@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 {
@@ -7,36 +6,39 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
   {
     private MoleManager _moleManager;
     private WhackGame _whackGame;
+    private double _startedAt = 0f;
+    private double _endsAt = 0f;
+    private bool _isDone = false;
 
     public PeriodicSS(MoleManager moleManager)
     {
       _moleManager = moleManager;
       _whackGame = _moleManager.whackGame;
-      _whackGame.OnCrossingSecondBoundary += OnCrossingSecondBoundary;
     }
 
     void IDisposable.Dispose()
     {
-      _whackGame.OnCrossingSecondBoundary -= OnCrossingSecondBoundary;
     }
 
     bool ISpawnerStrategy.IsDone()
     {
-      return false;
+      return _isDone;
     }
 
     public void NextTick(double currentTime, float deltaTime)
     {
-    }
+      if (_isDone)
+        return;
 
-    private void OnCrossingSecondBoundary()
-    {
-      if (_whackGame.state == WhackGame.State.GettingReady &&
-          _whackGame.timeRemaining <= _whackGame.initialTime + 0.01f)
-        _moleManager.
-          Spawn(Time.timeAsDouble);
-      else if (_whackGame.state == WhackGame.State.GoingOn && _whackGame.timeRemaining >= 0.5f)
-        _moleManager.Spawn(Time.timeAsDouble);
+      if (_startedAt == 0f) {
+        _startedAt = currentTime;
+        _endsAt = _startedAt + 1.0;
+
+        if (_whackGame.state == WhackGame.State.GoingOn && _whackGame.timeRemaining >= 0.5f)
+          _moleManager.Spawn(currentTime);
+      }
+
+      _isDone = _isDone || currentTime >= _endsAt;
     }
   }
 }
