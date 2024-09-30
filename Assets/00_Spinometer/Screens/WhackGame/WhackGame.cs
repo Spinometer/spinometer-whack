@@ -16,6 +16,12 @@ namespace GetBack.Spinometer.Screens.WhackGame
     [SerializeField] private float _initialTime = 10f;
     [SerializeField] private MoleManager.Options _managerOptions;
     [SerializeField] private MolePresenter.Options _presenterOptions;
+    [SerializeField] private AudioClip _whackCountDownClip;
+    [SerializeField] private AudioClip _whackSuccessClip;
+    [SerializeField] private AudioClip _whackFailClip;
+    [SerializeField] private AudioClip _timeoverClip;
+
+    private AudioSource _audioSource;
 
     public float initialTime => _initialTime;
 
@@ -41,6 +47,11 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private float _alignmentScore;
     private float _possibleMaximumAlignmentScore;
     public State state => _state;
+
+    void Awake()
+    {
+      _audioSource = GetComponent<AudioSource>();
+    }
 
     void OnEnable()
     {
@@ -69,6 +80,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _gameStateLog.Clear();
       _replayBuffer.Clear();
       RecordGameStateLog();
+      _audioSource.PlayOneShot(_whackCountDownClip);
     }
 
     void Update()
@@ -96,6 +108,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
         if (timeRemaining <= 0f) {
           _state = State.Finished;
           RecordGameStateLog();
+          _audioSource.PlayOneShot(_timeoverClip);
           OnGameFinished?.Invoke();
           break;
         }
@@ -168,6 +181,11 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _whackingScore += value;
       _whackGameUiDataSource.whackingScore = _whackingScore;
       RecordGameStateLog();
+      if (value < 0) {
+        _audioSource.PlayOneShot(_whackFailClip);
+      } else {
+        _audioSource.PlayOneShot(_whackSuccessClip);
+      }
     }
 
     public void AddPossibleMaximumWhackingScore(int moleScore)
