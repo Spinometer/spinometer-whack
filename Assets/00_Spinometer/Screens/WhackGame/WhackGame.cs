@@ -37,7 +37,9 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     private State _state;
     private int _whackingScore;
+    private int _possibleMaximumWhackingScore;
     private float _alignmentScore;
+    private float _possibleMaximumAlignmentScore;
     public State state => _state;
 
     void OnEnable()
@@ -57,7 +59,9 @@ namespace GetBack.Spinometer.Screens.WhackGame
     void Start()
     {
       _whackingScore = 0;
+      _possibleMaximumWhackingScore = 0;
       _alignmentScore = 0f;
+      _possibleMaximumAlignmentScore = _initialTime;
       _whackGameUiDataSource.whackingScore = _whackingScore;
       _whackGameUiDataSource.alignmentScore = _alignmentScore;
       _state = State.GettingReady;
@@ -129,6 +133,18 @@ namespace GetBack.Spinometer.Screens.WhackGame
     public event OnCrossingSecondBoundaryHandler OnCrossingSecondBoundary;
 
 
+    private void RecordGameStateLog()
+    {
+      var entry = new GameStateLog.GameStateLogEntry {
+        timestamp = _initialTime - _timeRemaining,
+        whackingScore = _whackingScore,
+        possibleMaximumWhackingScore = _possibleMaximumWhackingScore,
+        alignmentScore = _alignmentScore,
+        possibleMaximumAlignmentScore = _possibleMaximumAlignmentScore,
+      };
+      _gameStateLog.entries.Add(entry);
+    }
+
     private void AddReplayEntry()
     {
       Debug.Log($"Adding replay entry at time {timeRemaining}");
@@ -147,23 +163,17 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _replayBuffer.entries.Add(entry);
     }
 
-    public void AddScore(int value)
+    public void AddWhackingScore(int value)
     {
       _whackingScore += value;
       _whackGameUiDataSource.whackingScore = _whackingScore;
       RecordGameStateLog();
     }
 
-    private void RecordGameStateLog()
+    public void AddPossibleMaximumWhackingScore(int moleScore)
     {
-      var entry = new GameStateLog.GameStateLogEntry {
-        timestamp = _initialTime - _timeRemaining,
-        whackingScore = _whackingScore,
-        //possibleMaximumWhackingScore = _possibleMaximumWhackingScore,
-        alignmentScore = _alignmentScore,
-        //possibleMaximumAlignmentScore = _possibleMaximumAlignmentScore,
-      };
-      _gameStateLog.entries.Add(entry);
+      _possibleMaximumWhackingScore += moleScore;
+      RecordGameStateLog();
     }
   }
 }

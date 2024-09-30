@@ -110,14 +110,14 @@ namespace GetBack.Spinometer.Screens.WhackGame
           continue;
         if (((KeyControl)(Keyboard.current[mole.text])).wasPressedThisFrame) {
           hit = true;
-          _whackGame.AddScore(mole.score);
+          _whackGame.AddWhackingScore(mole.score);
           WhackMole(i);
           return; // only one mole can be hit at a time
         }
       }
 
       if (!hit) {
-        _whackGame.AddScore(-1);
+        _whackGame.AddWhackingScore(-1);
       }
     }
 
@@ -150,6 +150,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       };
       _moles.Insert(0, mole); // Insert() instead of Add() to ensure whacking is applied to oldest moles first
       mole.presenter = new MolePresenter(_presenterOptions, mole);
+      _whackGame.AddPossibleMaximumWhackingScore(mole.score);
       return mole;
     }
 

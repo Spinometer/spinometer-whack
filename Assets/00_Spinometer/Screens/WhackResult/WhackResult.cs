@@ -44,8 +44,8 @@ namespace GetBack.Spinometer.Screens.WhackResult
 
       {
         var e = _gameStateLog.entries.Last();
-        float whackingScore = e.whackingScore; // e.possibleMaximumWhackingScore <= 0 ? 0f : 50f * e.whackingScore / e.possibleMaximumWhackingScore;
-        float alignmentScore = e.alignmentScore; // e.possibleMaximumAlignmentScore <= 0f ? 0f : 50f * e.alignmentScore / e.possibleMaximumAlignmentScore;
+        float whackingScore = e.possibleMaximumWhackingScore <= 0 ? 0f : 50f * e.whackingScore / e.possibleMaximumWhackingScore;
+        float alignmentScore = e.possibleMaximumAlignmentScore <= 0f ? 0f : 50f * e.alignmentScore / e.possibleMaximumAlignmentScore;
         _whackResultUiDataSource.whackingScore = whackingScore;
         _whackResultUiDataSource.alignmentScore = alignmentScore;
         _whackResultUiDataSource.totalScore = whackingScore + alignmentScore;
