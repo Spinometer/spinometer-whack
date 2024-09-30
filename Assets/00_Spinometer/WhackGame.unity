@@ -746,6 +746,8 @@ MonoBehaviour:
   _initialTime: 30
   _managerOptions:
     spawnerStrategy: 3
+    compositeSSOptions:
+      difficulty: 2
     spawnBoundary0: {x: -2, y: -1, z: -1.4}
     spawnBoundary1: {x: 2, y: 1, z: -1.2}
     sizeMin: 0.5

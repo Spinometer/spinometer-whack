@@ -22,6 +22,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     public struct Options
     {
       public SpawnerStrategy spawnerStrategy;
+      public CompositeSS.Options compositeSSOptions;
       public Vector3 spawnBoundary0; // = new Vector3(-2f, -1f, -1.4f);
       public Vector3 spawnBoundary1; // = new Vector3(2f, 1f, -1.2f);
       public float sizeMin; // = 0.5f;
@@ -58,7 +59,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
         SpawnerStrategy.periodic => new PeriodicSS(this),
         SpawnerStrategy.random => new RandomSS(this),
         SpawnerStrategy.burst => new BurstSS(this),
-        SpawnerStrategy.composite => new CompositeSS(this)
+        SpawnerStrategy.composite => new CompositeSS(this, _options.compositeSSOptions)
       };
       _spawnerStrategyStack.Push(ss);
     }

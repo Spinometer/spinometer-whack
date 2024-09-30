@@ -1,15 +1,24 @@
 ﻿using System;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 {
   public class CompositeSS : ISpawnerStrategy
   {
+    [Serializable]
+    public struct Options
+    {
+      public float difficulty;
+    }
+
     private MoleManager _moleManager;
     private WhackGame _whackGame;
+    private Options _options;
 
-    public CompositeSS(MoleManager moleManager)
+    public CompositeSS(MoleManager moleManager, Options options)
     {
+      _options = options;
       _moleManager = moleManager;
       _whackGame = _moleManager.whackGame;
     }
@@ -47,7 +56,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       }
 
       var difficulty = 1.0f - (_whackGame.timeRemaining / _whackGame.initialTime);
-      var strategy = (difficulty * difficulty * difficulty) < Random.value ? MoleManager.SpawnerStrategy.periodic : MoleManager.SpawnerStrategy.burst;
+      var strategy = difficulty < Mathf.Pow(Random.value, _options.difficulty) ? MoleManager.SpawnerStrategy.periodic : MoleManager.SpawnerStrategy.burst;
       _moleManager.PushSpawnerStrategy(strategy);
     }
   }
