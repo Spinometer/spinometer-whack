@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Cysharp.Threading.Tasks;
 using GetBack.Spinometer.SpinalAlignmentVisualizer;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 namespace GetBack.Spinometer.Screens.WhackResult
 {
@@ -12,6 +15,10 @@ namespace GetBack.Spinometer.Screens.WhackResult
     [SerializeField] private UiDataSource _uiDataSource;
     [SerializeField] private WhackResultUiDataSource _whackResultUiDataSource;
     [SerializeField] private Renderer _webcamPlane;
+    [SerializeField] private AudioClip _bang0Clip;
+    [SerializeField] private AudioClip _bang1Clip;
+
+    private AudioSource _audioSource;
 
     public enum State
     {
@@ -30,6 +37,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
     {
       _visualizerSkeleton = GetComponent<SpinalAlignmentVisualizerSkeleton>();
       _visualizerStickFigure = GetComponent<SpinalAlignmentVisualizerStickFigure>();
+      _audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -41,6 +49,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
 
       var root = GameObject.Find("/WhackResultUIDocument").GetComponent<UIDocument>().rootVisualElement;
       root.Q<SliderInt>("seek-position").RegisterValueChangedCallback(evt => ManualSeek(evt.newValue));
+      StartAnimation(root);
 
       {
         var e = _gameStateLog.entries.Last();
@@ -49,6 +58,51 @@ namespace GetBack.Spinometer.Screens.WhackResult
         _whackResultUiDataSource.whackingScore = whackingScore;
         _whackResultUiDataSource.alignmentScore = alignmentScore;
         _whackResultUiDataSource.totalScore = whackingScore + alignmentScore;
+      }
+    }
+
+    private async void StartAnimation(VisualElement root)
+    {
+      var el_scores = root.Q<VisualElement>("scores");
+      var el_whackingScore = root.Q<VisualElement>("whacking-score");
+      var el_alignmentScore = root.Q<VisualElement>("alignment-score");
+      var el_totalScore = root.Q<VisualElement>("total-score");
+      el_whackingScore.visible = false;
+      el_alignmentScore.visible = false;
+      el_totalScore.visible = false;
+
+      try {
+        await UniTask.Delay(800, cancellationToken: this.GetCancellationTokenOnDestroy());
+        el_whackingScore.visible = true;
+        StartShakeAnimation(el_scores, 10);
+        _audioSource.PlayOneShot(_bang0Clip);
+        await UniTask.Delay(800, cancellationToken: this.GetCancellationTokenOnDestroy());
+        el_alignmentScore.visible = true;
+        StartShakeAnimation(el_scores, 10);
+        _audioSource.PlayOneShot(_bang0Clip);
+        await UniTask.Delay(1500, cancellationToken: this.GetCancellationTokenOnDestroy());
+        el_totalScore.visible = true;
+        StartShakeAnimation(el_scores, 30);
+        _audioSource.PlayOneShot(_bang1Clip);
+        await UniTask.Delay(500, cancellationToken: this.GetCancellationTokenOnDestroy());
+      }
+      catch (OperationCanceledException) {
+        // do nothing
+      }
+    }
+
+    private async void StartShakeAnimation(VisualElement el, int steps)
+    {
+      try {
+        var tl = el.style.translate.value;
+        for (int i = 0; i < steps; i++) {
+          el.style.translate = new Translate(tl.x.value + Random.Range(-5, 5), tl.y.value + Random.Range(-5, 5));
+          await UniTask.Delay(10, cancellationToken: this.GetCancellationTokenOnDestroy());
+        }
+        el.style.translate = tl;
+      }
+      catch (OperationCanceledException) {
+        // do nothing
       }
     }
 

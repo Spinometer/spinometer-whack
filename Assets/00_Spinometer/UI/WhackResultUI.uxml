@@ -82,7 +82,7 @@
                 <ui:Label text="of 50" picking-mode="Ignore" style="position: relative; top: 0; left: auto; font-size: 36px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="total" style="flex-grow: 1; flex-direction: column; -unity-text-align: upper-right; margin-top: 16px;">
+        <ui:VisualElement name="total-score" style="flex-grow: 1; flex-direction: column; -unity-text-align: upper-right; margin-top: 16px;">
             <ui:Label text="Total Score" picking-mode="Ignore" style="position: relative; top: auto; left: auto; font-size: 48px; margin-top: 0; margin-right: 0; margin-left: 0; margin-bottom: 0; padding-bottom: 0; padding-top: 0; padding-right: 0; padding-left: 0; align-self: flex-start;" />
             <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-items: flex-end; align-content: flex-start; justify-content: flex-end;">
                 <ui:Label text="Label" picking-mode="Ignore" style="position: relative; top: auto; left: auto; font-size: 64px; margin-top: 0; margin-right: 16px; margin-left: 0; margin-bottom: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
