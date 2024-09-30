@@ -7,6 +7,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
 {
   public class WhackGame : MonoBehaviour
   {
+    [SerializeField] private GameStateLog _gameStateLog;
     [SerializeField] private ReplayBuffer _replayBuffer;
     [SerializeField] private UiDataSource _uiDataSource;
     [SerializeField] private WhackGameUiDataSource _whackGameUiDataSource;
@@ -61,7 +62,9 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _whackGameUiDataSource.alignmentScore = _alignmentScore;
       _state = State.GettingReady;
       _timeRemaining = initialTime + 3f;
+      _gameStateLog.Clear();
       _replayBuffer.Clear();
+      RecordGameStateLog();
     }
 
     void Update()
@@ -88,6 +91,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
         }
         if (timeRemaining <= 0f) {
           _state = State.Finished;
+          RecordGameStateLog();
           OnGameFinished?.Invoke();
           break;
         }
@@ -112,6 +116,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       var average = scores.Average(kv => kv.Value);
       _alignmentScore += average * Time.deltaTime;
       _whackGameUiDataSource.alignmentScore = _alignmentScore;
+      RecordGameStateLog();
     }
 
     public delegate void OnGameStartedHandler();
@@ -122,6 +127,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     public delegate void OnCrossingSecondBoundaryHandler();
     public event OnCrossingSecondBoundaryHandler OnCrossingSecondBoundary;
+
 
     private void AddReplayEntry()
     {
@@ -145,6 +151,19 @@ namespace GetBack.Spinometer.Screens.WhackGame
     {
       _whackingScore += value;
       _whackGameUiDataSource.whackingScore = _whackingScore;
+      RecordGameStateLog();
+    }
+
+    private void RecordGameStateLog()
+    {
+      var entry = new GameStateLog.GameStateLogEntry {
+        timestamp = _initialTime - _timeRemaining,
+        whackingScore = _whackingScore,
+        //possibleMaximumWhackingScore = _possibleMaximumWhackingScore,
+        alignmentScore = _alignmentScore,
+        //possibleMaximumAlignmentScore = _possibleMaximumAlignmentScore,
+      };
+      _gameStateLog.entries.Add(entry);
     }
   }
 }

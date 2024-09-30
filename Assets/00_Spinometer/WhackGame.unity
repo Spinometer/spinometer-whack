@@ -736,6 +736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d2a4f1af894cbb9d6bea6a2c8ff1f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameStateLog: {fileID: 11400000, guid: 0ed7812beeb378f4c80d529098be13f2, type: 2}
   _replayBuffer: {fileID: 11400000, guid: f1dc174dfeb385343b70d10b72387a29, type: 2}
   _uiDataSource: {fileID: 11400000, guid: b0642bbdcbe8c274cbcf9e8f7dee90dc, type: 2}
   _whackGameUiDataSource: {fileID: 11400000, guid: 9d106daeec7772649a6b61e0a7579b8a, type: 2}

@@ -1,4 +1,5 @@
-﻿using GetBack.Spinometer.SpinalAlignmentVisualizer;
+﻿using System.Linq;
+using GetBack.Spinometer.SpinalAlignmentVisualizer;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,6 +7,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
 {
   public class WhackResultScreen : MonoBehaviour
   {
+    [SerializeField] private GameStateLog _gameStateLog;
     [SerializeField] private ReplayBuffer _replayBuffer;
     [SerializeField] private UiDataSource _uiDataSource;
     [SerializeField] private WhackResultUiDataSource _whackResultUiDataSource;
@@ -39,6 +41,15 @@ namespace GetBack.Spinometer.Screens.WhackResult
 
       var root = GameObject.Find("/WhackResultUIDocument").GetComponent<UIDocument>().rootVisualElement;
       root.Q<SliderInt>("seek-position").RegisterValueChangedCallback(evt => ManualSeek(evt.newValue));
+
+      {
+        var e = _gameStateLog.entries.Last();
+        float whackingScore = e.whackingScore; // e.possibleMaximumWhackingScore <= 0 ? 0f : 50f * e.whackingScore / e.possibleMaximumWhackingScore;
+        float alignmentScore = e.alignmentScore; // e.possibleMaximumAlignmentScore <= 0f ? 0f : 50f * e.alignmentScore / e.possibleMaximumAlignmentScore;
+        _whackResultUiDataSource.whackingScore = whackingScore;
+        _whackResultUiDataSource.alignmentScore = alignmentScore;
+        _whackResultUiDataSource.totalScore = whackingScore + alignmentScore;
+      }
     }
 
     public void StartPlaying()
