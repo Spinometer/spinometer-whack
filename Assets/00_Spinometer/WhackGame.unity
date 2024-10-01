@@ -613,6 +613,8 @@ MonoBehaviour:
       difficulty: 2
     spawnBoundary0: {x: -2, y: -1, z: -1.4}
     spawnBoundary1: {x: 2, y: 1, z: -1.2}
+    forceVelocity: 0
+    velocity: {x: 0, y: 0, z: 0}
     sizeMin: 0.5
     sizeMax: 1
     aspectRatioMin: 1

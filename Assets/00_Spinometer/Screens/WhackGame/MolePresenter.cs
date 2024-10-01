@@ -29,12 +29,25 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _moleGO.transform.localScale = new Vector3(_mole.size / _mole.aspectRatio, _mole.size * _mole.aspectRatio, _mole.size);
       var t = _moleGO.GetComponentInChildren<TextMeshProUGUI>();
       t.text = _mole.text;
-      var tw = DOTween.To(() => t.color,
-                          x => { t.color = x; },
-                          new Color(1f, 1f, 1f, 0f),
-                          0.3f)
-        .SetDelay((float)(_mole.activeUntil - Time.timeAsDouble) - 0.3f);
-      tw.Play();
+      {
+        var tw = DOTween.To(() => t.color,
+                            x => { t.color = x; },
+                            new Color(1f, 1f, 1f, 0f),
+                            0.3f)
+          .SetDelay((float)(_mole.activeUntil - Time.timeAsDouble) - 0.3f);
+        tw.Play();
+      }
+      {
+        float duration = (float)(mole.activeUntil - Time.timeAsDouble);
+        var tr = _moleGO.transform;
+        var pos0 = tr.localPosition;
+        var pos1 = pos0 + mole.velocity * duration;
+        var tw = DOTween.To(() => tr.localPosition,
+                            x => { tr.localPosition = x; },
+                            pos1,
+                            duration);
+        tw.Play();
+      }
     }
 
     public void NextTick(double currentTime, float deltaTime)

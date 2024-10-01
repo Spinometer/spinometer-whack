@@ -27,6 +27,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
       public CompositeSS.Options compositeSSOptions;
       public Vector3 spawnBoundary0; // = new Vector3(-2f, -1f, -1.4f);
       public Vector3 spawnBoundary1; // = new Vector3(2f, 1f, -1.2f);
+      public bool forceVelocity;
+      public Vector3 velocity;
       public float sizeMin; // = 0.5f;
       public float sizeMax; // = 1.0f;
       public float aspectRatioMin; // = 1.0f / 1.1f;
@@ -155,6 +157,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
         position = new Vector3(Random.Range(options.spawnBoundary0.x, options.spawnBoundary1.x),
                                Random.Range(options.spawnBoundary0.y, options.spawnBoundary1.y),
                                Random.Range(options.spawnBoundary0.z, options.spawnBoundary1.z)),
+        velocity = options.forceVelocity ? options.velocity : Random.insideUnitSphere * 0.1f,
         text = text,
         score = 1,
         size = Random.Range(options.sizeMin, options.sizeMax),

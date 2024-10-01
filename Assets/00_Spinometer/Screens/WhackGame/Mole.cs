@@ -5,6 +5,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
   public class Mole
   {
     public Vector3 position;
+    public Vector3 velocity;
     public string text;
     public int score;
     public float size;
