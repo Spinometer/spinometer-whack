@@ -146,6 +146,7 @@ namespace GetBack.Spinometer
             btnOk.style.opacity = 1f;
           }
         );
+      tw.SetLink(uidoc.gameObject);
       tw.Play();
     }
 

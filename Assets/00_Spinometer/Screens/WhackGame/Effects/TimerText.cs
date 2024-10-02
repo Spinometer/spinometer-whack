@@ -45,11 +45,13 @@ namespace GetBack.Spinometer.Screens.WhackGame.Effects
           {
             var tw = DOTween.To(() => _whackGameUiDataSource.text_ready_opacity,
                                 x => _whackGameUiDataSource.text_ready_opacity = x, 0.0f, 1.0f);
+            tw.SetLink(_whackGame.gameObject);
             tw.Play();
           }
           {
             var tw = DOTween.To(() => _whackGameUiDataSource.text_ready_scale,
                                 x => _whackGameUiDataSource.text_ready_scale = x, new Vector3(10f, 10f, 10f), 1.0f);
+            tw.SetLink(_whackGame.gameObject);
             tw.Play();
           }
         }

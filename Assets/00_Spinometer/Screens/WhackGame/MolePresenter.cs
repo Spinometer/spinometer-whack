@@ -29,23 +29,23 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _moleGO.transform.localScale = new Vector3(_mole.size / _mole.aspectRatio, _mole.size * _mole.aspectRatio, _mole.size);
       var t = _moleGO.GetComponentInChildren<TextMeshProUGUI>();
       t.text = _mole.text;
+      float duration = (float)(mole.activeUntil - Time.timeAsDouble);
       {
         var tw = DOTween.To(() => t.color,
                             x => { t.color = x; },
                             new Color(1f, 1f, 1f, 0f),
                             0.3f)
-          .SetDelay((float)(_mole.activeUntil - Time.timeAsDouble) - 0.3f);
+          .SetDelay(duration - 0.3f).SetLink(_moleGO);
         tw.Play();
       }
       {
-        float duration = (float)(mole.activeUntil - Time.timeAsDouble);
         var tr = _moleGO.transform;
         var pos0 = tr.localPosition;
         var pos1 = pos0 + mole.velocity * duration;
         var tw = DOTween.To(() => tr.localPosition,
                             x => { tr.localPosition = x; },
                             pos1,
-                            duration);
+                            duration).SetLink(_moleGO);
         tw.Play();
       }
     }
@@ -73,7 +73,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       var tw = DOTween.To(() => t.color,
                           x => { t.color = x; },
                           new Color(1f, 0f, 0f, 0f),
-                          1f);
+                          1f).SetLink(_moleGO);
       tw.Play();
       _mole.activeUntil = Time.timeAsDouble + 1.0;
     }

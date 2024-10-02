@@ -196,7 +196,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _whackGameUiDataSource.damageOpacity = 0.4f;
       DOTween.To(() => _whackGameUiDataSource.damageOpacity,
                  x => _whackGameUiDataSource.damageOpacity = x,
-                 0f, 0.1f).Play();
+                 0f, 0.1f).SetLink(gameObject).Play();
     }
 
     public void AddPossibleMaximumWhackingScore(int moleScore)
