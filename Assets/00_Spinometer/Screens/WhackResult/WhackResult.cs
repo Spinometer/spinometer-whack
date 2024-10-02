@@ -12,6 +12,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
   {
     [SerializeField] private GameStateLog _gameStateLog;
     [SerializeField] private ReplayBuffer _replayBuffer;
+    [SerializeField] private ScoreGraphRenderer _scoreGraphRenderer;
     [SerializeField] private UiDataSource _uiDataSource;
     [SerializeField] private WhackResultUiDataSource _whackResultUiDataSource;
     [SerializeField] private Renderer _webcamPlane;
@@ -37,6 +38,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
     {
       _visualizerSkeleton = GetComponent<SpinalAlignmentVisualizerSkeleton>();
       _visualizerStickFigure = GetComponent<SpinalAlignmentVisualizerStickFigure>();
+      _scoreGraphRenderer = new(_gameStateLog);
       _audioSource = GetComponent<AudioSource>();
     }
 
@@ -142,6 +144,8 @@ namespace GetBack.Spinometer.Screens.WhackResult
 
     void Update()
     {
+      _scoreGraphRenderer.Render();
+
       int seekPosition = _whackResultUiDataSource.seekPosition;
 
       switch (_state) {
