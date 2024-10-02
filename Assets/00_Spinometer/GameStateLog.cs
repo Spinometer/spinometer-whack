@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace GetBack.Spinometer
@@ -9,7 +8,7 @@ namespace GetBack.Spinometer
   {
     public struct GameStateLogEntry
     {
-      public float timestamp;
+      public float timeRemaining;
       public int whackingScore;
       public int possibleMaximumWhackingScore;
       public float alignmentScore;

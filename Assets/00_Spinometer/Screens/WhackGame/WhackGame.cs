@@ -151,7 +151,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private void RecordGameStateLog()
     {
       var entry = new GameStateLog.GameStateLogEntry {
-        timestamp = _initialTime - _timeRemaining,
+        timeRemaining = _timeRemaining,
         whackingScore = _whackingScore,
         possibleMaximumWhackingScore = _possibleMaximumWhackingScore,
         alignmentScore = _alignmentScore,
@@ -169,6 +169,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       Graphics.CopyTexture(inTex, textureCopy);
 
       var entry = new ReplayBuffer.ReplayEntry {
+        timeRemaining = timeRemaining,
         texture = textureCopy, 
         distance = _uiDataSource.distance,
         pitch = _uiDataSource.pitch,

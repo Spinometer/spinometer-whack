@@ -10,6 +10,7 @@ namespace GetBack.Spinometer
   {
     public struct ReplayEntry
     {
+     public float timeRemaining;
       public Texture2D texture;
       public float distance;
       public float pitch;
