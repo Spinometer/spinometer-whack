@@ -103,7 +103,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
         }
         break;
       case State.GoingOn:
-        if (Mathf.Floor(oldTimeRemaining) != Mathf.Floor(timeRemaining)) {
+        float recordFramesPerSecond = 5f;
+        if (Mathf.Floor(oldTimeRemaining * recordFramesPerSecond) != Mathf.Floor(timeRemaining * recordFramesPerSecond)) {
           AddReplayEntry();
         }
         if (timeRemaining <= 0f) {

@@ -110,7 +110,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
     {
       _state = State.Playing;
       _playbackTimer = 1f;
-      _playbackSpeed = 1f;
+      _playbackSpeed = 5.0f;
     }
 
     public void StopPlaying()
