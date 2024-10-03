@@ -80,7 +80,6 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _timeRemaining = initialTime + 3f;
       _gameStateLog.Clear();
       _replayBuffer.Clear();
-      RecordGameStateLog();
       _audioSource.PlayOneShot(_whackCountDownClip);
     }
 

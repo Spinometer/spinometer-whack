@@ -41,5 +41,11 @@ namespace GetBack.Spinometer
         timeRemainingMax = ts.Max();
       }
     }
+
+    public ReplayEntry FindEntry(float t)
+    {
+      int i = entries.FindIndex(entry => t >= entry.timeRemaining);
+      return i < 0 ? entries.Last() : entries[i];
+    }
   }
 }

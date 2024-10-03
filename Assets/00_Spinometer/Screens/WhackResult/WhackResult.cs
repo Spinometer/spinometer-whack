@@ -13,6 +13,8 @@ namespace GetBack.Spinometer.Screens.WhackResult
     [SerializeField] private GameStateLog _gameStateLog;
     [SerializeField] private ReplayBuffer _replayBuffer;
     [SerializeField] private ScoreGraphRenderer _scoreGraphRenderer;
+    [SerializeField] private Transform _scoreGraphTopLeft;
+    [SerializeField] private Transform _scoreGraphBottomRight;
     [SerializeField] private UiDataSource _uiDataSource;
     [SerializeField] private WhackResultUiDataSource _whackResultUiDataSource;
     [SerializeField] private Renderer _webcamPlane;
@@ -33,20 +35,26 @@ namespace GetBack.Spinometer.Screens.WhackResult
     State _state;
     private float _playbackTimer;
     private float _playbackSpeed;
+    private float _seekPosition = 0f;
 
     private void Awake()
     {
       _visualizerSkeleton = GetComponent<SpinalAlignmentVisualizerSkeleton>();
       _visualizerStickFigure = GetComponent<SpinalAlignmentVisualizerStickFigure>();
-      _scoreGraphRenderer = new(_gameStateLog);
+      _scoreGraphRenderer = new(_gameStateLog, _replayBuffer);
+      {
+        var p0 = _scoreGraphTopLeft.position;
+        var p1 = _scoreGraphBottomRight.position;
+        _scoreGraphRenderer.center = (p0 + p1) * 0.5f;
+        _scoreGraphRenderer.width = p1.x - p0.x;
+        _scoreGraphRenderer.height = p0.y - p1.y;
+      }
       _audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
     {
       _visualizerStickFigure.ShowAlignmentValues = true;
-      _whackResultUiDataSource.seekMax = _replayBuffer.entries.Count - 1;
-      _whackResultUiDataSource.seekPosition = 0;
       StartPlaying();
 
       var root = GameObject.Find("/WhackResultUIDocument").GetComponent<UIDocument>().rootVisualElement;
@@ -113,6 +121,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
       _state = State.Playing;
       _playbackTimer = 1f;
       _playbackSpeed = 5.0f;
+      _seekPosition = _gameStateLog.timeRemainingMax;
     }
 
     public void StopPlaying()
@@ -122,19 +131,18 @@ namespace GetBack.Spinometer.Screens.WhackResult
       _playbackSpeed = 0f;
     }
 
-    public int Seek(int seekPosition, bool repeat = false)
+    public float Seek(float t, bool repeat = false)
     {
-      if (seekPosition >= _replayBuffer.entries.Count) {
-        seekPosition = repeat ? 0 : _replayBuffer.entries.Count - 1;
+      if (t < _gameStateLog.timeRemainingMin) {
+        _seekPosition = repeat ? _gameStateLog.timeRemainingMax : _gameStateLog.timeRemainingMin;
       }
-      if (seekPosition < 0) {
-        seekPosition = 0;
+      if (_seekPosition < 0) {
+        _seekPosition = 0;
       }
-      _whackResultUiDataSource.seekPosition = seekPosition;
-      return seekPosition;
+      return _seekPosition;
     }
 
-    private void ManualSeek(int seekPosition)
+    private void ManualSeek(float seekPosition)
     {
       if (_whackResultUiDataSource.seekPosition == seekPosition)
         return;
@@ -145,16 +153,11 @@ namespace GetBack.Spinometer.Screens.WhackResult
     void Update()
     {
       _scoreGraphRenderer.Render();
-
-      int seekPosition = _whackResultUiDataSource.seekPosition;
+      _scoreGraphRenderer.DrawCursor(_seekPosition);
 
       switch (_state) {
       case State.Playing:
-        _playbackTimer -= Time.deltaTime * _playbackSpeed;
-        if (_playbackTimer <= 0f) {
-          _playbackTimer += 1f;
-          seekPosition++;
-        }
+        _seekPosition -= Time.deltaTime;
         break;
       case State.Stopped:
         break;
@@ -162,12 +165,12 @@ namespace GetBack.Spinometer.Screens.WhackResult
         break;
       }
 
-      seekPosition = Seek(seekPosition, true);
+      _seekPosition = Seek(_seekPosition, true);
 
-      if (seekPosition > _replayBuffer.entries.Count)
+      if (_seekPosition < _replayBuffer.timeRemainingMin || _seekPosition > _replayBuffer.timeRemainingMax)
         return;
 
-      var entry = _replayBuffer.entries[seekPosition];
+      var entry = _replayBuffer.FindEntry(_seekPosition);
       _webcamPlane.material.mainTexture = entry.texture;
       _uiDataSource.distance = entry.distance;
       _uiDataSource.pitch = entry.pitch;

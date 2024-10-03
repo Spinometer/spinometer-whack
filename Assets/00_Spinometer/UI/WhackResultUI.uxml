@@ -52,7 +52,7 @@
         </Bindings>
     </ui:VisualElement>
     <ui:VisualElement name="alignment-values" picking-mode="Ignore" style="flex-grow: 1; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height: 100%;" />
-    <ui:SliderInt value="2" high-value="100" name="seek-position" fill="true" show-input-field="true" style="position: absolute; left: 200px; right: 200px; top: 600px;">
+    <ui:SliderInt value="2" high-value="100" name="seek-position" fill="true" show-input-field="true" style="position: absolute; left: 200px; right: 200px; top: 600px; display: none;">
         <Bindings>
             <ui:DataBinding property="value" data-source-path="seekPosition" data-source="project://database/Assets/00_Spinometer/Screens/WhackResult/whackResultUiDataSource.asset?fileID=11400000&amp;guid=91319722057a15147bdd5afca6198b80&amp;type=2#whackResultUiDataSource" binding-mode="TwoWay" />
             <ui:DataBinding property="highValue" data-source-path="seekMax" data-source="project://database/Assets/00_Spinometer/Screens/WhackResult/whackResultUiDataSource.asset?fileID=11400000&amp;guid=91319722057a15147bdd5afca6198b80&amp;type=2#whackResultUiDataSource" binding-mode="ToTarget" />
