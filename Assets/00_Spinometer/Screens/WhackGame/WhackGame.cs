@@ -122,6 +122,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
         if (timeRemaining <= -3f) {
           app.MoveFromGameToResult();
           _state = State.Closing;
+          _gameStateLog.UpdateTimeRemainingMinMax();
+          _replayBuffer.UpdateTimeRemainingMinMax();
         }
         break;
       case State.Closing:

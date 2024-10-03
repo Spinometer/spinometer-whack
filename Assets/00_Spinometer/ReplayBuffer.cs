@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GetBack.Spinometer.SpinalAlignmentAux;
 using GetBack.Spinometer.SpinalAlignmentCore;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace GetBack.Spinometer
   {
     public struct ReplayEntry
     {
-     public float timeRemaining;
+      public float timeRemaining;
       public Texture2D texture;
       public float distance;
       public float pitch;
@@ -19,10 +20,26 @@ namespace GetBack.Spinometer
     }
 
     public List<ReplayEntry> entries = new();
+    public float timeRemainingMin = 0f;
+    public float timeRemainingMax = 0f;
 
     public void Clear()
     {
       entries.Clear();
+      timeRemainingMin = 0f;
+      timeRemainingMax = 0f;
+    }
+
+    public void UpdateTimeRemainingMinMax()
+    {
+      var ts = entries.Select(e => e.timeRemaining).ToList();
+      if (ts.Count == 0) {
+        timeRemainingMin = 0f;
+        timeRemainingMax = 0f;
+      } else {
+        timeRemainingMin = ts.Min();
+        timeRemainingMax = ts.Max();
+      }
     }
   }
 }
