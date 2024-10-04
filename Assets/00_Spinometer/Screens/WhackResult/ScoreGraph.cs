@@ -68,8 +68,13 @@ namespace GetBack.Spinometer.Screens.WhackResult
                 var deltaTime = -(e1.timeRemaining - e0.timeRemaining);
                 var deltaScore = e1.alignmentScore - e0.alignmentScore;
                 var scoreSlope = deltaScore / deltaTime;
-                Debug.Log($"{i}: t = {e1.timeRemaining}, score = {e1.alignmentScore}, scoreSlope = {scoreSlope}");
-                Draw.ingame.Circle(new Vector3(e1.timeRemaining, scoreSlope, 0f), Vector3.back, 0.01f);
+                //Debug.Log($"{i}: t = {e1.timeRemaining}, score = {e1.alignmentScore}, scoreSlope = {scoreSlope}");
+                var pos1 = new Vector3(e1.timeRemaining, scoreSlope, 0f);
+                if (scoreSlope < -0.2f) {
+                  var pos0 = new Vector3(pos1.x, 0f, pos1.z);
+                  Draw.ingame.Line(pos0, pos1, new Color(1f, 0f, 0f, 0.2f));
+                }
+                Draw.ingame.Circle(pos1, Vector3.back, 0.01f);
                 e0 = e1;
               }
             }
@@ -88,9 +93,9 @@ namespace GetBack.Spinometer.Screens.WhackResult
               SpinalAlignment.RelativeAngleId.T12_L3_S,
             };
 
-            RenderGroup(group0, Color.red);
-            RenderGroup(group1, Color.green);
-            RenderGroup(group2, Color.blue);
+            RenderGroup(group0, new Color(1f, 0.3f, 0.3f));
+            RenderGroup(group1, new Color(0.3f, 0.8f, 0.3f));
+            RenderGroup(group2, new Color(0.3f, 0.3f, 1.0f));
           }
         }
       }
