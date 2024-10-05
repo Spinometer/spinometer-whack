@@ -85,6 +85,17 @@ namespace GetBack.Spinometer.Screens.WhackResult
               }
             }
           }
+          if (false) {
+            // plot individual scores, for debug
+            var ids = replayBuffer.entries[0].spinalAlignmentScore.scores.Keys;
+            var hue = 0f;
+            foreach (var id in ids) {
+              Debug.Log($"id = {id}, hue = {hue}");
+              SpinalAlignment.RelativeAngleId[] group = { id };
+              RenderGroup(group, Color.HSVToRGB(hue, 1f, 1f));
+              hue += 0.16f;
+            }
+          }
           if (true) {
             SpinalAlignment.RelativeAngleId[] group0 = new[] {
               SpinalAlignment.RelativeAngleId.C2_C7_vert_new,
