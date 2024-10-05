@@ -59,7 +59,8 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       var options = _moleManager.options;
       options.spawnBoundary1 = new Vector3(options.spawnBoundary1.x - 0.8f, 0f, 0f);
       options.forceVelocity = true;
-      options.velocity = Random.insideUnitCircle.normalized * 0.03f;
+      //options.velocity = Random.insideUnitCircle.normalized * 0.03f;
+      options.velocity = Random.insideUnitCircle.normalized * 0.12f;
       options.sizeMin = 0.045f;
       options.sizeMax = 0.047f;
       options.vulnerableTimeMin = 3f;

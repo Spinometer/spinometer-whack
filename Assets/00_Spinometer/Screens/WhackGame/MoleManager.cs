@@ -158,7 +158,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
         position = new Vector3(Random.Range(options.spawnBoundary0.x, options.spawnBoundary1.x),
                                Random.Range(options.spawnBoundary0.y, options.spawnBoundary1.y),
                                Random.Range(options.spawnBoundary0.z, options.spawnBoundary1.z)),
-        velocity = options.forceVelocity ? options.velocity : Random.insideUnitSphere * 0.1f,
+        velocity = options.forceVelocity ? options.velocity : Random.insideUnitSphere.normalized * 0.3f,
         text = text,
         score = 1,
         size = Random.Range(options.sizeMin, options.sizeMax),
