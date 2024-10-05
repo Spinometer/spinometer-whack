@@ -29,7 +29,7 @@ namespace GetBack.Spinometer
 
     [Range(1, 30)] public int opt_poseEstimationFrequency = 4; // per sec
 
-    [Range(1, 30)] public int opt_targetFrameRate = 15;
+    [Range(1, 240)] public int opt_targetFrameRate = 120;
 
     public int opt_user_sex; // m:1, f:0
     public int opt_user_birthYear;
