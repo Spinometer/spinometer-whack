@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace GetBack.Spinometer.Screens.WhackGame
 {
@@ -6,5 +7,6 @@ namespace GetBack.Spinometer.Screens.WhackGame
   {
     void NextTick(double currentTime, float deltaTime);
     void Whacked();
+    GameObject moleGO();
   }
 }

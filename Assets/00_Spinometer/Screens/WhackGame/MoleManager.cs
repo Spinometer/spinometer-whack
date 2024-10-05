@@ -138,7 +138,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
       // FIXME: vfx stuff should be done in presenter 
       var vfxOffset = Vector3.down * mole.size * 0.3f;
-      var go = Object.Instantiate(_options.whackedVfx, mole.position + vfxOffset, Quaternion.identity);
+      var pos0 = mole.presenter.moleGO().transform.position;
+      var go = Object.Instantiate(_options.whackedVfx, pos0 + vfxOffset, Quaternion.identity);
       var vfx = go.GetComponent<VisualEffect>();
       vfx.SetFloat("moleSize", Mathf.Sqrt(mole.size));
       Object.Destroy(go, 2.0f);

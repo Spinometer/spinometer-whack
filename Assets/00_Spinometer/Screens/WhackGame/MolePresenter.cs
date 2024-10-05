@@ -50,6 +50,11 @@ namespace GetBack.Spinometer.Screens.WhackGame
       }
     }
 
+    public GameObject moleGO()
+    {
+      return _moleGO;
+    }
+
     public void NextTick(double currentTime, float deltaTime)
     {
       var whackGame = _options.whackGame;
