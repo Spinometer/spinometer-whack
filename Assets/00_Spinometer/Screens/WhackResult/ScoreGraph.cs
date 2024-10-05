@@ -52,6 +52,12 @@ namespace GetBack.Spinometer.Screens.WhackResult
       return m1 * m0;
     }
 
+    public Vector3 WorldToLocal(Vector3 pointWorld)
+    {
+      var m = LocalToWorldMatrix();
+      return m.inverse * pointWorld;
+    }
+
     public void Render()
     {
       using (Draw.ingame.WithMatrix(LocalToWorldMatrix())) {

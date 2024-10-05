@@ -52,12 +52,6 @@
         </Bindings>
     </ui:VisualElement>
     <ui:VisualElement name="alignment-values" picking-mode="Ignore" style="flex-grow: 1; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height: 100%;" />
-    <ui:SliderInt value="2" high-value="100" name="seek-position" fill="true" show-input-field="true" style="position: absolute; left: 200px; right: 200px; top: 600px; display: none;">
-        <Bindings>
-            <ui:DataBinding property="value" data-source-path="seekPosition" data-source="project://database/Assets/00_Spinometer/Screens/WhackResult/whackResultUiDataSource.asset?fileID=11400000&amp;guid=91319722057a15147bdd5afca6198b80&amp;type=2#whackResultUiDataSource" binding-mode="TwoWay" />
-            <ui:DataBinding property="highValue" data-source-path="seekMax" data-source="project://database/Assets/00_Spinometer/Screens/WhackResult/whackResultUiDataSource.asset?fileID=11400000&amp;guid=91319722057a15147bdd5afca6198b80&amp;type=2#whackResultUiDataSource" binding-mode="ToTarget" />
-        </Bindings>
-    </ui:SliderInt>
     <ui:Button text="Retry" name="btn-retry" style="margin-right: 0; margin-bottom: 0; padding-right: 20px; padding-left: 20px; font-size: 48px; display: flex; position: absolute; top: auto; left: 605px; align-self: center; align-items: flex-end; justify-content: center; align-content: center; margin-top: 0; margin-left: 0; bottom: 38px;" />
     <ui:VisualElement name="scores" style="flex-grow: 1; position: absolute; top: 26px; left: 950px;">
         <ui:VisualElement name="whacking-score" style="flex-grow: 1; flex-direction: column; -unity-text-align: upper-right;">

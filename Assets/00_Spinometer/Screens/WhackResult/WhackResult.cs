@@ -3,6 +3,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using GetBack.Spinometer.SpinalAlignmentVisualizer;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
@@ -33,7 +34,6 @@ namespace GetBack.Spinometer.Screens.WhackResult
     private SpinalAlignmentVisualizerSkeleton _visualizerSkeleton = null;
     private SpinalAlignmentVisualizerStickFigure _visualizerStickFigure = null;
     State _state;
-    private float _playbackTimer;
     private float _playbackSpeed;
     private float _seekPosition = 0f;
 
@@ -55,10 +55,10 @@ namespace GetBack.Spinometer.Screens.WhackResult
     void Start()
     {
       _visualizerStickFigure.ShowAlignmentValues = true;
+      _seekPosition = _gameStateLog.timeRemainingMax;
       StartPlaying();
 
       var root = GameObject.Find("/WhackResultUIDocument").GetComponent<UIDocument>().rootVisualElement;
-      root.Q<SliderInt>("seek-position").RegisterValueChangedCallback(evt => ManualSeek(evt.newValue));
       StartAnimation(root);
 
       {
@@ -119,35 +119,48 @@ namespace GetBack.Spinometer.Screens.WhackResult
     public void StartPlaying()
     {
       _state = State.Playing;
-      _playbackTimer = 1f;
-      _playbackSpeed = 5.0f;
-      _seekPosition = _gameStateLog.timeRemainingMax;
+      _playbackSpeed = 1.0f;
     }
 
     public void StopPlaying()
     {
       _state = State.Stopped;
-      _playbackTimer = 1f;
       _playbackSpeed = 0f;
+    }
+
+    public void TogglePlaying()
+    {
+      switch (_state) {
+      case State.Playing:
+        StopPlaying();
+        break;
+      case State.Stopped:
+        StartPlaying();
+        break;
+      case State.Closing:
+        break;
+      }
     }
 
     public float Seek(float t, bool repeat = false)
     {
+      if (t > _gameStateLog.timeRemainingMax) {
+        t = repeat ? _gameStateLog.timeRemainingMin : _gameStateLog.timeRemainingMax;
+      }
       if (t < _gameStateLog.timeRemainingMin) {
-        _seekPosition = repeat ? _gameStateLog.timeRemainingMax : _gameStateLog.timeRemainingMin;
+        t = repeat ? _gameStateLog.timeRemainingMax : _gameStateLog.timeRemainingMin;
       }
-      if (_seekPosition < 0) {
-        _seekPosition = 0;
+      if (t < 0) {
+        t = 0;
       }
+      _seekPosition = t;
       return _seekPosition;
     }
 
     private void ManualSeek(float seekPosition)
     {
-      if (_whackResultUiDataSource.seekPosition == seekPosition)
-        return;
       StopPlaying();
-      Seek(seekPosition);
+      Seek(seekPosition, false);
     }
 
     void Update()
@@ -155,9 +168,20 @@ namespace GetBack.Spinometer.Screens.WhackResult
       _scoreGraphRenderer.Render();
       _scoreGraphRenderer.DrawCursor(_seekPosition);
 
+      if (Keyboard.current.enterKey.wasPressedThisFrame ||
+          Keyboard.current.spaceKey.wasPressedThisFrame) {
+        TogglePlaying();
+      }
+
+      if (Mouse.current.leftButton.isPressed) {
+        var pointWorld = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
+        var pointLocal = _scoreGraphRenderer.WorldToLocal(pointWorld);
+        ManualSeek(pointLocal.x + _gameStateLog.timeRemainingMax * 0.5f);
+      }
+
       switch (_state) {
       case State.Playing:
-        _seekPosition -= Time.deltaTime;
+        _seekPosition -= Time.deltaTime * _playbackSpeed;
         break;
       case State.Stopped:
         break;
@@ -165,7 +189,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
         break;
       }
 
-      _seekPosition = Seek(_seekPosition, true);
+      Seek(_seekPosition, true);
 
       if (_seekPosition < _replayBuffer.timeRemainingMin || _seekPosition > _replayBuffer.timeRemainingMax)
         return;
