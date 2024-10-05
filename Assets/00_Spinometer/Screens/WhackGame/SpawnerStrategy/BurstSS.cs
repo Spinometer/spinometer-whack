@@ -61,8 +61,8 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       options.forceVelocity = true;
       //options.velocity = Random.insideUnitCircle.normalized * 0.03f;
       options.velocity = Random.insideUnitCircle.normalized * 0.12f;
-      options.sizeMin = 0.045f;
-      options.sizeMax = 0.047f;
+      options.sizeMin = 0.070f;
+      options.sizeMax = 0.080f;
       options.vulnerableTimeMin = 3f;
       options.vulnerableTimeMax = 4f;
 
