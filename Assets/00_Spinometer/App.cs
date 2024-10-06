@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using GetBack.Spinometer.Screens.WhackGame;
 using GetBack.Spinometer.Screens.WhackTitle;
@@ -208,13 +209,68 @@ namespace GetBack.Spinometer
       GameObject.Find("/WhackTitle").GetComponent<WhackTitle>().app = this;
       var uidoc = GameObject.Find("/WhackTitleUIDocument")?.GetComponent<UIDocument>();
       if (uidoc != null) {
+        var root = uidoc.rootVisualElement;
         {
-          var btn = uidoc.rootVisualElement.Q<Button>("settings");
+          var btn = root.Q<Button>("settings");
           btn.clicked += LoadSettingsOrEasySetupScene;
         }
         {
-          var btn = uidoc.rootVisualElement.Q<Button>("btn-start");
+          var btn = root.Q<Button>("btn-start");
           btn.clicked += MoveFromTitleToGame;
+        }
+        {
+          void UpdateGroupButtonBackgrounds(VisualElement gr, Func<int> getter)
+          {
+            var value = getter();
+            gr.Q<Button>("btn-difficulty-0").style.backgroundColor = value == 0 ? Color.white : Color.gray;
+            gr.Q<Button>("btn-difficulty-1").style.backgroundColor = value == 1 ? Color.white : Color.gray;
+            gr.Q<Button>("btn-difficulty-2").style.backgroundColor = value == 2 ? Color.white : Color.gray;
+            gr.Q<Button>("btn-difficulty-3").style.backgroundColor = value == 3 ? Color.white : Color.gray;
+            gr.Q<Button>("btn-difficulty-4").style.backgroundColor = value == 4 ? Color.white : Color.gray;
+          }
+
+          void SetupGroupButtons(VisualElement gr, Func<int> getter, Action<int> setter)
+          {
+            gr.Q<Button>("btn-difficulty-0").clicked += () =>
+            {
+              setter(0);
+              UpdateGroupButtonBackgrounds(gr, getter);
+            };
+            gr.Q<Button>("btn-difficulty-1").clicked += () =>
+            {
+              setter(1);
+              UpdateGroupButtonBackgrounds(gr, getter);
+            };
+            gr.Q<Button>("btn-difficulty-2").clicked += () =>
+            {
+              setter(2);
+              UpdateGroupButtonBackgrounds(gr, getter);
+            };
+            gr.Q<Button>("btn-difficulty-3").clicked += () =>
+            {
+              setter(3);
+              UpdateGroupButtonBackgrounds(gr, getter);
+            };
+            gr.Q<Button>("btn-difficulty-4").clicked += () =>
+            {
+              setter(4);
+              UpdateGroupButtonBackgrounds(gr, getter);
+            };
+            UpdateGroupButtonBackgrounds(gr, getter);
+          }
+
+          SetupGroupButtons(root.Q<VisualElement>("option-difficulty-textLength"),
+                            () => _settings.opt_difficulty_textLength,
+                            (int v) => { _settings.opt_difficulty_textLength = v; _settings.SaveSettings(); });
+          SetupGroupButtons(root.Q<VisualElement>("option-difficulty-exposingDuration"),
+                            () => _settings.opt_difficulty_exposingDuration,
+                            (int v) => { _settings.opt_difficulty_exposingDuration = v; _settings.SaveSettings(); });
+          SetupGroupButtons(root.Q<VisualElement>("option-difficulty-motion"),
+                            () => _settings.opt_difficulty_motion,
+                            (int v) => { _settings.opt_difficulty_motion = v; _settings.SaveSettings(); });
+          SetupGroupButtons(root.Q<VisualElement>("option-difficulty-textSize"),
+                            () => _settings.opt_difficulty_textSize,
+                            (int v) => { _settings.opt_difficulty_textSize = v; _settings.SaveSettings(); });
         }
         RegisterLocaleChangeButtonEvents(uidoc);
       }

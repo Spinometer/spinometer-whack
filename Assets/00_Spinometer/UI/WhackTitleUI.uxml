@@ -61,27 +61,27 @@
     <ui:VisualElement name="options" style="flex-grow: 1; position: absolute; top: 264px; left: 22px;">
         <ui:VisualElement name="option-difficulty-textLength" style="flex-grow: 1; flex-direction: row; justify-content: flex-end;">
             <ui:Label text="Text Length" style="font-size: 14px; -unity-text-align: middle-left;" />
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-0">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81059531378507776)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-1">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81059757669597184)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-2">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81060300450283520)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-3">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81060467257753600)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button" name="Button">
+            <ui:Button text="Button" name="btn-difficulty-4">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81060569070288896)" />
                 </Bindings>
@@ -89,27 +89,27 @@
         </ui:VisualElement>
         <ui:VisualElement name="option-difficulty-exposingDuration" style="flex-grow: 1; flex-direction: row; justify-content: flex-end;">
             <ui:Label text="Exposing Duration" style="font-size: 14px; -unity-text-align: middle-left;" />
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-0">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81059531378507776)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-1">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81059757669597184)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-2">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81060300450283520)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-3">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81060467257753600)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button" name="Button">
+            <ui:Button text="Button" name="btn-difficulty-4">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81060569070288896)" />
                 </Bindings>
@@ -117,27 +117,27 @@
         </ui:VisualElement>
         <ui:VisualElement name="option-difficulty-motion" style="flex-grow: 1; flex-direction: row; justify-content: flex-end;">
             <ui:Label text="Motion" style="font-size: 14px; -unity-text-align: middle-left;" />
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-0">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81059531378507776)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-1">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81059757669597184)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-2">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81060300450283520)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-3">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81060467257753600)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button" name="Button">
+            <ui:Button text="Button" name="btn-difficulty-4">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81060569070288896)" />
                 </Bindings>
@@ -145,27 +145,27 @@
         </ui:VisualElement>
         <ui:VisualElement name="option-difficulty-textSize" style="flex-grow: 1; flex-direction: row; justify-content: flex-end;">
             <ui:Label text="Text Size" style="font-size: 14px; -unity-text-align: middle-left;" />
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-0">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81059531378507776)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-1">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81059757669597184)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-2">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81060300450283520)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button">
+            <ui:Button text="Button" name="btn-difficulty-3">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81060467257753600)" />
                 </Bindings>
             </ui:Button>
-            <ui:Button text="Button" name="Button">
+            <ui:Button text="Button" name="btn-difficulty-4">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81060569070288896)" />
                 </Bindings>
