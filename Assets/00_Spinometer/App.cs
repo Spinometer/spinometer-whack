@@ -285,9 +285,14 @@ namespace GetBack.Spinometer
       GameObject.Find("/WhackGame").GetComponent<WhackGame>().app = this;
       var uidoc = GameObject.Find("/WhackGameUIDocument")?.GetComponent<UIDocument>();
       if (uidoc != null) {
+        var root = uidoc.rootVisualElement;
         {
-          var btn = uidoc.rootVisualElement.Q<Button>("settings");
+          var btn = root.Q<Button>("settings");
           btn.clicked += LoadSettingsOrEasySetupScene;
+        }
+        {
+          var btn = root.Q<Button>("btn-abort");
+          btn.clicked += MoveFromGameToResult;
         }
         RegisterLocaleChangeButtonEvents(uidoc);
       }

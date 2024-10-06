@@ -41,7 +41,7 @@
                     </Bindings>
                 </ui:Label>
             </ui:VisualElement>
-            <ui:Button text="Settings" name="settings" style="margin-right: 60px; margin-bottom: 60px; padding-right: 20px; padding-left: 20px; font-size: 18px;">
+            <ui:Button text="Settings" name="settings" style="margin-right: 60px; margin-bottom: 60px; padding-right: 20px; padding-left: 20px; font-size: 18px; display: none;">
                 <Bindings>
                     <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(49534134239232)" />
                 </Bindings>
@@ -83,4 +83,9 @@
             <ui:DataBinding property="style.opacity" data-source-path="damageOpacity" data-source="project://database/Assets/00_Spinometer/Screens/WhackGame/whackGameUiDataSource.asset?fileID=11400000&amp;guid=9d106daeec7772649a6b61e0a7579b8a&amp;type=2#whackGameUiDataSource" binding-mode="ToTarget" />
         </Bindings>
     </ui:VisualElement>
+    <ui:Button text="Settings" name="btn-abort" style="margin-right: 0; margin-bottom: 0; padding-right: 20px; padding-left: 20px; font-size: 18px; display: flex; position: absolute; top: 696px; left: 42px; flex-shrink: 1; background-size: 100% 100%; margin-top: 0; margin-left: 0;">
+        <Bindings>
+            <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81072996361027584)" />
+        </Bindings>
+    </ui:Button>
 </ui:UXML>

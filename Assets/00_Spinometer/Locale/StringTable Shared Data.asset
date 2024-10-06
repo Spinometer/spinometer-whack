@@ -144,6 +144,10 @@ MonoBehaviour:
     m_Key: ui.difficulty.difficulty_4
     m_Metadata:
       m_Items: []
+  - m_Id: 81072996361027584
+    m_Key: ui.button.abort.label
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
