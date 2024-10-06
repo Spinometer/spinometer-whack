@@ -10,10 +10,11 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     private double _endsAt = 0f;
     private bool _isDone = false;
 
-    public PeriodicSS(MoleRowManager moleRowManager)
+    public PeriodicSS(MoleRowManager moleRowManager, double currentTime)
     {
       _moleRowManager = moleRowManager;
       _whackGame = _moleRowManager.whackGame;
+      Spawn(currentTime);
     }
 
     void IDisposable.Dispose()
@@ -22,23 +23,17 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 
     bool ISpawnerStrategy.IsDone()
     {
-      return _isDone;
+      return true;
     }
 
     public void NextTick(double currentTime, float deltaTime)
     {
-      if (_isDone)
-        return;
+    }
 
-      if (_startedAt == 0f) {
-        _startedAt = currentTime;
-        _endsAt = _startedAt + 1.0;
-
-        if (_whackGame.state == WhackGame.State.GoingOn && _whackGame.timeRemaining >= 0.5f)
-          _moleRowManager.SpawnMoleRaw(currentTime, _moleRowManager.options);
-      }
-
-      _isDone = _isDone || currentTime >= _endsAt;
+    public void Spawn(double currentTime)
+    {
+      if (_whackGame.state == WhackGame.State.GoingOn && _whackGame.timeRemaining >= 0.5f)
+        _moleRowManager.SpawnMoleRaw(currentTime, _moleRowManager.options);
     }
   }
 }

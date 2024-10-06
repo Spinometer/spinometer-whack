@@ -15,12 +15,14 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     private MoleRowManager _moleRowManager;
     private WhackGame _whackGame;
     private Options _options;
+    private double _spawnNextAt;
 
-    public CompositeSS(MoleRowManager moleRowManager, Options options)
+    public CompositeSS(MoleRowManager moleRowManager, double currentTime, Options options)
     {
       _options = options;
       _moleRowManager = moleRowManager;
       _whackGame = _moleRowManager.whackGame;
+      _spawnNextAt = currentTime;
     }
 
     void IDisposable.Dispose()
@@ -34,16 +36,13 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 
     public void NextTick(double currentTime, float deltaTime)
     {
-      TryPushNewSpawnerStrategy();
+      if (_spawnNextAt > currentTime)
+        return;
+      TryPushNewSpawnerStrategy(currentTime);
     }
 
-    private void TryPushNewSpawnerStrategy()
+    private void TryPushNewSpawnerStrategy(double currentTime)
     {
-      if (this != _moleRowManager.strategyStack.Peek()) {
-        // previous strategy is running, skip this tick
-        return;
-      }
-
       if (_whackGame.timeRemaining < 1f) {
         // there's not enough time left to answer
         return;
@@ -51,13 +50,29 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 
       if (_whackGame.timeRemaining < 4f) {
         // likewise, but quick spawner strategy can be used here
-        _moleRowManager.PushSpawnerStrategy(MoleRowManager.SpawnerStrategy.periodic);
+        SpawnSingleShot(currentTime);
         return;
       }
 
       var difficulty = 1.0f - (_whackGame.timeRemaining / _whackGame.initialTime);
-      var strategy = difficulty < Mathf.Pow(Random.value, _options.difficulty) ? MoleRowManager.SpawnerStrategy.periodic : MoleRowManager.SpawnerStrategy.burst;
-      _moleRowManager.PushSpawnerStrategy(strategy);
+      var doSingleShot = difficulty < Mathf.Pow(Random.value, _options.difficulty);
+      if (doSingleShot) {
+        SpawnSingleShot(currentTime);
+      } else {
+        SpawnBurst(currentTime);
+      }
+    }
+
+    private void SpawnSingleShot(double currentTime)
+    {
+      _moleRowManager.PushSpawnerStrategy(MoleRowManager.SpawnerStrategy.periodic, currentTime);
+      _spawnNextAt = currentTime + 0.8;
+    }
+
+    private void SpawnBurst(double currentTime)
+    {
+      _moleRowManager.PushSpawnerStrategy(MoleRowManager.SpawnerStrategy.burst, currentTime);
+      _spawnNextAt = currentTime + 2.5;
     }
   }
 }

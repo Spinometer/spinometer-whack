@@ -8,50 +8,31 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
   public class BurstSS : ISpawnerStrategy
   {
     private MoleRowManager _moleRowManager;
-    private double _burstStartedAt;
-    private double _burstEndsAt;
-    private bool _isDone;
 
     private CancellationTokenSource _cts;
 
-    private const double minimumDurationPerBurst = 4.0;
 
-    public BurstSS(MoleRowManager moleRowManager)
+    public BurstSS(MoleRowManager moleRowManager, double currentTime)
     {
       _moleRowManager = moleRowManager;
-      _burstStartedAt = 0;
-      _burstEndsAt = 0;
-      _isDone = false;
-      _cts = new();
+      StartBurst(currentTime);
     }
 
     void IDisposable.Dispose()
     {
-      _cts.Cancel();
-      _cts.Dispose();
-      _cts = null;
     }
 
     bool ISpawnerStrategy.IsDone()
     {
-      return _isDone;
+      return true;
     }
 
     void ISpawnerStrategy.NextTick(double currentTime, float deltaTime)
     {
-      if (_burstStartedAt == 0) {
-        StartBurst(currentTime);
-      }
-
-      _isDone = _isDone || currentTime >= _burstEndsAt;
     }
 
     private void StartBurst(double currentTime)
     {
-      _burstStartedAt = currentTime;
-      _burstEndsAt = currentTime + minimumDurationPerBurst;
-      _isDone = false;
-
       var options = _moleRowManager.options;
       options.spawnBoundary1 = new Vector3(options.spawnBoundary1.x - 0.8f, 0f, 0f);
       options.textLengthMin = 5;

@@ -59,21 +59,21 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     public SpawnerStrategyStack strategyStack => _spawnerStrategyStack;
 
-    public void PushSpawnerStrategy(SpawnerStrategy strategyEnum)
+    public void PushSpawnerStrategy(SpawnerStrategy strategyEnum, double currentTime)
     {
       ISpawnerStrategy ss = strategyEnum switch {
-        SpawnerStrategy.periodic => new PeriodicSS(this),
+        SpawnerStrategy.periodic => new PeriodicSS(this, currentTime),
         SpawnerStrategy.random => new RandomSS(this),
-        SpawnerStrategy.burst => new BurstSS(this),
-        SpawnerStrategy.composite => new CompositeSS(this, _options.compositeSSOptions)
+        SpawnerStrategy.burst => new BurstSS(this, currentTime),
+        SpawnerStrategy.composite => new CompositeSS(this, currentTime, _options.compositeSSOptions)
       };
       _spawnerStrategyStack.Push(ss);
     }
 
-    private void ChangeSpawnerStrategy(SpawnerStrategy strategyEnum)
+    private void ChangeSpawnerStrategy(SpawnerStrategy strategyEnum, double currentTime)
     {
       _spawnerStrategyStack.Clear();
-      PushSpawnerStrategy(strategyEnum);
+      PushSpawnerStrategy(strategyEnum, currentTime);
     }
 
     void IDisposable.Dispose()
@@ -88,7 +88,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
         return;
 
       if (_spawnerStrategyStack.IsEmpty()) {
-        ChangeSpawnerStrategy(_options.spawnerStrategy);
+        ChangeSpawnerStrategy(_options.spawnerStrategy, currentTime);
       }
 
       _spawnerStrategyStack.NextTick(currentTime, deltaTime);
