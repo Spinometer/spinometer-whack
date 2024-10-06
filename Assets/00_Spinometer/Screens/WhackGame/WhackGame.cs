@@ -165,7 +165,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     private void AddReplayEntry()
     {
-      Debug.Log($"Adding replay entry at time {timeRemaining}");
+      // Debug.Log($"Adding replay entry at time {timeRemaining}");
 
       var inTex = _webcam.ColorRenderTexture;
       var textureCopy = new Texture2D(inTex.width, inTex.height, DefaultFormat.LDR, TextureCreationFlags.None);
