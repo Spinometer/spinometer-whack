@@ -193,7 +193,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
         aspectRatio = Random.Range(options.aspectRatioMin, options.aspectRatioMax),
         vulnerableTime = Random.Range(options.vulnerableTimeMin, options.vulnerableTimeMax)
       };
-      var moleRow = new MoleRow(spawnOptions, currentTime, _whackGame, this, _audioSource);
+      var moleRow = new MoleRow(_settings, spawnOptions, currentTime, _whackGame, this, _audioSource);
       moleRow.hasFocus = !AnyMoleRowHasExclusiveFocus();
       moleRow.hasExclusiveFocus = false;
       _moleRows.Add(moleRow);

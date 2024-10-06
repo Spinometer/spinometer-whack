@@ -26,9 +26,11 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private GameObject _moleGO;
     private Mole _mole;
     private AudioSource _audioSource;
+    private readonly Settings _settings;
 
-    internal MolePresenter(Options options, Mole mole, AudioSource audioSource)
+    internal MolePresenter(Settings settings, Options options, Mole mole, AudioSource audioSource)
     {
+      _settings = settings;
       _options = options;
       _mole = mole;
       _mole.presenter = this;
@@ -39,6 +41,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       t.text = _mole.text;
       float duration = (float)(mole.activeUntil - Time.timeAsDouble);
       {
+        // fade out
         var tw = DOTween.To(() => t.color,
                             x => { t.color = x; },
                             new Color(1f, 1f, 1f, 0f),
@@ -47,6 +50,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
         tw.Play();
       }
       {
+        // translation
         var tr = _moleGO.transform;
         var pos0 = tr.localPosition;
         var pos1 = pos0 + mole.velocity * duration;
@@ -57,6 +61,21 @@ namespace GetBack.Spinometer.Screens.WhackGame
                             },
                             pos1,
                             duration).SetLink(_moleGO);
+        tw.Play();
+      }
+      {
+        // wave
+        var tr = _moleGO.transform;
+        _mole.wavePhase = 0f;
+        float speed = 1.4f * 360f * Mathf.Sqrt(_settings.velocityMultiplier); // degree per second
+        float amplitude = 0.05f * Mathf.Sqrt(_settings.velocityMultiplier);
+        var tw = DOTween.To(() => _mole.wavePhase,
+                            deg => {
+                              _mole.wavePhase = deg;
+                              var pos = _mole.position;
+                              tr.localPosition = pos + new Vector3(0f, Mathf.Sin(deg * Mathf.Deg2Rad) * amplitude, 0f);;
+                            },
+                            speed * duration, duration).SetLink(_moleGO);
         tw.Play();
       }
       _audioSource.PlayOneShot(_options.spawningClip, 0.5f);

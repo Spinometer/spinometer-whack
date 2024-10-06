@@ -20,6 +20,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       public double vulnerableTime;
     }
 
+    private readonly Settings _settings;
     private readonly WhackGame _whackGame;
     private readonly MoleRowManager _moleRowManager;
     private readonly AudioSource _audioSource;
@@ -33,12 +34,14 @@ namespace GetBack.Spinometer.Screens.WhackGame
     public Mole? FirstActiveMole => _moles.Find(m => m.alive);
     public char FirstChar => FirstActiveMole?.text[0] ?? '\0';
 
-    public MoleRow(SpawnOptions options,
+    public MoleRow(Settings settings,
+                   SpawnOptions options,
                    double currentTime,
                    WhackGame whackGame,
                    MoleRowManager moleRowManager,
                    AudioSource audioSource)
     {
+      _settings = settings;
       _whackGame = whackGame;
       _moleRowManager = moleRowManager;
       _audioSource = audioSource;
@@ -96,7 +99,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
           activeUntil = currentTime + options.vulnerableTime
         };
         _moles.Add(mole);
-        mole.presenter = new MolePresenter(options.presenterOptions, mole, _audioSource);
+        mole.presenter = new MolePresenter(_settings, options.presenterOptions, mole, _audioSource);
         _whackGame.AddPossibleMaximumWhackingScore(mole.score);
         position += new Vector3(strideX, 0f, 0f);
 
