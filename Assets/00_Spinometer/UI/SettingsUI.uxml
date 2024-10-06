@@ -48,6 +48,30 @@
                         <UnityEngine.Localization.LocalizedString property="label" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(74090138531545088)" />
                     </Bindings>
                 </ui:Slider>
+                <ui:Slider label="display diagonal fov" high-value="4" low-value="0" show-input-field="true" value="2" name="field-difficulty-textLength" page-size="1">
+                    <Bindings>
+                        <ui:DataBinding property="value" binding-mode="TwoWay" data-source="project://database/Assets/00_SpineMeter/settingsInstance.asset?fileID=11400000&amp;guid=51542d75c233bb946a18c77104c4c333&amp;type=2#settingsInstance" data-source-path="opt_difficulty_textLength" />
+                        <UnityEngine.Localization.LocalizedString property="label" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81036929658372096)" />
+                    </Bindings>
+                </ui:Slider>
+                <ui:Slider label="display diagonal fov" high-value="4" low-value="0" show-input-field="true" value="2" name="field-difficulty-exposingDuration" page-size="1">
+                    <Bindings>
+                        <ui:DataBinding property="value" binding-mode="TwoWay" data-source="project://database/Assets/00_SpineMeter/settingsInstance.asset?fileID=11400000&amp;guid=51542d75c233bb946a18c77104c4c333&amp;type=2#settingsInstance" data-source-path="opt_difficulty_exposingDuration" />
+                        <UnityEngine.Localization.LocalizedString property="label" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81036519879065600)" />
+                    </Bindings>
+                </ui:Slider>
+                <ui:Slider label="display diagonal fov" high-value="4" low-value="0" show-input-field="true" value="2" name="field-difficulty-motion" page-size="1" style="height: 29px;">
+                    <Bindings>
+                        <ui:DataBinding property="value" binding-mode="TwoWay" data-source="project://database/Assets/00_SpineMeter/settingsInstance.asset?fileID=11400000&amp;guid=51542d75c233bb946a18c77104c4c333&amp;type=2#settingsInstance" data-source-path="opt_difficulty_motion" />
+                        <UnityEngine.Localization.LocalizedString property="label" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81038170333495296)" />
+                    </Bindings>
+                </ui:Slider>
+                <ui:Slider label="display diagonal fov" high-value="4" low-value="0" show-input-field="true" value="2" name="field-difficulty-textSize" page-size="1">
+                    <Bindings>
+                        <ui:DataBinding property="value" binding-mode="TwoWay" data-source="project://database/Assets/00_SpineMeter/settingsInstance.asset?fileID=11400000&amp;guid=51542d75c233bb946a18c77104c4c333&amp;type=2#settingsInstance" data-source-path="opt_difficulty_textSize" />
+                        <UnityEngine.Localization.LocalizedString property="label" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81038232585355264)" />
+                    </Bindings>
+                </ui:Slider>
             </ui:VisualElement>
             <ui:VisualElement style="flex-grow: initial; flex-direction: row;">
                 <ui:Button text="Save" name="btn-settings-save">

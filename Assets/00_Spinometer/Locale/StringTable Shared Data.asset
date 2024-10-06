@@ -95,6 +95,22 @@ MonoBehaviour:
     m_Key: ui.settings.field.extra-update-rate.label
     m_Metadata:
       m_Items: []
+  - m_Id: 81036519879065600
+    m_Key: ui.settings.field.difficulty-exposinguration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81036929658372096
+    m_Key: ui.settings.field.difficulty-textLength
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81038170333495296
+    m_Key: ui.settings.field.difficulty-Motion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81038232585355264
+    m_Key: ui.settings.field.difficulty-textSize
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

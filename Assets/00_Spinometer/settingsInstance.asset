@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: settingsInstance
   m_EditorClassIdentifier: 
   opt_useNew: 1
-  opt_webCamDeviceName: Integrated Camera
+  opt_webCamDeviceName: UCAM-C0220F
   opt_webCamDeviceNameList:
-  - Integrated Camera
+  - UCAM-C0220F
+  - OBS Virtual Camera
+  - Virtual Webcam VEGAS Stream x64
   opt_webCamDeviceNameIndex: 0
-  opt_displaySurfaceAngle: 64.82746
+  opt_displaySurfaceAngle: 93.32244
   opt_additionalPitchOffset: 15
-  opt_displayDiagonalFov: 50.568848
-  opt_poseEstimationFrequency: 15
-  opt_targetFrameRate: 15
+  opt_displayDiagonalFov: 49.598164
+  opt_poseEstimationFrequency: 5
+  opt_targetFrameRate: 30
   opt_user_sex: -1
   opt_user_birthYear: -1
   opt_user_height_cm: -1
@@ -31,4 +33,8 @@ MonoBehaviour:
   opt_s_distance_multiplier_backward: 120
   opt_distance_correction_angle_distance_factor: 0
   opt_distance_correction_cos_factor: 64
-  opt_extra_updateFrequency: 2
+  opt_extra_updateFrequency: 30
+  opt_difficulty_textLength: 2
+  opt_difficulty_exposedDuration: 0
+  opt_difficulty_motion: 2
+  opt_difficulty_textSize: 1

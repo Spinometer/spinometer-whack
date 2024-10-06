@@ -106,6 +106,22 @@ MonoBehaviour:
     m_Localized: '"Extra" Update Rate [1/s]'
     m_Metadata:
       m_Items: []
+  - m_Id: 81036929658372096
+    m_Localized: Text Length
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81036519879065600
+    m_Localized: Exposing Duration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81038170333495296
+    m_Localized: Motion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81038232585355264
+    m_Localized: Text Size
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
