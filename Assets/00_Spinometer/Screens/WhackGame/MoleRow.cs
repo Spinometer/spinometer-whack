@@ -147,7 +147,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       }
 
       Mole mole = _moles[i];
-      _whackGame.AddWhackingScore(mole.score);
+      _whackGame.AddWhackingScore(mole.score, mole.position);
 
       mole.alive = false;
       mole.presenter.Whacked();

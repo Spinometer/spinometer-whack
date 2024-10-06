@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using DG.Tweening;
 using R3;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.Serialization;
@@ -20,6 +21,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     [FormerlySerializedAs("_managerOptions")]
     [SerializeField] private MoleRowManager.Options _moleRowManagerOptions;
     [SerializeField] private MolePresenter.Options _presenterOptions;
+    [SerializeField] private GameObject _moleScorePrefab;
     [SerializeField] private AudioClip _whackCountDownClip;
     [SerializeField] private AudioClip _whackSuccessClip;
     [SerializeField] private AudioClip _whackFailClip;
@@ -208,13 +210,34 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _whackGameUiDataSource.comboBonusMultiplier = _comboBonusMultiplier;
     }
 
-    public void AddWhackingScore(int value)
+    public void AddWhackingScore(int value, Vector3 position)
     {
       int bonusMultiplier = (value <= 0) ? 0 : _comboBonusMultiplier;
       int bonus = bonusMultiplier * value;
       _possibleMaximumWhackingScore += bonus;
       _whackingScore += value + bonus;
       _whackGameUiDataSource.whackingScore = _whackingScore;
+      {
+        var go = Instantiate(_moleScorePrefab, position + new Vector3(0f, 0.1f, 0f), Quaternion.identity);
+        go.transform.DOLocalMoveY(1f, 0.5f).SetRelative(true);
+        var t = go.GetComponentInChildren<TextMeshProUGUI>();
+        var score = value + bonus;
+        var plus = score < 0 ? "" : "+";
+        t.text = $"{plus}{score}";
+        t.color =
+          (value < 0) ? new Color(1f, 0.3f, 0.3f, 1f) :
+          (value < 3) ? new Color(0.5f, 0.6f, 0.8f, 1f) :
+          (value < 8) ? new Color(0.5f, 0.8f, 1.0f, 1f) :
+          new Color(0.7f, 1.0f, 1.0f, 1f);
+
+        float duration = 1.0f;
+        go.transform.DOLocalMoveY(0.15f, duration).SetRelative(true).Play();
+        DOTween.To(() => t.alpha,
+                   x => { t.alpha = x; },
+                   0f,
+                   duration).SetLink(go).Play();
+        Object.Destroy(go, duration);
+      }
       RecordGameStateLog();
       if (value < 0) {
         _audioSource.PlayOneShot(_whackFailClip);

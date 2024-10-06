@@ -676,6 +676,7 @@ MonoBehaviour:
     molePrefab: {fileID: 3737734631119212219, guid: 6b4a4809b85f54141bbcab04ac31ef69, type: 3}
     spawningClip: {fileID: 8300000, guid: fa06e2104ee6ed7449d12e6920abd40c, type: 3}
     whackedVfx: {fileID: 5283639393330499816, guid: d70ad2b328bd48846bb76edd5c76188b, type: 3}
+  _moleScorePrefab: {fileID: 3737734631119212219, guid: 9c078b79dc4bb4842ad0e4dbb05d447c, type: 3}
   _whackCountDownClip: {fileID: 8300000, guid: 41face6a69466964b9134ea1a812bad8, type: 3}
   _whackSuccessClip: {fileID: 8300000, guid: 62a287d9ba0ebe14f92ffa57f42458d8, type: 3}
   _whackFailClip: {fileID: 8300000, guid: b2371e74888b27e4990bee0e27129e64, type: 3}
