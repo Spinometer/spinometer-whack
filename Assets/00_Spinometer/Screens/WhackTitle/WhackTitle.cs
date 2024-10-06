@@ -1,6 +1,7 @@
 ﻿using GetBack.Spinometer.Screens.WhackGame;
 using R3;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace GetBack.Spinometer.Screens.WhackTitle
 {
@@ -14,7 +15,8 @@ namespace GetBack.Spinometer.Screens.WhackTitle
     
     private AudioSource _audioSource;
 
-    public App app; // injected by App
+    public App _app; // injected by App
+    public App app { set => _app = value; }
 
     private CompositeDisposable _disposables;
 
@@ -28,9 +30,16 @@ namespace GetBack.Spinometer.Screens.WhackTitle
       _disposables = new CompositeDisposable();
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
       _disposables.Dispose();
+    }
+
+    void Update()
+    {
+      if (Keyboard.current.spaceKey.wasPressedThisFrame) {
+        _app.MoveFromTitleToGame();
+      }
     }
   }
 }
