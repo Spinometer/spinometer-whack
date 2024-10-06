@@ -88,4 +88,9 @@
             <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d" entry="Id(81072996361027584)" />
         </Bindings>
     </ui:Button>
+    <ui:Label text="Label" name="comboBonusMultiplier-value" picking-mode="Ignore" style="position: absolute; top: 66px; left: 735px; font-size: 36px; display: flex; -unity-text-align: upper-right; align-items: flex-end; align-self: flex-end; width: 380px;">
+        <Bindings>
+            <ui:DataBinding property="text" data-source-path="comboBonusMultiplierStr" data-source="project://database/Assets/00_Spinometer/Screens/WhackGame/whackGameUiDataSource.asset?fileID=11400000&amp;guid=9d106daeec7772649a6b61e0a7579b8a&amp;type=2#whackGameUiDataSource" binding-mode="ToTarget" />
+        </Bindings>
+    </ui:Label>
 </ui:UXML>

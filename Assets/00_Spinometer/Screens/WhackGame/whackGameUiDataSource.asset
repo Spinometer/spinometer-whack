@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be3b4602aa74a1386763d873d719022, type: 3}
   m_Name: whackGameUiDataSource
   m_EditorClassIdentifier: 
-  timeRemainingStr: 12.3
-  text_ready_opacity: 1
+  timeRemainingStr: 2
+  text_ready_opacity: 0.36413085
   text_ready_scale: {x: 1, y: 1, z: 1}
+  whackingScore: 0
+  alignmentScoreStr: 0.0
+  comboBonusMultiplierStr: asd
+  damageOpacity: 0

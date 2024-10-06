@@ -21,6 +21,11 @@ namespace GetBack.Spinometer.Screens.WhackGame
     {
       set { alignmentScoreStr = $"{value:0.0}"; }
     }
+    public string comboBonusMultiplierStr = "";
+    public int comboBonusMultiplier
+    {
+      set { comboBonusMultiplierStr = value <= 0 ? "" : $"Combo Bonus x{value}"; }
+    }
 
     [FormerlySerializedAs("damageBackgroundOpacity")] public float damageOpacity = 0f;
   }

@@ -52,6 +52,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private float _possibleMaximumAlignmentScore;
     public float comboGuageValue;
     public readonly float maxComboGuageValue = 5f;
+    private int _comboBonusMultiplier = 0;
     public State state => _state;
 
     void Awake()
@@ -80,6 +81,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _alignmentScore = 0f;
       _possibleMaximumAlignmentScore = _initialTime;
       comboGuageValue = 0f;
+      _comboBonusMultiplier = 0;
       _whackGameUiDataSource.whackingScore = _whackingScore;
       _whackGameUiDataSource.alignmentScore = _alignmentScore;
       _state = State.GettingReady;
@@ -100,6 +102,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       }
       switch (_state) {
       case State.GettingReady:
+        UpdateComboBonusMultiplier();
         //whackGameUiDataSource.timeRemaining = initialTime;
         _whackGameUiDataSource.timeRemainingStr = $"{(Mathf.Floor(timeRemaining - initialTime) + 1):0}";
         if (timeRemaining <= initialTime) {
@@ -108,6 +111,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
         }
         break;
       case State.GoingOn:
+        UpdateComboBonusMultiplier();
         float recordFramesPerSecond = 5f;
         if (Mathf.Floor(oldTimeRemaining * recordFramesPerSecond) != Mathf.Floor(timeRemaining * recordFramesPerSecond)) {
           AddReplayEntry();
@@ -186,9 +190,30 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _replayBuffer.entries.Add(entry);
     }
 
+    private void UpdateComboBonusMultiplier()
+    {
+      if (comboGuageValue >= 5.0f - Mathf.Epsilon) {
+        _comboBonusMultiplier = 11;
+      } else if (comboGuageValue >= 4.0f - Mathf.Epsilon) {
+        _comboBonusMultiplier = 7;
+      } else if (comboGuageValue >= 3.0f - Mathf.Epsilon) {
+        _comboBonusMultiplier = 4;
+      } else if (comboGuageValue >= 2.0f - Mathf.Epsilon) {
+        _comboBonusMultiplier = 2;
+      } else if (comboGuageValue >= 1.0f - Mathf.Epsilon) {
+        _comboBonusMultiplier = 1;
+      } else {
+        _comboBonusMultiplier = 0;
+      }
+      _whackGameUiDataSource.comboBonusMultiplier = _comboBonusMultiplier;
+    }
+
     public void AddWhackingScore(int value)
     {
-      _whackingScore += value;
+      int bonusMultiplier = (value <= 0) ? 0 : _comboBonusMultiplier;
+      int bonus = bonusMultiplier * value;
+      _possibleMaximumWhackingScore += bonus;
+      _whackingScore += value + bonus;
       _whackGameUiDataSource.whackingScore = _whackingScore;
       RecordGameStateLog();
       if (value < 0) {
