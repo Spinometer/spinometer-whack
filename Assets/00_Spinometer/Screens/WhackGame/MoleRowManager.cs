@@ -43,6 +43,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private MolePresenter.Options _presenterOptions;
     private List<MoleRow> _moleRows = new();
     private SpawnerStrategyStack _spawnerStrategyStack = new();
+    private Dictionary<char, bool> _occupiedHeadChars = new();
 
     public MoleRowManager(WhackGame whackGame, AudioSource audioSource, Options options, MolePresenter.Options presenterOptions)
     {
@@ -99,6 +100,18 @@ namespace GetBack.Spinometer.Screens.WhackGame
         HandleKeyboardInput();
       }
 
+      // update occupied head chars
+      {
+        // FIXME:  improve performance
+        _occupiedHeadChars.Clear();
+        foreach (var moleRow in _moleRows) {
+          if (moleRow.hasExclusiveFocus)
+            continue;
+          char ch = moleRow.FirstChar;
+          _occupiedHeadChars[Char.ToLower(ch)] = true;
+        }
+      }
+
       // update focus
       if (AnyMoleRowHasExclusiveFocus()) {
         foreach (var moleRow in _moleRows) {
@@ -148,13 +161,25 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     public void SpawnMoleRaw(double currentTime, Options options)
     {
+      if (_occupiedHeadChars.Count >= 26)
+        return;
+
       int textLength = Random.Range(options.textLengthMin, options.textLengthMax);
       char RandomChar()
       {
         bool uppercase = Random.Range(0, 2) == 0;
         return (char)(uppercase ? Random.Range('A', 'Z' + 1) : Random.Range('a', 'z' + 1));
       }
-      var text = String.Join("", Enumerable.Range(0, textLength).Select(i => RandomChar()));
+      char RandomFirstChar()
+      {
+        for (;;) {
+          var ch = RandomChar();
+          if (!_occupiedHeadChars.ContainsKey(Char.ToLower(ch)))
+            return ch;
+        }
+      }
+
+      var text = RandomFirstChar() + String.Join("", Enumerable.Range(1, textLength).Select(i => RandomChar()));
       MoleRow.SpawnOptions spawnOptions = new MoleRow.SpawnOptions {
         presenterOptions = _presenterOptions,
         text = text,
