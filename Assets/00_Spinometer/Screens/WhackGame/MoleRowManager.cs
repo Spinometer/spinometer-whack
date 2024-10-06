@@ -99,6 +99,22 @@ namespace GetBack.Spinometer.Screens.WhackGame
         HandleKeyboardInput();
       }
 
+      // update focus
+      if (AnyMoleRowHasExclusiveFocus()) {
+        foreach (var moleRow in _moleRows) {
+          if (moleRow.hasExclusiveFocus) {
+            moleRow.hasFocus = true;
+          } else {
+            moleRow.hasFocus = false;
+            moleRow.hasExclusiveFocus = false;
+          }
+        }
+      } else {
+        foreach (var moleRow in _moleRows) {
+          moleRow.hasFocus = !moleRow.IsEmpty;
+        }
+      }
+
       foreach (var moleRow in _moleRows) {
         moleRow.NextTick(currentTime, deltaTime);
       }
@@ -114,7 +130,12 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private void HandleKeyboardInput()
     {
       bool hit = false;
+      bool anyExclusive = AnyMoleRowHasExclusiveFocus();
       foreach (var moleRow in _moleRows) {
+        bool hasFocus = (anyExclusive && moleRow.hasExclusiveFocus) ||
+                        (!anyExclusive && moleRow.hasFocus);
+        if (!hasFocus)
+          continue;
         char ch = moleRow.FirstChar;
         if (((KeyControl)Keyboard.current[$"{ch}"]).wasPressedThisFrame) { 
           moleRow.WhackFirstMole();
@@ -146,7 +167,14 @@ namespace GetBack.Spinometer.Screens.WhackGame
         vulnerableTime = Random.Range(options.vulnerableTimeMin, options.vulnerableTimeMax)
       };
       var moleRow = new MoleRow(spawnOptions, currentTime, _whackGame, this, _audioSource);
+      moleRow.hasFocus = !AnyMoleRowHasExclusiveFocus();
+      moleRow.hasExclusiveFocus = false;
       _moleRows.Add(moleRow);
+    }
+
+    public bool AnyMoleRowHasExclusiveFocus()
+    {
+      return _moleRows.Any(moleRow => moleRow.hasExclusiveFocus);
     }
 
     private void RemoveMoleRow(int index)

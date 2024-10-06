@@ -72,7 +72,6 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     private void SpawnBurst(double currentTime)
     {
       _moleRowManager.PushSpawnerStrategy(MoleRowManager.SpawnerStrategy.burst, currentTime);
-      _moleRowManager.PushSpawnerStrategy(MoleRowManager.SpawnerStrategy.burst, currentTime);
       _spawnNextAt = currentTime + 5.0;
     }
   }
