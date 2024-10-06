@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace GetBack.Spinometer.Screens.WhackGame
 {
-  public class MoleManager : IDisposable
+  public class MoleRowManager : IDisposable
   {
     public enum SpawnerStrategy {
       periodic,
@@ -46,13 +46,13 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private List<Mole> _moles = new List<Mole>();
     private SpawnerStrategyStack _spawnerStrategyStack = new();
 
-    public MoleManager(WhackGame whackGame, AudioSource audioSource, Options options, MolePresenter.Options presenterOptions)
+    public MoleRowManager(WhackGame whackGame, AudioSource audioSource, Options options, MolePresenter.Options presenterOptions)
     {
       _whackGame = whackGame;
       _audioSource = audioSource;
       _options = options;
       _presenterOptions = presenterOptions;
-      _presenterOptions.moleManager = this;
+      _presenterOptions.MoleRowManager = this;
     }
 
     public WhackGame whackGame => _whackGame;

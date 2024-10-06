@@ -8,7 +8,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 {
   public class BurstSS : ISpawnerStrategy
   {
-    private MoleManager _moleManager;
+    private MoleRowManager _moleRowManager;
     private double _burstStartedAt;
     private double _burstEndsAt;
     private bool _isDone;
@@ -18,9 +18,9 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 
     private const double durationPerBurst = 4.0;
 
-    public BurstSS(MoleManager moleManager)
+    public BurstSS(MoleRowManager moleRowManager)
     {
-      _moleManager = moleManager;
+      _moleRowManager = moleRowManager;
       _burstStartedAt = 0;
       _burstEndsAt = 0;
       _burstCountLeft = 0;
@@ -56,7 +56,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       _burstEndsAt = currentTime + durationPerBurst;
       _isDone = false;
 
-      var options = _moleManager.options;
+      var options = _moleRowManager.options;
       options.spawnBoundary1 = new Vector3(options.spawnBoundary1.x - 0.8f, 0f, 0f);
       options.forceVelocity = true;
       //options.velocity = Random.insideUnitCircle.normalized * 0.03f;
@@ -67,7 +67,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       options.vulnerableTimeMax = 4f;
 
       for (int i = 0; i < 5; i++) {
-        var mole = _moleManager.Spawn(currentTime, options);
+        var mole = _moleRowManager.Spawn(currentTime, options);
         options.spawnBoundary0 = mole.position + new Vector3(mole.size, 0f, 0f) * 0.65f;
         options.spawnBoundary1 = options.spawnBoundary0;
         options.vulnerableTimeMin = (float)(mole.activeUntil - currentTime);

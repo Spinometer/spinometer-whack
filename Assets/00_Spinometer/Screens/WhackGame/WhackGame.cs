@@ -3,6 +3,7 @@ using DG.Tweening;
 using R3;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
+using UnityEngine.Serialization;
 
 namespace GetBack.Spinometer.Screens.WhackGame
 {
@@ -15,7 +16,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
     [SerializeField] private TrackerNeuralNet _tracker;
     [SerializeField] private WebCam _webcam;
     [SerializeField] private float _initialTime = 10f;
-    [SerializeField] private MoleManager.Options _managerOptions;
+    [FormerlySerializedAs("_managerOptions")]
+    [SerializeField] private MoleRowManager.Options _moleRowManagerOptions;
     [SerializeField] private MolePresenter.Options _presenterOptions;
     [SerializeField] private AudioClip _whackCountDownClip;
     [SerializeField] private AudioClip _whackSuccessClip;
@@ -30,7 +32,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private float _timeRemaining;
     public float timeRemaining => _timeRemaining;
 
-    private MoleManager _moleManager;
+    private MoleRowManager _moleRowManager;
 
     private CompositeDisposable _disposables;
 
@@ -58,14 +60,14 @@ namespace GetBack.Spinometer.Screens.WhackGame
     {
       _disposables = new CompositeDisposable();
       _presenterOptions.whackGame = this;
-      _moleManager = new MoleManager(this, _audioSource, _managerOptions, _presenterOptions);
-      _moleManager.AddTo(_disposables);
+      _moleRowManager = new MoleRowManager(this, _audioSource, _moleRowManagerOptions, _presenterOptions);
+      _moleRowManager.AddTo(_disposables);
     }
 
     private void OnDisable()
     {
       _disposables.Dispose();
-      _moleManager = null;
+      _moleRowManager = null;
     }
 
     void Start()
@@ -85,7 +87,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     void Update()
     {
-      _moleManager.NextTick(Time.timeAsDouble, Time.deltaTime);
+      _moleRowManager.NextTick(Time.timeAsDouble, Time.deltaTime);
 
       var oldTimeRemaining = timeRemaining;
       _timeRemaining -= Time.deltaTime;

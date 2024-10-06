@@ -5,11 +5,11 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 {
   public class RandomSS : ISpawnerStrategy
   {
-    private MoleManager _manager;
+    private MoleRowManager _rowManager;
 
-    public RandomSS(MoleManager manager)
+    public RandomSS(MoleRowManager rowManager)
     {
-      _manager = manager;
+      _rowManager = rowManager;
     }
 
     void IDisposable.Dispose()
@@ -24,7 +24,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     void ISpawnerStrategy.NextTick(double currentTime, float deltaTime)
     {
       if (Random.value < deltaTime) {
-        _manager.Spawn(currentTime);
+        _rowManager.Spawn(currentTime);
       }
     }
   }

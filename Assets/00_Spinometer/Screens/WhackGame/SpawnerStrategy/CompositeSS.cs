@@ -12,15 +12,15 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       public float difficulty;
     }
 
-    private MoleManager _moleManager;
+    private MoleRowManager _moleRowManager;
     private WhackGame _whackGame;
     private Options _options;
 
-    public CompositeSS(MoleManager moleManager, Options options)
+    public CompositeSS(MoleRowManager moleRowManager, Options options)
     {
       _options = options;
-      _moleManager = moleManager;
-      _whackGame = _moleManager.whackGame;
+      _moleRowManager = moleRowManager;
+      _whackGame = _moleRowManager.whackGame;
     }
 
     void IDisposable.Dispose()
@@ -39,7 +39,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 
     private void TryPushNewSpawnerStrategy()
     {
-      if (this != _moleManager.strategyStack.Peek()) {
+      if (this != _moleRowManager.strategyStack.Peek()) {
         // previous strategy is running, skip this tick
         return;
       }
@@ -51,13 +51,13 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 
       if (_whackGame.timeRemaining < 4f) {
         // likewise, but quick spawner strategy can be used here
-        _moleManager.PushSpawnerStrategy(MoleManager.SpawnerStrategy.periodic);
+        _moleRowManager.PushSpawnerStrategy(MoleRowManager.SpawnerStrategy.periodic);
         return;
       }
 
       var difficulty = 1.0f - (_whackGame.timeRemaining / _whackGame.initialTime);
-      var strategy = difficulty < Mathf.Pow(Random.value, _options.difficulty) ? MoleManager.SpawnerStrategy.periodic : MoleManager.SpawnerStrategy.burst;
-      _moleManager.PushSpawnerStrategy(strategy);
+      var strategy = difficulty < Mathf.Pow(Random.value, _options.difficulty) ? MoleRowManager.SpawnerStrategy.periodic : MoleRowManager.SpawnerStrategy.burst;
+      _moleRowManager.PushSpawnerStrategy(strategy);
     }
   }
 }
