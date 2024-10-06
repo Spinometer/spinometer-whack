@@ -64,7 +64,6 @@ namespace GetBack.Spinometer.Screens.WhackResult
         using (Draw.ingame.WithLineWidth(1f)) {
           Draw.ingame.Line(new Vector3(gameStateLog.timeRemainingMin, 0f, 0f),
                            new Vector3(gameStateLog.timeRemainingMax, 0f, 0f));
-          Draw.ingame.Circle(new Vector3(gameStateLog.timeRemainingMin, 1f, 0f), Vector3.back, 0.1f);
 
           {
             using (Draw.ingame.WithColor(Color.white)) {
