@@ -2,6 +2,7 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.VFX;
 using Object = UnityEngine.Object;
 
 namespace GetBack.Spinometer.Screens.WhackGame
@@ -14,17 +15,21 @@ namespace GetBack.Spinometer.Screens.WhackGame
       public WhackGame whackGame;
       public MoleRowManager MoleRowManager;
       public GameObject molePrefab;
+      public AudioClip spawningClip;
+      public GameObject whackedVfx;
     }
 
     private Options _options;
     private GameObject _moleGO;
     private Mole _mole;
+    private AudioSource _audioSource;
 
-    internal MolePresenter(Options options, Mole mole)
+    internal MolePresenter(Options options, Mole mole, AudioSource audioSource)
     {
       _options = options;
       _mole = mole;
       _mole.presenter = this;
+      _audioSource = audioSource;
       _moleGO = Object.Instantiate(_options.molePrefab, _mole.position, Quaternion.identity);
       _moleGO.transform.localScale = new Vector3(_mole.size / _mole.aspectRatio, _mole.size * _mole.aspectRatio, _mole.size);
       var t = _moleGO.GetComponentInChildren<TextMeshProUGUI>();
@@ -48,6 +53,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
                             duration).SetLink(_moleGO);
         tw.Play();
       }
+      _audioSource.PlayOneShot(_options.spawningClip, 0.5f);
     }
 
     public GameObject moleGO()
@@ -81,6 +87,16 @@ namespace GetBack.Spinometer.Screens.WhackGame
                           1f).SetLink(_moleGO);
       tw.Play();
       _mole.activeUntil = Time.timeAsDouble + 1.0;
+
+      {
+        // vfx stuff
+        var vfxOffset = Vector3.down * _mole.size * 0.3f;
+        var pos0 = _mole.presenter.moleGO().transform.position;
+        var go = Object.Instantiate(_options.whackedVfx, pos0 + vfxOffset, Quaternion.identity);
+        var vfx = go.GetComponent<VisualEffect>();
+        vfx.SetFloat("moleSize", Mathf.Sqrt(_mole.size));
+        Object.Destroy(go, 2.0f);
+      }
     }
 
     void IDisposable.Dispose()

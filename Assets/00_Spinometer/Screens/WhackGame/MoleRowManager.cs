@@ -5,8 +5,6 @@ using GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
-using UnityEngine.VFX;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace GetBack.Spinometer.Screens.WhackGame
@@ -35,8 +33,6 @@ namespace GetBack.Spinometer.Screens.WhackGame
       public float aspectRatioMax; // = 1.1f;
       public float vulnerableTimeMin; // = 0.6f;
       public float vulnerableTimeMax; // = 1.0f;
-      public AudioClip spawningClip;
-      public GameObject whackedVfx;
     }
 
     private WhackGame _whackGame;
@@ -135,14 +131,6 @@ namespace GetBack.Spinometer.Screens.WhackGame
       var mole = _moles[index];
       mole.alive = false;
       mole.presenter.Whacked();
-
-      // FIXME: vfx stuff should be done in presenter 
-      var vfxOffset = Vector3.down * mole.size * 0.3f;
-      var pos0 = mole.presenter.moleGO().transform.position;
-      var go = Object.Instantiate(_options.whackedVfx, pos0 + vfxOffset, Quaternion.identity);
-      var vfx = go.GetComponent<VisualEffect>();
-      vfx.SetFloat("moleSize", Mathf.Sqrt(mole.size));
-      Object.Destroy(go, 2.0f);
     }
 
     public Mole Spawn(double currentTime)
@@ -167,10 +155,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
         activeUntil = currentTime + Random.Range(options.vulnerableTimeMin, options.vulnerableTimeMax)
       };
       _moles.Insert(0, mole); // Insert() instead of Add() to ensure whacking is applied to oldest moles first
-      mole.presenter = new MolePresenter(_presenterOptions, mole);
+      mole.presenter = new MolePresenter(_presenterOptions, mole, _audioSource);
       _whackGame.AddPossibleMaximumWhackingScore(mole.score);
-      // FIXME: audio stuff should be done in presenter 
-      _audioSource.PlayOneShot(_options.spawningClip, 0.5f);
       return mole;
     }
 
