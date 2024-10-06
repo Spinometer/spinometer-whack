@@ -13,5 +13,6 @@ namespace GetBack.Spinometer.Screens.WhackGame
     public bool alive;
     public double activeUntil;
     public IMolePresenter presenter;
+    public bool hasFocus;
   }
 }

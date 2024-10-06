@@ -1,6 +1,8 @@
 ﻿using System;
 using DG.Tweening;
+using Drawing;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.VFX;
 using Object = UnityEngine.Object;
@@ -49,7 +51,10 @@ namespace GetBack.Spinometer.Screens.WhackGame
         var pos0 = tr.localPosition;
         var pos1 = pos0 + mole.velocity * duration;
         var tw = DOTween.To(() => tr.localPosition,
-                            x => { tr.localPosition = x; },
+                            x => {
+                              _mole.position = x;
+                              tr.localPosition = x;
+                            },
                             pos1,
                             duration).SetLink(_moleGO);
         tw.Play();
@@ -69,12 +74,27 @@ namespace GetBack.Spinometer.Screens.WhackGame
       case WhackGame.State.GettingReady:
         break;
       case WhackGame.State.GoingOn:
+        if (_mole.hasFocus) {
+          DrawCursor(_mole);
+        }
         break;
       case WhackGame.State.Finished:
         break;
       default:
         _options.moleRow.RemoveMole(_mole);
         break;
+      }
+    }
+
+    private void DrawCursor(Mole mole)
+    {
+      Vector3 center = mole.position;
+      float width = mole.size * 0.6f;
+      float height = mole.size * 1.0f;
+      using (Draw.ingame.WithColor(Color.white)) {
+        Draw.ingame.WireRectangle((float3)center,
+                                  Quaternion.AngleAxis(90f, Vector3.right),
+                                  new Vector2(width, height));
       }
     }
 

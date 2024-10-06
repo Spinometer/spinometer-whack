@@ -54,6 +54,18 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     public void NextTick(double currentTime, float deltaTime)
     {
+      {
+        bool foundFirstActiveMole = false;
+        foreach (var mole in _moles) {
+          if (mole.alive && !foundFirstActiveMole) {
+            foundFirstActiveMole = true;
+            mole.hasFocus = true;
+          } else {
+            mole.hasFocus = false;
+          }
+        }
+      }
+
       for (int i = _moles.Count - 1; i >= 0; i--) {
         var mole = _moles[i];
         mole.presenter.NextTick(currentTime, deltaTime);
