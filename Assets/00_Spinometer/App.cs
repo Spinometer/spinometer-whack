@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using GetBack.Spinometer.Screens.WhackGame;
+using GetBack.Spinometer.Screens.WhackResult;
 using GetBack.Spinometer.Screens.WhackTitle;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -304,7 +305,7 @@ namespace GetBack.Spinometer
       if (!SceneLoaded(_sceneName_whackResult)) {
         await SceneManager.LoadSceneAsync(_sceneName_whackResult, LoadSceneMode.Additive);
       }
-      //GameObject.Find("/WhackResult")?.GetComponent<WhackResult>().app = this;
+      GameObject.Find("/WhackResultScreen").GetComponent<WhackResultScreen>().app = this;
       var uidoc = GameObject.Find("/WhackResultUIDocument")?.GetComponent<UIDocument>();
       if (uidoc != null) {
         {

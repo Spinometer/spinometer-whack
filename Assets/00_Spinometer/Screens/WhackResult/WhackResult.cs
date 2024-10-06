@@ -21,7 +21,8 @@ namespace GetBack.Spinometer.Screens.WhackResult
     [SerializeField] private Renderer _webcamPlane;
     [SerializeField] private AudioClip _bang0Clip;
     [SerializeField] private AudioClip _bang1Clip;
-
+ 
+    private App _app; // injected by App
     private AudioSource _audioSource;
 
     public enum State
@@ -36,6 +37,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
     State _state;
     private float _playbackSpeed;
     private float _seekPosition = 0f;
+    public App app { set => _app = value; }
 
     private void Awake()
     {
@@ -167,6 +169,10 @@ namespace GetBack.Spinometer.Screens.WhackResult
     {
       _scoreGraphRenderer.Render();
       _scoreGraphRenderer.DrawCursor(_seekPosition);
+
+      if (Keyboard.current.rKey.wasPressedThisFrame) {
+        _app.MoveFromResultToTitle();
+      }
 
       if (Keyboard.current.enterKey.wasPressedThisFrame ||
           Keyboard.current.spaceKey.wasPressedThisFrame) {
