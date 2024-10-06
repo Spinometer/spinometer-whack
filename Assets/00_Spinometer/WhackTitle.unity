@@ -579,7 +579,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543946791}
-  - component: {fileID: 543946792}
   - component: {fileID: 543946793}
   - component: {fileID: 543946794}
   m_Layer: 0
@@ -604,20 +603,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &543946792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 543946789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e28afeb76ba249ed9524be4ba79e76a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _whackGameUiDataSource: {fileID: 11400000, guid: 9d106daeec7772649a6b61e0a7579b8a, type: 2}
-  _uidoc: {fileID: 1822691517}
 --- !u!82 &543946793
 AudioSource:
   m_ObjectHideFlags: 0
@@ -732,7 +717,7 @@ MonoBehaviour:
   _whackGameUiDataSource: {fileID: 11400000, guid: 9d106daeec7772649a6b61e0a7579b8a, type: 2}
   _tracker: {fileID: 2074200215}
   _webcam: {fileID: 1004904243}
-  app: {fileID: 0}
+  _app: {fileID: 0}
 --- !u!4 &606120420 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400052, guid: 314cd33b23684e24694478173d618d90, type: 3}
