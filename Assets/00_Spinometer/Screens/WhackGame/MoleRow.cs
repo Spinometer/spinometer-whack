@@ -25,6 +25,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private readonly MoleRowManager _moleRowManager;
     private readonly AudioSource _audioSource;
     private List<Mole> _moles = new();
+    private int _numInitialMoles;
+    private int _numWhackedMoles;
     private CancellationTokenSource _cts = new();
 
     public bool hasFocus;
@@ -76,6 +78,9 @@ namespace GetBack.Spinometer.Screens.WhackGame
         var mole = _moles[i];
         mole.presenter.NextTick(currentTime, deltaTime);
         if (mole.activeUntil < currentTime) {
+          if (mole.alive) {
+            _whackGame.MoleMissed();
+          }
           RemoveMole(i);
         }
       }
@@ -83,6 +88,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     private async void SpawnMoles(double currentTime, SpawnOptions options)
     {
+      _numInitialMoles = options.text.Length;
+      _numWhackedMoles = 0;
       options.presenterOptions.moleRow = this;
       float strideX = options.size * 0.65f;
       float offsetX0 = strideX * options.text.Length * -0.5f;
@@ -145,9 +152,14 @@ namespace GetBack.Spinometer.Screens.WhackGame
       mole.alive = false;
       mole.presenter.Whacked();
 
+      _numWhackedMoles++;
+
       if (IsEmpty) {
         hasFocus = false;
         hasExclusiveFocus = false;
+        if (_numInitialMoles == _numWhackedMoles) {
+          _whackGame.WholeRowEliminated();
+        }
       } else {
         hasFocus = true;
         hasExclusiveFocus = true;

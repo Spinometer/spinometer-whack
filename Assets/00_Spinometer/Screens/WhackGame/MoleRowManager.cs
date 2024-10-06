@@ -157,6 +157,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
           return;
         }
       }
+      _whackGame.MoleMissed();
       _whackGame.AddWhackingScore(-1);
     }
 

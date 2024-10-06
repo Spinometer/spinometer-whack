@@ -50,6 +50,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private int _possibleMaximumWhackingScore;
     private float _alignmentScore;
     private float _possibleMaximumAlignmentScore;
+    public float comboGuageValue;
+    public readonly float maxComboGuageValue = 5f;
     public State state => _state;
 
     void Awake()
@@ -77,6 +79,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _possibleMaximumWhackingScore = 0;
       _alignmentScore = 0f;
       _possibleMaximumAlignmentScore = _initialTime;
+      comboGuageValue = 0f;
       _whackGameUiDataSource.whackingScore = _whackingScore;
       _whackGameUiDataSource.alignmentScore = _alignmentScore;
       _state = State.GettingReady;
@@ -209,6 +212,16 @@ namespace GetBack.Spinometer.Screens.WhackGame
     {
       _possibleMaximumWhackingScore += moleScore;
       RecordGameStateLog();
+    }
+
+    public void WholeRowEliminated()
+    {
+      comboGuageValue = Mathf.Min(maxComboGuageValue, comboGuageValue + 0.5f);
+    }
+
+    public void MoleMissed()
+    {
+      comboGuageValue = Mathf.Max(0f, comboGuageValue - 3f);
     }
   }
 }
