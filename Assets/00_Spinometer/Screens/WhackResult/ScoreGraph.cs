@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Drawing;
 using GetBack.Spinometer.SpinalAlignmentCore;
 using UnityEngine;
@@ -119,12 +120,20 @@ namespace GetBack.Spinometer.Screens.WhackResult
 
     private void RenderGroup(SpinalAlignment.RelativeAngleId[] group0, Color color)
     {
+
+      float Or0(Dictionary<SpinalAlignment.RelativeAngleId, float> scores, SpinalAlignment.RelativeAngleId id)
+      {
+        return scores.ContainsKey(id) ? scores[id] : 0f;
+      }
+
       using (Draw.ingame.WithColor(color)) {
         var e0 = replayBuffer.entries[0];
-        var s0 = group0.Select(id => e0.spinalAlignmentScore.scores[id]).Average();
+        var scores0 = e0.spinalAlignmentScore.scores;
+        var s0 = group0.Select(id => Or0(scores0, id)).Average();
         for (int i = 1; i < replayBuffer.entries.Count; i++) {
           var e1 = replayBuffer.entries[i];
-          var s1 = group0.Select(id => e1.spinalAlignmentScore.scores[id]).Average();
+          var scores1 = e1.spinalAlignmentScore.scores;
+          var s1 = group0.Select(id => Or0(scores1, id)).Average();
           Draw.ingame.Circle(new Vector3(e1.timeRemaining, s1, 0f), Vector3.back, 0.01f);
           Draw.ingame.Line(new Vector3(e0.timeRemaining, s0, 0f), new Vector3(e1.timeRemaining, s1, 0f));
           e0 = e1;
