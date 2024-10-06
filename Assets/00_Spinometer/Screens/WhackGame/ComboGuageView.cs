@@ -1,4 +1,7 @@
-﻿using Drawing;
+﻿using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
+using Drawing;
 using UnityEngine;
 
 namespace GetBack.Spinometer.Screens.WhackGame
@@ -9,6 +12,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     private Transform _tr;
     private float _value = 0f;
+    private float _delayedValue = 0f;
+    TweenerCore<float, float, FloatOptions> _tween = null;
 
     void Awake()
     {
@@ -17,14 +22,20 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     void Start()
     {
-      _value = _whackGame.comboGuageValue;
+      Reset(_whackGame.comboGuageValue);
     }
 
     void Update()
     {
       float newValue = _whackGame.comboGuageValue;
-      if (_value != newValue)
+      if (_value != newValue) {
+        KillTween();
+        _delayedValue = _value;
         _value = newValue;
+        _tween = DOTween.To(() => _delayedValue, x => _delayedValue = x, _value, 0.5f).SetLink(gameObject);
+        _tween.onComplete += () => _tween = null;
+        _tween.Play();
+      }
 
       float normalizedValue = _value / _whackGame.maxComboGuageValue;
 
@@ -33,8 +44,24 @@ namespace GetBack.Spinometer.Screens.WhackGame
       using (Draw.ingame.WithColor(Color.gray)) {
         DrawRegion(y0, normalizedValue, 1f);
       }
-      using (Draw.ingame.WithColor(Color.cyan)) {
-        DrawRegion(y0, 0f, normalizedValue);
+
+      {
+        float v1 = normalizedValue;
+        if (_delayedValue < _value) {
+          v1 = _delayedValue / _whackGame.maxComboGuageValue;
+          using (Draw.ingame.WithColor(Color.green)) {
+            DrawRegion(y0, v1, normalizedValue);
+          }
+        }
+        if (_delayedValue > _value) {
+          float v1_ = _delayedValue / _whackGame.maxComboGuageValue;
+          using (Draw.ingame.WithColor(Color.red)) {
+            DrawRegion(y0, normalizedValue, v1_);
+          }
+        }
+        using (Draw.ingame.WithColor(Color.cyan)) {
+          DrawRegion(y0, 0f, v1);
+        }
       }
       using (Draw.ingame.WithColor(Color.black)) {
         for (int i = 1; i <= Mathf.Floor(_whackGame.maxComboGuageValue - 0.001f); i++) {
@@ -67,7 +94,18 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     public void Reset(float value)
     {
+      KillTween();
       _value = value;
+      _delayedValue = _value;
+    }
+
+    private void KillTween()
+    {
+      if (_tween == null)
+        return;
+      if (_tween.active)
+        _tween.Complete();
+      _tween = null;
     }
   }
 }
