@@ -7,13 +7,15 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 {
   public class BurstSS : ISpawnerStrategy
   {
+    private Settings _settings;
     private MoleRowManager _moleRowManager;
 
     private CancellationTokenSource _cts;
 
 
-    public BurstSS(MoleRowManager moleRowManager, double currentTime)
+    public BurstSS(Settings settings, MoleRowManager moleRowManager, double currentTime)
     {
+      _settings = settings;
       _moleRowManager = moleRowManager;
       StartBurst(currentTime);
     }
@@ -35,15 +37,16 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     {
       var options = _moleRowManager.options;
       options.spawnBoundary1 = new Vector3(options.spawnBoundary1.x - 0.8f, 0f, 0f);
-      options.textLengthMin = 5;
-      options.textLengthMax = 8;
+      options.textLengthMin = (int)(5 * _settings.textLengthMultiplier);
+      options.textLengthMax = (int)(8 * _settings.textLengthMultiplier);
+      options.textLengthMin = options.textLengthMin <= 0 ? 1 : options.textLengthMin;
+      options.textLengthMax = options.textLengthMax <= 0 ? 1 : options.textLengthMax;
       options.forceVelocity = true;
-      //options.velocity = Random.insideUnitCircle.normalized * 0.03f;
-      options.velocity = Random.insideUnitCircle.normalized * 0.12f;
-      options.sizeMin = 0.070f;
-      options.sizeMax = 0.080f;
-      options.vulnerableTimeMin = 3f;
-      options.vulnerableTimeMax = 4f;
+      options.velocity = Random.insideUnitCircle.normalized * (0.12f * _settings.velocityMultiplier);
+      options.sizeMin = 0.070f * _settings.textSizeMultiplier;
+      options.sizeMax = 0.080f * _settings.textSizeMultiplier;
+      options.vulnerableTimeMin = 3f * _settings.timeMultiplier;
+      options.vulnerableTimeMax = 4f * _settings.timeMultiplier;
 
       _moleRowManager.SpawnMoleRaw(currentTime, options);
     }

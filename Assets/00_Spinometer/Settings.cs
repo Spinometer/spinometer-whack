@@ -49,7 +49,28 @@ namespace GetBack.Spinometer
     public int opt_difficulty_exposingDuration = 0;
     public int opt_difficulty_motion = 0;
     public int opt_difficulty_textSize = 0;
-    
+
+    public float timeMultiplier
+    {
+      get => 4.0f / (1 + opt_difficulty_exposingDuration);
+    }
+
+    public float textLengthMultiplier
+    {
+      get => (1 + opt_difficulty_exposingDuration) / 4.0f;
+    }
+
+    public float velocityMultiplier
+    {
+      get => (1 + opt_difficulty_motion) / 4.0f;
+    }
+
+    public float textSizeMultiplier
+    {
+      get => 4.0f / (1 + opt_difficulty_textSize);
+    }
+
+
     public void Awake()
     {
       opt_webCamDeviceNameList.Clear();
@@ -97,6 +118,12 @@ namespace GetBack.Spinometer
       opt_difficulty_exposingDuration = PlayerPrefs.GetInt("opt_difficulty_exposingDuration", 0);
       opt_difficulty_motion = PlayerPrefs.GetInt("opt_difficulty_motion", 0);
       opt_difficulty_textSize = PlayerPrefs.GetInt("opt_difficulty_textSize", 0);
+
+      Debug.Log("difficulty:");
+      Debug.Log($"  timeMultiplier = {timeMultiplier}");
+      Debug.Log($"  textLengthMultiplier = {textLengthMultiplier}");
+      Debug.Log($"  velocityMultiplier = {velocityMultiplier}");
+      Debug.Log($"  textSizeMultiplier = {textSizeMultiplier}");
 
       Debug.Log("Settings#LoadSettings(): done.");
     }

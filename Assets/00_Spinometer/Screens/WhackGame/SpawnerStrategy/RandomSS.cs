@@ -7,7 +7,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
   {
     private MoleRowManager _moleRowManager;
 
-    public RandomSS(MoleRowManager moleRowManager)
+    public RandomSS(Settings settings, MoleRowManager moleRowManager)
     {
       _moleRowManager = moleRowManager;
     }

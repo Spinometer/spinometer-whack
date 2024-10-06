@@ -12,14 +12,16 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       public float difficulty;
     }
 
+    private Settings _settings;
     private MoleRowManager _moleRowManager;
     private WhackGame _whackGame;
     private Options _options;
     private double _spawnNextAt;
 
-    public CompositeSS(MoleRowManager moleRowManager, double currentTime, Options options)
+    public CompositeSS(Settings settings, MoleRowManager moleRowManager, double currentTime, Options options)
     {
       _options = options;
+      _settings = settings;
       _moleRowManager = moleRowManager;
       _whackGame = _moleRowManager.whackGame;
       _spawnNextAt = currentTime;
@@ -66,13 +68,13 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     private void SpawnSingleShot(double currentTime)
     {
       _moleRowManager.PushSpawnerStrategy(MoleRowManager.SpawnerStrategy.periodic, currentTime);
-      _spawnNextAt = currentTime + Random.value * 1.2f;
+      _spawnNextAt = currentTime + Random.value * 1.2f * _settings.timeMultiplier;
     }
 
     private void SpawnBurst(double currentTime)
     {
       _moleRowManager.PushSpawnerStrategy(MoleRowManager.SpawnerStrategy.burst, currentTime);
-      _spawnNextAt = currentTime + Random.value * 5.0f;
+      _spawnNextAt = currentTime + Random.value * 5.0f * _settings.timeMultiplier;
     }
   }
 }

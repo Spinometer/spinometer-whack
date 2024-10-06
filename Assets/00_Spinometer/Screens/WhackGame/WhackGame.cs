@@ -9,6 +9,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
 {
   public class WhackGame : MonoBehaviour
   {
+    [SerializeField] private Settings _settings;
     [SerializeField] private GameStateLog _gameStateLog;
     [SerializeField] private ReplayBuffer _replayBuffer;
     [SerializeField] private UiDataSource _uiDataSource;
@@ -60,7 +61,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     {
       _disposables = new CompositeDisposable();
       _presenterOptions.whackGame = this;
-      _moleRowManager = new MoleRowManager(this, _audioSource, _moleRowManagerOptions, _presenterOptions);
+      _moleRowManager = new MoleRowManager(_settings, this, _audioSource, _moleRowManagerOptions, _presenterOptions);
       _moleRowManager.AddTo(_disposables);
     }
 

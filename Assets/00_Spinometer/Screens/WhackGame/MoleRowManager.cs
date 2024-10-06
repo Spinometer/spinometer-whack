@@ -37,6 +37,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       public float vulnerableTimeMax; // = 1.0f;
     }
 
+    private Settings _settings;
     private WhackGame _whackGame;
     private AudioSource _audioSource;
     private Options _options;
@@ -45,8 +46,9 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private SpawnerStrategyStack _spawnerStrategyStack = new();
     private Dictionary<char, bool> _occupiedHeadChars = new();
 
-    public MoleRowManager(WhackGame whackGame, AudioSource audioSource, Options options, MolePresenter.Options presenterOptions)
+    public MoleRowManager(Settings settings, WhackGame whackGame, AudioSource audioSource, Options options, MolePresenter.Options presenterOptions)
     {
+      _settings = settings;
       _whackGame = whackGame;
       _audioSource = audioSource;
       _options = options;
@@ -63,10 +65,10 @@ namespace GetBack.Spinometer.Screens.WhackGame
     public void PushSpawnerStrategy(SpawnerStrategy strategyEnum, double currentTime)
     {
       ISpawnerStrategy ss = strategyEnum switch {
-        SpawnerStrategy.periodic => new PeriodicSS(this, currentTime),
-        SpawnerStrategy.random => new RandomSS(this),
-        SpawnerStrategy.burst => new BurstSS(this, currentTime),
-        SpawnerStrategy.composite => new CompositeSS(this, currentTime, _options.compositeSSOptions)
+        SpawnerStrategy.periodic => new PeriodicSS(_settings, this, currentTime),
+        SpawnerStrategy.random => new RandomSS(_settings, this),
+        SpawnerStrategy.burst => new BurstSS(_settings, this, currentTime),
+        SpawnerStrategy.composite => new CompositeSS(_settings, this, currentTime, _options.compositeSSOptions)
       };
       _spawnerStrategyStack.Push(ss);
     }
