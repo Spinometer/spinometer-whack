@@ -152,7 +152,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       char RandomChar()
       {
         bool uppercase = Random.Range(0, 2) == 0;
-        return (char)(uppercase ? Random.Range('A', 'Z') : Random.Range('a', 'z'));
+        return (char)(uppercase ? Random.Range('A', 'Z' + 1) : Random.Range('a', 'z' + 1));
       }
       var text = String.Join("", Enumerable.Range(0, textLength).Select(i => RandomChar()));
       MoleRow.SpawnOptions spawnOptions = new MoleRow.SpawnOptions {
