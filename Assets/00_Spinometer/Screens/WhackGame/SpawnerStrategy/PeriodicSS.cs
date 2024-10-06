@@ -42,7 +42,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
         options.forceVelocity = true;
         options.velocity = Random.insideUnitSphere.normalized * (0.3f * _settings.velocityMultiplier);
         options.vulnerableTimeMax *= _settings.timeMultiplier;
-        _moleRowManager.SpawnMoleRaw(currentTime, options);
+        _moleRowManager.SpawnMoleRow(currentTime, options);
       }
     }
   }

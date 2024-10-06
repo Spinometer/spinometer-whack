@@ -24,7 +24,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     void ISpawnerStrategy.NextTick(double currentTime, float deltaTime)
     {
       if (Random.value < deltaTime) {
-        _moleRowManager.SpawnMoleRaw(currentTime, _moleRowManager.options);
+        _moleRowManager.SpawnMoleRow(currentTime, _moleRowManager.options);
       }
     }
   }

@@ -48,7 +48,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       options.vulnerableTimeMin = 3f * _settings.timeMultiplier;
       options.vulnerableTimeMax = 4f * _settings.timeMultiplier;
 
-      _moleRowManager.SpawnMoleRaw(currentTime, options);
+      _moleRowManager.SpawnMoleRow(currentTime, options);
     }
   }
 }

@@ -161,7 +161,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     }
 
 
-    public void SpawnMoleRaw(double currentTime, Options options)
+    public void SpawnMoleRow(double currentTime, Options options)
     {
       if (_occupiedHeadChars.Count >= 26)
         return;
