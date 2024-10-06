@@ -118,6 +118,30 @@ MonoBehaviour:
     m_Localized: "\u6587\u5B57\u306E\u5927\u304D\u3055"
     m_Metadata:
       m_Items: []
+  - m_Id: 81059531378507776
+    m_Localized: Too Easy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81059757669597184
+    m_Localized: Very Easy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81060034724347904
+    m_Localized: Easy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81060300450283520
+    m_Localized: Easy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81060467257753600
+    m_Localized: Normal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81060569070288896
+    m_Localized: Hard
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

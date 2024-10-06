@@ -1,5 +1,6 @@
 using DG.Tweening;
 using GetBack.Spinometer.Screens.WhackGame;
+using GetBack.Spinometer.Screens.WhackTitle;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Localization.Settings;
@@ -28,6 +29,7 @@ namespace GetBack.Spinometer
     private string _sceneName_easySetupAngle = "EasySetupAngle";
     private string _sceneName_easySetupDistance = "EasySetupDistance";
     private string _sceneName_spinometer = "Spinometer";
+    private string _sceneName_whackTitle = "WhackTitle";
     private string _sceneName_whackGame = "WhackGame";
     private string _sceneName_whackResult = "WhackResult";
 
@@ -50,6 +52,10 @@ namespace GetBack.Spinometer
       ChangeLocale("en");
       _state = State.Disclaimer;
 #if UNITY_EDITOR
+      if (SceneLoaded(_sceneName_whackTitle)) {
+        _state = State.Running;
+        LoadWhackTitleScene(); // initialize already loaded scene
+      }
       if (SceneLoaded(_sceneName_whackGame)) {
         _state = State.Running;
         LoadWhackGameScene(); // initialize already loaded scene
@@ -93,16 +99,22 @@ namespace GetBack.Spinometer
 #endif
     }
 
+    public void MoveFromTitleToGame()
+    {
+      CloseScene(_sceneName_whackTitle);
+      LoadWhackGameScene();
+    }
+
     public void MoveFromGameToResult()
     {
       CloseScene(_sceneName_whackGame);
       LoadWhackResultScene();
     }
 
-    public void MoveFromResultToGame()
+    public void MoveFromResultToTitle()
     {
       CloseScene(_sceneName_whackResult);
-      LoadWhackGameScene();
+      LoadWhackTitleScene();
     }
 
     private async void ToggleDebugUI()
@@ -159,8 +171,8 @@ namespace GetBack.Spinometer
         btnOk.clicked += CloseDisclaimerScene;
       }
 
-      if (!SceneLoaded(_sceneName_whackGame) && !SceneLoaded(_sceneName_whackResult))
-        LoadWhackGameScene();
+      if (!SceneLoaded(_sceneName_whackTitle) && !SceneLoaded(_sceneName_whackGame) && !SceneLoaded(_sceneName_whackResult))
+        LoadWhackTitleScene();
 
       var scene = SceneManager.GetSceneByName(_sceneName_disclaimer);
       if (scene != null && scene.isLoaded) {
@@ -186,6 +198,27 @@ namespace GetBack.Spinometer
         RegisterLocaleChangeButtonEvents(uidoc);
       }
       ToggleExtraUI();
+    }
+
+    private async void LoadWhackTitleScene()
+    {
+      if (!SceneLoaded(_sceneName_whackTitle)) {
+        await SceneManager.LoadSceneAsync(_sceneName_whackTitle, LoadSceneMode.Additive);
+      }
+      GameObject.Find("/WhackTitle").GetComponent<WhackTitle>().app = this;
+      var uidoc = GameObject.Find("/WhackTitleUIDocument")?.GetComponent<UIDocument>();
+      if (uidoc != null) {
+        {
+          var btn = uidoc.rootVisualElement.Q<Button>("settings");
+          btn.clicked += LoadSettingsOrEasySetupScene;
+        }
+        {
+          var btn = uidoc.rootVisualElement.Q<Button>("btn-start");
+          btn.clicked += MoveFromTitleToGame;
+        }
+        RegisterLocaleChangeButtonEvents(uidoc);
+      }
+      //ToggleExtraUI();
     }
 
     private async void LoadWhackGameScene()
@@ -219,7 +252,7 @@ namespace GetBack.Spinometer
         }
         {
           var btn = uidoc.rootVisualElement.Q<Button>("btn-retry");
-          btn.clicked += MoveFromResultToGame;
+          btn.clicked += MoveFromResultToTitle;
         }
         RegisterLocaleChangeButtonEvents(uidoc);
       }

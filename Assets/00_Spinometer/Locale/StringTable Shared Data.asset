@@ -111,6 +111,39 @@ MonoBehaviour:
     m_Key: ui.settings.field.difficulty-textSize
     m_Metadata:
       m_Items: []
+  - m_Id: 81059531378507776
+    m_Key: ui.difficulty.difficulty_0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81059757669597184
+    m_Key: ui.difficulty.difficulty_1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81060034724347904
+    m_Key: ui.difficulty.difficulty_2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81060206187495424
+    m_Key: '<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements"
+      xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements"
+      editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+      editor-extension-mode="False">     <ui:Button text="Button">         <Bindings>            
+      <UnityEngine.Localization.LocalizedString property="text" table="GUID:c97d4cf749952e94f876d9e7f397b00d"
+      entry="Id(81059757669597184)" />         </Bindings>     </ui:Button> </ui:UXML> '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81060300450283520
+    m_Key: ui.difficulty.difficulty_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81060467257753600
+    m_Key: ui.difficulty.difficulty_3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 81060569070288896
+    m_Key: ui.difficulty.difficulty_4
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

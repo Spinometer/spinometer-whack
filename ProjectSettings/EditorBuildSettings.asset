@@ -38,6 +38,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/00_Spinometer/WhackResult.unity
     guid: b4546038282226e4fb2dc7cb2c10dcf7
+  - enabled: 1
+    path: Assets/00_Spinometer/WhackTitle.unity
+    guid: 4733d7673fc3e1a4f8a0411992b390b1
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 6f977792ec751e54e89cb44141a0c5db, type: 2}
     com.unity.localization.settings: {fileID: 11400000, guid: 0eb77086b1ba6154d882ac7b8ffabd7d, type: 2}
