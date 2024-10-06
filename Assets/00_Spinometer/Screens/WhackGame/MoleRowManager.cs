@@ -25,7 +25,9 @@ namespace GetBack.Spinometer.Screens.WhackGame
       public CompositeSS.Options compositeSSOptions;
       public Vector3 spawnBoundary0; // = new Vector3(-2f, -1f, -1.4f);
       public Vector3 spawnBoundary1; // = new Vector3(2f, 1f, -1.2f);
-      public bool forceVelocity;
+      public int textLengthMin; // = 1;
+      public int textLengthMax; // = 1;
+      public bool forceVelocity; // = false;
       public Vector3 velocity;
       public float sizeMin; // = 0.5f;
       public float sizeMax; // = 1.0f;
@@ -39,7 +41,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private AudioSource _audioSource;
     private Options _options;
     private MolePresenter.Options _presenterOptions;
-    private List<Mole> _moles = new List<Mole>();
+    private List<MoleRow> _moleRows = new();
     private SpawnerStrategyStack _spawnerStrategyStack = new();
 
     public MoleRowManager(WhackGame whackGame, AudioSource audioSource, Options options, MolePresenter.Options presenterOptions)
@@ -48,7 +50,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _audioSource = audioSource;
       _options = options;
       _presenterOptions = presenterOptions;
-      _presenterOptions.MoleRowManager = this;
+      _presenterOptions.moleRowManager = this;
     }
 
     public WhackGame whackGame => _whackGame;
@@ -77,7 +79,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     void IDisposable.Dispose()
     {
       ((IDisposable)_spawnerStrategyStack).Dispose();
-      RemoveAllMoles();
+      RemoveAllMoleRows();
     }
 
     public void NextTick(double currentTime, float deltaTime)
@@ -97,11 +99,14 @@ namespace GetBack.Spinometer.Screens.WhackGame
         HandleKeyboardInput();
       }
 
-      for (int i = _moles.Count - 1; i >= 0; i--) {
-        var mole = _moles[i];
-        mole.presenter.NextTick(currentTime, deltaTime);
-        if (mole.activeUntil < currentTime) {
-          RemoveMole(i);
+      foreach (var moleRow in _moleRows) {
+        moleRow.NextTick(currentTime, deltaTime);
+      }
+
+      for (int i = _moleRows.Count - 1; i >= 0; i--) {
+        var moleRow = _moleRows[i];
+        if (moleRow.IsEmpty) {
+          RemoveMoleRow(i);
         }
       }
     }
@@ -109,75 +114,59 @@ namespace GetBack.Spinometer.Screens.WhackGame
     private void HandleKeyboardInput()
     {
       bool hit = false;
-      for (int i = _moles.Count - 1; i >= 0; i--) {
-        var mole = _moles[i];
-        if (!mole.alive)
-          continue;
-        if (((KeyControl)(Keyboard.current[mole.text])).wasPressedThisFrame) {
-          hit = true;
-          _whackGame.AddWhackingScore(mole.score);
-          WhackMole(i);
-          return; // only one mole can be hit at a time
+      foreach (var moleRow in _moleRows) {
+        char ch = moleRow.FirstChar;
+        if (((KeyControl)Keyboard.current[$"{ch}"]).wasPressedThisFrame) { 
+          moleRow.WhackFirstMole();
+          return;
         }
       }
+      _whackGame.AddWhackingScore(-1);
+    }
 
-      if (!hit) {
-        _whackGame.AddWhackingScore(-1);
+
+    public void SpawnMoleRaw(double currentTime, Options options)
+    {
+      int textLength = Random.Range(options.textLengthMin, options.textLengthMax);
+      char RandomChar()
+      {
+        bool uppercase = Random.Range(0, 2) == 0;
+        return (char)(uppercase ? Random.Range('A', 'Z') : Random.Range('a', 'z'));
       }
-    }
-
-    private void WhackMole(int index)
-    {
-      var mole = _moles[index];
-      mole.alive = false;
-      mole.presenter.Whacked();
-    }
-
-    public Mole Spawn(double currentTime)
-    {
-      return Spawn(currentTime, _options);
-    }
-
-    public Mole Spawn(double currentTime, Options options)
-    {
-      bool uppercase = Random.Range(0, 2) == 0;
-      var text = ((char)(uppercase ? Random.Range('A', 'Z') : Random.Range('a', 'z'))).ToString();
-      var mole = new Mole {
-        position = new Vector3(Random.Range(options.spawnBoundary0.x, options.spawnBoundary1.x),
-                               Random.Range(options.spawnBoundary0.y, options.spawnBoundary1.y),
-                               Random.Range(options.spawnBoundary0.z, options.spawnBoundary1.z)),
-        velocity = options.forceVelocity ? options.velocity : Random.insideUnitSphere.normalized * 0.3f,
+      var text = String.Join("", Enumerable.Range(0, textLength).Select(i => RandomChar()));
+      MoleRow.SpawnOptions spawnOptions = new MoleRow.SpawnOptions {
+        presenterOptions = _presenterOptions,
         text = text,
-        score = 1,
+        centerPosition = new Vector3(Random.Range(options.spawnBoundary0.x, options.spawnBoundary1.x),
+                                     Random.Range(options.spawnBoundary0.y, options.spawnBoundary1.y),
+                                     Random.Range(options.spawnBoundary0.z, options.spawnBoundary1.z)),
+        velocity = options.forceVelocity ? options.velocity : Random.insideUnitSphere.normalized * 0.3f,
         size = Random.Range(options.sizeMin, options.sizeMax),
         aspectRatio = Random.Range(options.aspectRatioMin, options.aspectRatioMax),
-        alive = true,
-        activeUntil = currentTime + Random.Range(options.vulnerableTimeMin, options.vulnerableTimeMax)
+        vulnerableTime = Random.Range(options.vulnerableTimeMin, options.vulnerableTimeMax)
       };
-      _moles.Insert(0, mole); // Insert() instead of Add() to ensure whacking is applied to oldest moles first
-      mole.presenter = new MolePresenter(_presenterOptions, mole, _audioSource);
-      _whackGame.AddPossibleMaximumWhackingScore(mole.score);
-      return mole;
+      var moleRow = new MoleRow(spawnOptions, currentTime, _whackGame, this, _audioSource);
+      _moleRows.Add(moleRow);
     }
 
-    private void RemoveMole(int index)
+    private void RemoveMoleRow(int index)
     {
-      var mole = _moles[index];
-      mole.presenter.Dispose();
-      _moles.RemoveAt(index);
+      var moleRow = _moleRows[index];
+      ((IDisposable)moleRow).Dispose();
+      _moleRows.RemoveAt(index);
     }
 
-    public void RemoveMole(Mole mole)
+    public void RemoveMoleRow(MoleRow moleRow)
     {
-      int index = _moles.LastIndexOf(mole);
+      int index = _moleRows.LastIndexOf(moleRow);
       if (index >= 0)
-        RemoveMole(index);
+        RemoveMoleRow(index);
     }
 
-    private void RemoveAllMoles()
+    private void RemoveAllMoleRows()
     {
-      for (int i = _moles.Count - 1; i >= 0; i--) {
-        RemoveMole(i);
+      for (int i = _moleRows.Count - 1; i >= 0; i--) {
+        RemoveMoleRow(i);
       }
     }
   }

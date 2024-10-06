@@ -13,7 +13,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
     public struct Options
     {
       public WhackGame whackGame;
-      public MoleRowManager MoleRowManager;
+      public MoleRowManager moleRowManager;
+      public MoleRow moleRow;
       public GameObject molePrefab;
       public AudioClip spawningClip;
       public GameObject whackedVfx;
@@ -72,7 +73,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       case WhackGame.State.Finished:
         break;
       default:
-        _options.MoleRowManager.RemoveMole(_mole);
+        _options.moleRow.RemoveMole(_mole);
         break;
       }
     }

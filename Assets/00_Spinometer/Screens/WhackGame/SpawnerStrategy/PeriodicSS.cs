@@ -35,7 +35,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
         _endsAt = _startedAt + 1.0;
 
         if (_whackGame.state == WhackGame.State.GoingOn && _whackGame.timeRemaining >= 0.5f)
-          _moleRowManager.Spawn(currentTime);
+          _moleRowManager.SpawnMoleRaw(currentTime, _moleRowManager.options);
       }
 
       _isDone = _isDone || currentTime >= _endsAt;
