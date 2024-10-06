@@ -45,6 +45,11 @@ namespace GetBack.Spinometer
 
     [Range(1, 30)] public int opt_extra_updateFrequency = 2;
 
+    public int opt_difficulty_textLength = 0;
+    public int opt_difficulty_exposingDuration = 0;
+    public int opt_difficulty_motion = 0;
+    public int opt_difficulty_textSize = 0;
+    
     public void Awake()
     {
       opt_webCamDeviceNameList.Clear();
@@ -88,6 +93,10 @@ namespace GetBack.Spinometer
       opt_targetFrameRate = PlayerPrefs.GetInt("opt_targetFrameRate", 15);
       opt_poseEstimationFrequency = PlayerPrefs.GetInt("opt_poseEstimationFrequency", 15);
       opt_extra_updateFrequency = PlayerPrefs.GetInt("opt_extra_updateFrequency", 2);
+      opt_difficulty_textLength = PlayerPrefs.GetInt("opt_difficulty_textLength", 0);
+      opt_difficulty_exposingDuration = PlayerPrefs.GetInt("opt_difficulty_exposingDuration", 0);
+      opt_difficulty_motion = PlayerPrefs.GetInt("opt_difficulty_motion", 0);
+      opt_difficulty_textSize = PlayerPrefs.GetInt("opt_difficulty_textSize", 0);
 
       Debug.Log("Settings#LoadSettings(): done.");
     }
@@ -106,6 +115,10 @@ namespace GetBack.Spinometer
       PlayerPrefs.SetInt("opt_targetFrameRate", opt_targetFrameRate);
       PlayerPrefs.SetInt("opt_poseEstimationFrequency", opt_poseEstimationFrequency);
       PlayerPrefs.SetInt("opt_extra_updateFrequency", opt_extra_updateFrequency);
+      PlayerPrefs.SetInt("opt_difficulty_textLength", opt_difficulty_textLength);
+      PlayerPrefs.SetInt("opt_difficulty_exposingDuration", opt_difficulty_exposingDuration);
+      PlayerPrefs.SetInt("opt_difficulty_motion", opt_difficulty_motion);
+      PlayerPrefs.SetInt("opt_difficulty_textSize", opt_difficulty_textSize);
       Debug.Log("Settings#SaveSettings(): done.");
     }
   }
