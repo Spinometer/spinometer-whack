@@ -35,6 +35,10 @@ namespace GetBack.Spinometer.Screens.WhackGame
     public int FirstActiveMoleIndex => _moles.FindIndex(m => m.alive);
     public Mole? FirstActiveMole => _moles.Find(m => m.alive);
     public char FirstChar => FirstActiveMole?.text[0] ?? '\0';
+    private bool _wholeRowEliminated;
+    public bool WholeRowEliminated => _wholeRowEliminated;
+    private Vector3 _lastCenterPosition;
+    public Vector3 LastCenterPosition => _lastCenterPosition;
 
     public MoleRow(Settings settings,
                    SpawnOptions options,
@@ -82,6 +86,16 @@ namespace GetBack.Spinometer.Screens.WhackGame
             _whackGame.MoleMissed();
           }
           RemoveMole(i);
+        }
+      }
+
+      {
+        var positions = _moles.Where(m => m.alive).Select(m => m.position).ToList();
+        if (positions.Count >= 1) {
+          var p = new Vector3(positions.Average(v => v.x),
+                              positions.Average(v => v.y),
+                              positions.Average(v => v.z));
+          _lastCenterPosition = p;
         }
       }
     }
@@ -158,7 +172,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
         hasFocus = false;
         hasExclusiveFocus = false;
         if (_numInitialMoles == _numWhackedMoles) {
-          _whackGame.WholeRowEliminated();
+          _wholeRowEliminated = true;
         }
       } else {
         hasFocus = true;

@@ -137,6 +137,11 @@ namespace GetBack.Spinometer.Screens.WhackGame
       for (int i = _moleRows.Count - 1; i >= 0; i--) {
         var moleRow = _moleRows[i];
         if (moleRow.IsEmpty) {
+          if (moleRow.WholeRowEliminated) {
+            _whackGame.WholeRowEliminated();
+          } else {
+            _whackGame.AddWhackingScore(-1, moleRow.LastCenterPosition, false);
+          } 
           RemoveMoleRow(i);
         }
       }

@@ -210,7 +210,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _whackGameUiDataSource.comboBonusMultiplier = _comboBonusMultiplier;
     }
 
-    public void AddWhackingScore(int value, Vector3 position)
+    public void AddWhackingScore(int value, Vector3 position, bool damageAnimationIfNeeded = true)
     {
       int bonusMultiplier = (value <= 0) ? 0 : _comboBonusMultiplier;
       int bonus = bonusMultiplier * value;
@@ -240,8 +240,10 @@ namespace GetBack.Spinometer.Screens.WhackGame
       }
       RecordGameStateLog();
       if (value < 0) {
-        _audioSource.PlayOneShot(_whackFailClip);
-        StartDamageAnimation();
+        if (damageAnimationIfNeeded) {
+          _audioSource.PlayOneShot(_whackFailClip);
+          StartDamageAnimation();
+        }
       } else {
         _audioSource.PlayOneShot(_whackSuccessClip);
       }
