@@ -38,6 +38,9 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
 
     public void NextTick(double currentTime, float deltaTime)
     {
+      int count = _moleRowManager.CountActiveMoleRows();
+      if (count == 0)
+        _spawnNextAt = Math.Min(_spawnNextAt, currentTime + 0.2);
       if (_spawnNextAt > currentTime)
         return;
       TryPushNewSpawnerStrategy(currentTime);

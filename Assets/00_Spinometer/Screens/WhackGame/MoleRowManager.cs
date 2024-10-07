@@ -225,5 +225,10 @@ namespace GetBack.Spinometer.Screens.WhackGame
         RemoveMoleRow(i);
       }
     }
+
+    public int CountActiveMoleRows()
+    {
+      return _moleRows.Count(moleRow => !moleRow.IsEmpty);
+    }
   }
 }
