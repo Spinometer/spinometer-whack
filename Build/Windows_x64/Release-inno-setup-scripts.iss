@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Spinometer Whack"
-#define MyAppVersion "0.2.0.20241002.0000"
+#define MyAppVersion "0.3.0.20241008.0000"
 #define MyAppPublisher "GET BACK Ltd."
 #define MyAppURL "https://www.get-back.jp/"
 #define MyAppExeName "Spinometer Whack.exe"
