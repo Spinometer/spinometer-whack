@@ -87,7 +87,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
           }
           if (false) {
             // plot individual scores, for debug
-            var ids = replayBuffer.entries[0].spinalAlignmentScore.scores.Keys;
+            var ids = replayBuffer.entries[0].spinalAlignmentScore.relativeAngleScores.Keys;
             var hue = 0f;
             foreach (var id in ids) {
               Debug.Log($"id = {id}, hue = {hue}");
@@ -128,11 +128,11 @@ namespace GetBack.Spinometer.Screens.WhackResult
 
       using (Draw.ingame.WithColor(color)) {
         var e0 = replayBuffer.entries[0];
-        var scores0 = e0.spinalAlignmentScore.scores;
+        var scores0 = e0.spinalAlignmentScore.relativeAngleScores;
         var s0 = group0.Select(id => Or0(scores0, id)).Average();
         for (int i = 1; i < replayBuffer.entries.Count; i++) {
           var e1 = replayBuffer.entries[i];
-          var scores1 = e1.spinalAlignmentScore.scores;
+          var scores1 = e1.spinalAlignmentScore.relativeAngleScores;
           var s1 = group0.Select(id => Or0(scores1, id)).Average();
           Draw.ingame.Circle(new Vector3(e1.timeRemaining, s1, 0f), Vector3.back, 0.01f);
           Draw.ingame.Line(new Vector3(e0.timeRemaining, s0, 0f), new Vector3(e1.timeRemaining, s1, 0f));
