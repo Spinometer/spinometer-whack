@@ -8,6 +8,7 @@ namespace GetBack.Spinometer.SpinalAlignmentAux
   {
     public Dictionary<SpinalAlignment.RelativeAngleId, float> normalizedRelativeAngles = new();
     public Dictionary<SpinalAlignment.RelativeAngleId, float> relativeAngleScores = new();
+    public Dictionary<SpinalAlignment.AbsoluteAngleId, float> absoluteAngleScores = new();
 
     public SpinalAlignmentScore Clone()
     {
