@@ -144,7 +144,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     private void UpdateAlignmentScore()
     {
-      var scores = _tracker.spinalAlignmentScore.relativeAngleScores;
+      var scores = _tracker.spinalAlignmentScore.absoluteAngleScores;
       var average = scores.Count == 0 ? 0f : scores.Average(kv => kv.Value);
       _alignmentScore += average * Time.deltaTime;
       _whackGameUiDataSource.alignmentScore = _alignmentScore;
