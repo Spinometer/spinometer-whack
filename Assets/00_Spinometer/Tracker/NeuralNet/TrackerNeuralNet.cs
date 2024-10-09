@@ -126,7 +126,9 @@ namespace GetBack.Spinometer
     {
       _visualizerSkeleton.ShowSkeleton = _showSkeleton;
       _visualizerSkeleton.ShowAlignmentValues = _showSkeleton && !_showStickFigure;
-      _visualizerStickFigure.ShowAlignmentValues = _showStickFigure;
+      _visualizerStickFigure.AlignmentValueDisplayMode = _showStickFigure ?
+        SpinalAlignmentVisualizerStickFigure.AlignmentValueDisplayModeEnum.ShowAbsoluteAngles :
+        SpinalAlignmentVisualizerStickFigure.AlignmentValueDisplayModeEnum.Hidden;
     }
 
 

@@ -29,13 +29,20 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
     private VisualElement _alignmentValueLabelContainer;
     private Label[] _alignmentValueLabelElements = null;
 
-    private bool _showAlignmentValues;
-    public bool ShowAlignmentValues
+    public enum AlignmentValueDisplayModeEnum
     {
-      get => _showAlignmentValues;
+      Hidden,
+      ShowRelativeAngles,
+      ShowAbsoluteAngles,
+    }
+
+    private AlignmentValueDisplayModeEnum _alignmentValueDisplayMode = AlignmentValueDisplayModeEnum.ShowAbsoluteAngles;
+    public AlignmentValueDisplayModeEnum AlignmentValueDisplayMode
+    {
+      get => _alignmentValueDisplayMode;
       set
       {
-        _showAlignmentValues = value;
+        _alignmentValueDisplayMode = value;
         foreach (var el in _alignmentValueLabelElements)
           el.visible = false;
       }
@@ -178,9 +185,9 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
         }
       }
 
-      void DrawAngleWithoutScore(Vector3 pos0, Vector3 pos1, Vector3 pos2,
-                                 SpinalAlignmentCore.SpinalAlignment.RelativeAngleId id,
-                                 string label, Vector2 labelOffset, Color color, int n)
+      void DrawRelativeAngleWithoutScore(Vector3 pos0, Vector3 pos1, Vector3 pos2,
+                                         SpinalAlignmentCore.SpinalAlignment.RelativeAngleId id,
+                                         string label, Vector2 labelOffset, Color color, int n)
       {
         // FIXME:  differentiate or merge verbose and _showAlignmentValues.
 
@@ -193,10 +200,10 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
                    label, labelOffset, color, n);
       }
 
-      void DrawAngle(Vector3 pos0, Vector3 pos1, Vector3 pos2,
-                     SpinalAlignmentCore.SpinalAlignment.RelativeAngleId id,
-                     SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId idAbs,
-                     string label, Vector2 labelOffset, Color color, int n)
+      void DrawRelativeAngle(Vector3 pos0, Vector3 pos1, Vector3 pos2,
+                             SpinalAlignmentCore.SpinalAlignment.RelativeAngleId id,
+                             SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId idAbs,
+                             string label, Vector2 labelOffset, Color color, int n)
       {
         // FIXME:  differentiate or merge verbose and _showAlignmentValues.
 
@@ -206,6 +213,35 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
                    angle,
                    score,
                    label, labelOffset, color, n);
+      }
+
+      void DrawAbsoluteAngleWithoutScore(Vector3 pos0, Vector3 pos1, Vector3 pos2,
+                                         SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId id,
+                                         string label, Vector2 labelOffset, Color color, int n)
+      {
+        // FIXME:  differentiate or merge verbose and _showAlignmentValues.
+
+        float angle = 90f - spinalAlignment.absoluteAngles[id];
+        float score = 1.0f; // do not use relativeAngleScores
+        DrawAngle_(pos0, pos1, pos2,
+                   angle,
+                   score,
+                   label, labelOffset, color, n, true);
+      }
+
+      void DrawAbsoluteAngle(Vector3 pos0, Vector3 pos1, Vector3 pos2,
+                             SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId id,
+                             string label, Vector2 labelOffset, Color color, int n)
+      {
+        // FIXME:  differentiate or merge verbose and _showAlignmentValues.
+
+        float angle = 90f - spinalAlignment.absoluteAngles[id];
+        float score =
+          !spinalAlignmentScore.absoluteAngleScores.ContainsKey(id) ? 1f : spinalAlignmentScore.absoluteAngleScores[id];
+        DrawAngle_(pos0, pos1, pos2,
+                   angle,
+                   score,
+                   label, labelOffset, color, n, true);
       }
 
       var pos_s = _refS.position;
@@ -226,6 +262,13 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
         using (Draw.ingame.WithColor(Color.gray)) {
           DrawSegment_(pos_t3 + scale * 0.2f * Vector3.up * 0.25f, -0.2f * Vector3.up * scale * 0.25f, true);
           DrawSegment_(pos_c7 + scale * 0.2f * Vector3.up * 0.25f, -0.2f * Vector3.up * scale * 0.25f, true);
+          if (_alignmentValueDisplayMode == AlignmentValueDisplayModeEnum.ShowAbsoluteAngles) {
+            DrawSegment_(pos_t3 + scale * 0.2f * Vector3.up * 0.25f, -0.2f * Vector3.up * scale * 0.25f, true);
+            DrawSegment_(pos_t8 + scale * 0.2f * Vector3.up * 0.25f, -0.2f * Vector3.up * scale * 0.25f, true);
+            DrawSegment_(pos_t12 + scale * 0.2f * Vector3.up * 0.25f, -0.2f * Vector3.up * scale * 0.25f, true);
+            DrawSegment_(pos_l3 + scale * 0.2f * Vector3.up * 0.25f, -0.2f * Vector3.up * scale * 0.25f, true);
+            DrawSegment_(pos_s + scale * 0.2f * Vector3.up * 0.25f, -0.2f * Vector3.up * scale * 0.25f, true);
+          }
           DrawSegment_(pos_eyepost + scale * 0.5f * 0.25f * Vector3.left, -0.5f * Vector3.left * scale * 0.25f, true);
         }
         DrawSegment_(pos_eyepost, vec_sight, true);
@@ -239,55 +282,92 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
         }
       }
 
-      if (!_showAlignmentValues)
+      if (_alignmentValueDisplayMode == AlignmentValueDisplayModeEnum.Hidden)
         return;
 
       float length = !verbose ? 0.1f : 0.4f;
       var color0 = new Color(0.5f, 1.0f, 1.0f);
       var color1 = new Color(1.0f, 0.5f, 1.0f);
       int n = 0;
-      DrawAngle(pos_c7 + Vector3.up * length,
-                pos_c7,
-                pos_c2,
-                SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.C2_C7_vert_new,
-                SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C2_C7,
-                "C2_C7_vert", new Vector2(10f, -55f), color0, n++);
-      DrawAngle(pos_t3 + Vector3.up * length,
-                pos_t3,
-                pos_c7,
-                SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.C7_T3_vert_new,
-                SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C7_T3,
-                "C7_T3_vert", new Vector2(10f, -40f), color1, n++);
-      // T1_slope
-      DrawAngle(pos_c7,
-                pos_t3,
-                pos_t8,
-                SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.C7_T3_T8,
-                SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C7_T3,
-                "C7_T3_T8", new Vector2(25f, 10f), color0, n++);
-      DrawAngle(pos_t3,
-                pos_t8,
-                pos_t12,
-                SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.T3_T8_T12,
-                SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T3_T8,
-                "T3_T8_T12", new Vector2(20f, 0f), color1, n++);
-      DrawAngleWithoutScore(pos_t8,
-                            pos_t12,
-                            pos_l3,
-                            SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.T8_T12_L3,
-                            "T8_T12_L3", new Vector2(20f, 0f), color0, n++);
-      DrawAngle(pos_s,
-                pos_l3,
-                pos_t12,
-                SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.T12_L3_S,
-                SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.L3_S,
-                "T12_L3_S", new Vector2(30f, 0f), color1, n++);
+      switch (_alignmentValueDisplayMode) {
+      case AlignmentValueDisplayModeEnum.ShowRelativeAngles:
+        DrawRelativeAngle(pos_c7 + Vector3.up * length,
+                          pos_c7,
+                          pos_c2,
+                          SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.C2_C7_vert_new,
+                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C2_C7,
+                          "C2_C7_vert", new Vector2(10f, -55f), color0, n++);
+        DrawRelativeAngle(pos_t3 + Vector3.up * length,
+                          pos_t3,
+                          pos_c7,
+                          SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.C7_T3_vert_new,
+                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C7_T3,
+                          "C7_T3_vert", new Vector2(10f, -40f), color1, n++);
+        // T1_slope
+        DrawRelativeAngle(pos_c7,
+                          pos_t3,
+                          pos_t8,
+                          SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.C7_T3_T8,
+                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C7_T3,
+                          "C7_T3_T8", new Vector2(25f, 10f), color0, n++);
+        DrawRelativeAngle(pos_t3,
+                          pos_t8,
+                          pos_t12,
+                          SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.T3_T8_T12,
+                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T3_T8,
+                          "T3_T8_T12", new Vector2(20f, 0f), color1, n++);
+        DrawRelativeAngleWithoutScore(pos_t8,
+                                      pos_t12,
+                                      pos_l3,
+                                      SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.T8_T12_L3,
+                                      "T8_T12_L3", new Vector2(20f, 0f), color0, n++);
+        DrawRelativeAngle(pos_s,
+                          pos_l3,
+                          pos_t12,
+                          SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.T12_L3_S,
+                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.L3_S,
+                          "T12_L3_S", new Vector2(30f, 0f), color1, n++);
+        break;
+
+      case AlignmentValueDisplayModeEnum.ShowAbsoluteAngles:
+        DrawAbsoluteAngle(pos_c7 + Vector3.up * length,
+                          pos_c7,
+                          pos_c2,
+                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C2_C7,
+                          "C2_C7", new Vector2(10f, -55f), color0, n++);
+        DrawAbsoluteAngle(pos_t3 + Vector3.up * length,
+                          pos_t3,
+                          pos_c7,
+                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C7_T3,
+                          "C7_T3", new Vector2(10f, -40f), color1, n++);
+        DrawAbsoluteAngle(pos_t8 + Vector3.up * length,
+                          pos_t8,
+                          pos_t3,
+                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T3_T8,
+                          "T3_T8", new Vector2(20f, -20f), color1, n++);
+        DrawAbsoluteAngleWithoutScore(pos_t12 + Vector3.up * length,
+                                      pos_t12,
+                                      pos_t8,
+                                      SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T8_T12,
+                                      "T8_T12", new Vector2(20f, -20f), color0, n++);
+        DrawAbsoluteAngle(pos_l3 + Vector3.up * length,
+                          pos_l3,
+                          pos_t12,
+                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T12_L3,
+                          "T12_L3", new Vector2(30f, -20f), color1, n++);
+        DrawAbsoluteAngle(pos_s + Vector3.up * length,
+                          pos_s,
+                          pos_l3,
+                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.L3_S,
+                          "L3_S", new Vector2(25f, -20f), color0, n++);
+        break;
+      }
+
       {
         DrawAngle_(pos_eyepost + scale * Vector3.left * 2.0f, pos_eyepost, pos_eyepost + vec_sight, // FIXME: scale
                    0f, 1f,
                    "pitch", scale * new Vector2(-80f, -40f), color0, n++, true);
       }
-
 
       for (; n < _alignmentValueLabelElements.Length; n++) {
         _alignmentValueLabelElements[n].visible = false;

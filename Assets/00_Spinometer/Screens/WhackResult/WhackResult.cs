@@ -56,7 +56,7 @@ namespace GetBack.Spinometer.Screens.WhackResult
 
     void Start()
     {
-      _visualizerStickFigure.ShowAlignmentValues = true;
+      _visualizerStickFigure.AlignmentValueDisplayMode = SpinalAlignmentVisualizerStickFigure.AlignmentValueDisplayModeEnum.ShowAbsoluteAngles;
       _seekPosition = _gameStateLog.timeRemainingMax;
       StartPlaying();
 
