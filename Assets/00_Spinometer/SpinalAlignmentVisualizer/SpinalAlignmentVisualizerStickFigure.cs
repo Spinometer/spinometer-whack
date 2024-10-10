@@ -93,13 +93,13 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
       _dist_C7_C2 = (_refC2.position - _refC7.position).magnitude;
     }
 
-    public void DrawAlignment(SpinalAlignmentCore.SpinalAlignment spinalAlignment,
+    public void DrawAlignment(SpinometerCore.SpinalAlignment spinalAlignment,
                               SpinalAlignmentScore spinalAlignmentScore,
                               bool verbose, bool onSide,
                               float face_dist, float face_pitch)
     {
       // FIXME:  pitch and dist should not be here
-      if (!spinalAlignment.absoluteAngles.ContainsKey(SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.L3_S))
+      if (!spinalAlignment.absoluteAngles.ContainsKey(SpinometerCore.SpinalAlignment.AbsoluteAngleId.L3_S))
         return;
 
       float scale = _avatar_skeleton.localScale.x;
@@ -127,7 +127,7 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
         return pos1;
       }
 
-      Vector3 DrawSegment(Vector3 pos0, float dist, SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId id, bool draw = true)
+      Vector3 DrawSegment(Vector3 pos0, float dist, SpinometerCore.SpinalAlignment.AbsoluteAngleId id, bool draw = true)
       {
         // dist *= _avatar_skeleton.localScale.x;
         float angle = spinalAlignment.absoluteAngles[id];
@@ -189,7 +189,7 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
       }
 
       void DrawRelativeAngleWithoutScore(Vector3 pos0, Vector3 pos1, Vector3 pos2,
-                                         SpinalAlignmentCore.SpinalAlignment.RelativeAngleId id,
+                                         SpinometerCore.SpinalAlignment.RelativeAngleId id,
                                          string label, Vector2 labelOffset, Color color, int n)
       {
         // FIXME:  differentiate or merge verbose and _showAlignmentValues.
@@ -204,8 +204,8 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
       }
 
       void DrawRelativeAngle(Vector3 pos0, Vector3 pos1, Vector3 pos2,
-                             SpinalAlignmentCore.SpinalAlignment.RelativeAngleId id,
-                             SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId idAbs,
+                             SpinometerCore.SpinalAlignment.RelativeAngleId id,
+                             SpinometerCore.SpinalAlignment.AbsoluteAngleId idAbs,
                              string label, Vector2 labelOffset, Color color, int n)
       {
         // FIXME:  differentiate or merge verbose and _showAlignmentValues.
@@ -219,7 +219,7 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
       }
 
       void DrawAbsoluteAngleWithoutScore(Vector3 pos0, Vector3 pos1, Vector3 pos2,
-                                         SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId id,
+                                         SpinometerCore.SpinalAlignment.AbsoluteAngleId id,
                                          string label, Vector2 labelOffset, Color color, int n)
       {
         // FIXME:  differentiate or merge verbose and _showAlignmentValues.
@@ -233,7 +233,7 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
       }
 
       void DrawAbsoluteAngle(Vector3 pos0, Vector3 pos1, Vector3 pos2,
-                             SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId id,
+                             SpinometerCore.SpinalAlignment.AbsoluteAngleId id,
                              string label, Vector2 labelOffset, Color color, int n)
       {
         // FIXME:  differentiate or merge verbose and _showAlignmentValues.
@@ -248,12 +248,12 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
       }
 
       var pos_s = _refS.position;
-      var pos_l3 = DrawSegment(pos_s, _dist_S_L3, SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.L3_S);
-      var pos_t12 = DrawSegment(pos_l3, _dist_L3_T12, SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T12_L3);
-      var pos_t8 = DrawSegment(pos_t12, _dist_T12_T8, SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T8_T12);
-      var pos_t3 = DrawSegment(pos_t8, _dist_T8_T3, SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T3_T8);
-      var pos_c7 = DrawSegment(pos_t3, _dist_T3_C7, SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C7_T3);
-      var pos_c2 = DrawSegment(pos_c7, _dist_C7_C2, SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C2_C7);
+      var pos_l3 = DrawSegment(pos_s, _dist_S_L3, SpinometerCore.SpinalAlignment.AbsoluteAngleId.L3_S);
+      var pos_t12 = DrawSegment(pos_l3, _dist_L3_T12, SpinometerCore.SpinalAlignment.AbsoluteAngleId.T12_L3);
+      var pos_t8 = DrawSegment(pos_t12, _dist_T12_T8, SpinometerCore.SpinalAlignment.AbsoluteAngleId.T8_T12);
+      var pos_t3 = DrawSegment(pos_t8, _dist_T8_T3, SpinometerCore.SpinalAlignment.AbsoluteAngleId.T3_T8);
+      var pos_c7 = DrawSegment(pos_t3, _dist_T3_C7, SpinometerCore.SpinalAlignment.AbsoluteAngleId.C7_T3);
+      var pos_c2 = DrawSegment(pos_c7, _dist_C7_C2, SpinometerCore.SpinalAlignment.AbsoluteAngleId.C2_C7);
       // pos0 = NextPos(pos0, _dist_EyePost_EyeAnt, SpinalAlignment.SpinalAlignment.AbsoluteAngleId.EyePost);
       var headJointOffset = new Vector3(-0.086f, 0.102f, 0f); // FIXME: scale 
       headJointOffset *= scale * 0.25f;
@@ -297,38 +297,38 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
         DrawRelativeAngle(pos_c7 + Vector3.up * length,
                           pos_c7,
                           pos_c2,
-                          SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.C2_C7_vert_new,
-                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C2_C7,
+                          SpinometerCore.SpinalAlignment.RelativeAngleId.C2_C7_vert_new,
+                          SpinometerCore.SpinalAlignment.AbsoluteAngleId.C2_C7,
                           "C2_C7_vert", new Vector2(10f, -55f), color0, n++);
         DrawRelativeAngle(pos_t3 + Vector3.up * length,
                           pos_t3,
                           pos_c7,
-                          SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.C7_T3_vert_new,
-                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C7_T3,
+                          SpinometerCore.SpinalAlignment.RelativeAngleId.C7_T3_vert_new,
+                          SpinometerCore.SpinalAlignment.AbsoluteAngleId.C7_T3,
                           "C7_T3_vert", new Vector2(10f, -40f), color1, n++);
         // T1_slope
         DrawRelativeAngle(pos_c7,
                           pos_t3,
                           pos_t8,
-                          SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.C7_T3_T8,
-                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C7_T3,
+                          SpinometerCore.SpinalAlignment.RelativeAngleId.C7_T3_T8,
+                          SpinometerCore.SpinalAlignment.AbsoluteAngleId.C7_T3,
                           "C7_T3_T8", new Vector2(25f, 10f), color0, n++);
         DrawRelativeAngle(pos_t3,
                           pos_t8,
                           pos_t12,
-                          SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.T3_T8_T12,
-                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T3_T8,
+                          SpinometerCore.SpinalAlignment.RelativeAngleId.T3_T8_T12,
+                          SpinometerCore.SpinalAlignment.AbsoluteAngleId.T3_T8,
                           "T3_T8_T12", new Vector2(20f, 0f), color1, n++);
         DrawRelativeAngleWithoutScore(pos_t8,
                                       pos_t12,
                                       pos_l3,
-                                      SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.T8_T12_L3,
+                                      SpinometerCore.SpinalAlignment.RelativeAngleId.T8_T12_L3,
                                       "T8_T12_L3", new Vector2(20f, 0f), color0, n++);
         DrawRelativeAngle(pos_s,
                           pos_l3,
                           pos_t12,
-                          SpinalAlignmentCore.SpinalAlignment.RelativeAngleId.T12_L3_S,
-                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.L3_S,
+                          SpinometerCore.SpinalAlignment.RelativeAngleId.T12_L3_S,
+                          SpinometerCore.SpinalAlignment.AbsoluteAngleId.L3_S,
                           "T12_L3_S", new Vector2(30f, 0f), color1, n++);
         break;
 
@@ -336,32 +336,32 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
         DrawAbsoluteAngle(pos_c7 + Vector3.up * length,
                           pos_c7,
                           pos_c2,
-                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C2_C7,
+                          SpinometerCore.SpinalAlignment.AbsoluteAngleId.C2_C7,
                           "C2_C7", new Vector2(40f, -150f), color0, n++);
         DrawAbsoluteAngle(pos_t3 + Vector3.up * length,
                           pos_t3,
                           pos_c7,
-                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C7_T3,
+                          SpinometerCore.SpinalAlignment.AbsoluteAngleId.C7_T3,
                           "C7_T3", new Vector2(40f, -80f), color1, n++);
         DrawAbsoluteAngle(pos_t8 + Vector3.up * length,
                           pos_t8,
                           pos_t3,
-                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T3_T8,
+                          SpinometerCore.SpinalAlignment.AbsoluteAngleId.T3_T8,
                           "T3_T8", new Vector2(20f, -80f), color1, n++);
         DrawAbsoluteAngleWithoutScore(pos_t12 + Vector3.up * length,
                                       pos_t12,
                                       pos_t8,
-                                      SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T8_T12,
+                                      SpinometerCore.SpinalAlignment.AbsoluteAngleId.T8_T12,
                                       "T8_T12", new Vector2(20f, -80f), color0, n++);
         DrawAbsoluteAngle(pos_l3 + Vector3.up * length,
                           pos_l3,
                           pos_t12,
-                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T12_L3,
+                          SpinometerCore.SpinalAlignment.AbsoluteAngleId.T12_L3,
                           "T12_L3", new Vector2(30f, -80f), color1, n++);
         DrawAbsoluteAngle(pos_s + Vector3.up * length,
                           pos_s,
                           pos_l3,
-                          SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.L3_S,
+                          SpinometerCore.SpinalAlignment.AbsoluteAngleId.L3_S,
                           "L3_S", new Vector2(25f, -80f), color0, n++);
         break;
       }
