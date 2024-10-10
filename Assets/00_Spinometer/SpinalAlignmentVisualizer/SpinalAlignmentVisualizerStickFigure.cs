@@ -26,6 +26,7 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
     [SerializeField] private UIDocument _uiDocument;
     [SerializeField] private VisualTreeAsset _alignmentValueLabelPrototype;
     [SerializeField] private float _textScale = 1.0f;
+    [SerializeField] private float _scoreWarningIndicatorSensitivity = 0.5f;
 
     private VisualElement _alignmentValueLabelContainer;
     private Label[] _alignmentValueLabelElements = null;
@@ -180,7 +181,7 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
               el.style.top = uiPosY + (labelOffset.y - 80f) * scale * _textScale * 0.25f;
               el.style.color = color;
               el.style.fontSize = 22.0f * scale * _textScale;
-              bool withinNormalBound = score >= 0.25f;
+              bool withinNormalBound = score >= _scoreWarningIndicatorSensitivity;
               el.style.backgroundColor = withinNormalBound ? new Color(0f, 0f, 0f, 0f) : new Color(1f, 0f, 0f, 0.2f);
             }
           }

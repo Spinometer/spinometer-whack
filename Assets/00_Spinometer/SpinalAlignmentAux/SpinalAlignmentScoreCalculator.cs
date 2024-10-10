@@ -55,7 +55,7 @@ namespace GetBack.Spinometer.SpinalAlignmentAux
       CalculateNeckAnglesScore(alignmentIn, scoreOut, SpinalAlignment.AbsoluteAngleId.C7_T3, 45f, 15f);
       CalculateWaistAnglesScore(alignmentIn, scoreOut, SpinalAlignment.AbsoluteAngleId.T3_T8, 15f, 15f);
       CalculateWaistAnglesScore(alignmentIn, scoreOut, SpinalAlignment.AbsoluteAngleId.T8_T12, 15f, 15f);
-      CalculateWaistAnglesScore(alignmentIn, scoreOut, SpinalAlignment.AbsoluteAngleId.L3_S, 0f, 15f);
+      CalculateWaistAnglesScore(alignmentIn, scoreOut, SpinalAlignment.AbsoluteAngleId.L3_S, 0f, 30f);
     }
 
     /*
