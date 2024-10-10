@@ -112,7 +112,7 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
 
       Vector3 DrawSegment_(Vector3 pos0, Vector3 dpos, bool draw = true)
       {
-        Vector3 pos1 = pos0 + dpos * scale;
+        Vector3 pos1 = pos0 + dpos;
         if (draw) {
           var offset = 1.01f * Vector3.back + (onSide ? (0.5f * Vector3.right) : Vector3.zero);
           offset *= scale;
@@ -175,8 +175,8 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
               var uiPosY = (1.0f - screenPos.y / Screen.height) * _alignmentValueLabelContainer.layout.height;
               el.visible = true;
               el.text = $"{label}\n{angle:0.0}";
-              el.style.left = uiPosX + labelOffset.x * scale * 0.25f;
-              el.style.top = uiPosY + (labelOffset.y - 80f) * scale * 0.25f;
+              el.style.left = uiPosX + labelOffset.x * 0.25f;
+              el.style.top = uiPosY + (labelOffset.y - 80f) * 0.25f;
               el.style.color = color;
               bool withinNormalBound = score >= 0.25f;
               el.style.backgroundColor = withinNormalBound ? new Color(0f, 0f, 0f, 0f) : new Color(1f, 0f, 0f, 0.2f);
@@ -364,9 +364,9 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
       }
 
       {
-        DrawAngle_(pos_eyepost + scale * Vector3.left * 2.0f, pos_eyepost, pos_eyepost + vec_sight, // FIXME: scale
+        DrawAngle_(pos_eyepost + Vector3.left * 2.0f, pos_eyepost, pos_eyepost + vec_sight, // FIXME: scale
                    0f, 1f,
-                   "pitch", scale * new Vector2(-80f, -40f), color0, n++, true);
+                   "pitch", new Vector2(-80f, -40f), color0, n++, true);
       }
 
       for (; n < _alignmentValueLabelElements.Length; n++) {
