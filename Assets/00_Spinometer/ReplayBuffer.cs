@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GetBack.Spinometer.SpinalAlignmentAux;
+using GetBack.Spinometer.SpinometerAux;
 using GetBack.Spinometer.SpinometerCore;
 using UnityEngine;
 

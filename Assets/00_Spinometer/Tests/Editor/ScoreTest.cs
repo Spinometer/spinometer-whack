@@ -1,4 +1,4 @@
-﻿using GetBack.Spinometer.SpinalAlignmentAux;
+﻿using GetBack.Spinometer.SpinometerAux;
 using NUnit.Framework;
 using UnityEngine.TestTools.Utils;
 
