@@ -42,7 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -282,6 +283,7 @@ MonoBehaviour:
   _refC2: {fileID: 815514600}
   _uiDocument: {fileID: 1822691517}
   _alignmentValueLabelPrototype: {fileID: 9197481963319205126, guid: 7b6928e6edde0cf4daac5efc6b875800, type: 3}
+  _textScale: 0.4
 --- !u!114 &142240997
 MonoBehaviour:
   m_ObjectHideFlags: 0

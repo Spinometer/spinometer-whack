@@ -25,6 +25,7 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
 
     [SerializeField] private UIDocument _uiDocument;
     [SerializeField] private VisualTreeAsset _alignmentValueLabelPrototype;
+    [SerializeField] private float _textScale = 1.0f;
 
     private VisualElement _alignmentValueLabelContainer;
     private Label[] _alignmentValueLabelElements = null;
@@ -175,9 +176,10 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
               var uiPosY = (1.0f - screenPos.y / Screen.height) * _alignmentValueLabelContainer.layout.height;
               el.visible = true;
               el.text = $"{label}\n{angle:0.0}";
-              el.style.left = uiPosX + labelOffset.x * 0.25f;
-              el.style.top = uiPosY + (labelOffset.y - 80f) * 0.25f;
+              el.style.left = uiPosX + labelOffset.x * scale * _textScale * 0.25f;
+              el.style.top = uiPosY + (labelOffset.y - 80f) * scale * _textScale * 0.25f;
               el.style.color = color;
+              el.style.fontSize = 22.0f * scale * _textScale;
               bool withinNormalBound = score >= 0.25f;
               el.style.backgroundColor = withinNormalBound ? new Color(0f, 0f, 0f, 0f) : new Color(1f, 0f, 0f, 0.2f);
             }
@@ -334,39 +336,39 @@ namespace GetBack.Spinometer.SpinalAlignmentVisualizer
                           pos_c7,
                           pos_c2,
                           SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C2_C7,
-                          "C2_C7", new Vector2(10f, -55f), color0, n++);
+                          "C2_C7", new Vector2(40f, -150f), color0, n++);
         DrawAbsoluteAngle(pos_t3 + Vector3.up * length,
                           pos_t3,
                           pos_c7,
                           SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.C7_T3,
-                          "C7_T3", new Vector2(10f, -40f), color1, n++);
+                          "C7_T3", new Vector2(40f, -80f), color1, n++);
         DrawAbsoluteAngle(pos_t8 + Vector3.up * length,
                           pos_t8,
                           pos_t3,
                           SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T3_T8,
-                          "T3_T8", new Vector2(20f, -20f), color1, n++);
+                          "T3_T8", new Vector2(20f, -80f), color1, n++);
         DrawAbsoluteAngleWithoutScore(pos_t12 + Vector3.up * length,
                                       pos_t12,
                                       pos_t8,
                                       SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T8_T12,
-                                      "T8_T12", new Vector2(20f, -20f), color0, n++);
+                                      "T8_T12", new Vector2(20f, -80f), color0, n++);
         DrawAbsoluteAngle(pos_l3 + Vector3.up * length,
                           pos_l3,
                           pos_t12,
                           SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.T12_L3,
-                          "T12_L3", new Vector2(30f, -20f), color1, n++);
+                          "T12_L3", new Vector2(30f, -80f), color1, n++);
         DrawAbsoluteAngle(pos_s + Vector3.up * length,
                           pos_s,
                           pos_l3,
                           SpinalAlignmentCore.SpinalAlignment.AbsoluteAngleId.L3_S,
-                          "L3_S", new Vector2(25f, -20f), color0, n++);
+                          "L3_S", new Vector2(25f, -80f), color0, n++);
         break;
       }
 
       {
         DrawAngle_(pos_eyepost + Vector3.left * 2.0f, pos_eyepost, pos_eyepost + vec_sight, // FIXME: scale
                    0f, 1f,
-                   "pitch", new Vector2(-80f, -40f), color0, n++, true);
+                   "pitch", new Vector2(-240f, -180f), color0, n++, true);
       }
 
       for (; n < _alignmentValueLabelElements.Length; n++) {
