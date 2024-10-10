@@ -101,7 +101,7 @@ namespace GetBack.Spinometer
       opt_displaySurfaceAngle = PlayerPrefs.GetFloat("opt_displaySurfaceAngle", 65f);
       opt_additionalPitchOffset = PlayerPrefs.GetFloat("opt_additionalPitchOffset", 15f);
       opt_displayDiagonalFov = PlayerPrefs.GetFloat("opt_displayDiagonalFov", 56f);
-      opt_targetFrameRate = PlayerPrefs.GetInt("opt_targetFrameRate", 15);
+      opt_targetFrameRate = PlayerPrefs.GetInt("opt_targetFrameRate", 60);
       opt_poseEstimationFrequency = PlayerPrefs.GetInt("opt_poseEstimationFrequency", 15);
       opt_extra_updateFrequency = PlayerPrefs.GetInt("opt_extra_updateFrequency", 2);
       opt_difficulty_textLength = PlayerPrefs.GetInt("opt_difficulty_textLength", 0);
