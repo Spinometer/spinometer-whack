@@ -15,5 +15,6 @@ namespace GetBack.Spinometer.Screens.WhackGame
     public IMolePresenter presenter;
     public bool hasFocus;
     public float wavePhase;
+    public bool special;
   }
 }

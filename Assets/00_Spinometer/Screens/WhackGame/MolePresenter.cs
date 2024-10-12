@@ -39,6 +39,10 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _moleGO.transform.localScale = new Vector3(_mole.size / _mole.aspectRatio, _mole.size * _mole.aspectRatio, _mole.size);
       var t = _moleGO.GetComponentInChildren<TextMeshProUGUI>();
       t.text = _mole.text;
+      if (_mole.special) {
+        t.color = new Color(1f, 1f, 0.5f, 1f);
+      }
+
       float duration = (float)(mole.activeUntil - Time.timeAsDouble);
       {
         // fade out

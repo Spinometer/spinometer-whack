@@ -12,12 +12,12 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     private double _endsAt = 0f;
     private bool _isDone = false;
 
-    public PeriodicSS(Settings settings, MoleRowManager moleRowManager, double currentTime)
+    public PeriodicSS(Settings settings, MoleRowManager moleRowManager, double currentTime, bool special = false)
     {
       _settings = settings;
       _moleRowManager = moleRowManager;
       _whackGame = _moleRowManager.whackGame;
-      Spawn(currentTime);
+      Spawn(currentTime, special);
     }
 
     void IDisposable.Dispose()
@@ -33,7 +33,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     {
     }
 
-    public void Spawn(double currentTime)
+    public void Spawn(double currentTime, bool special = false)
     {
       if (_whackGame.state == WhackGame.State.GoingOn && _whackGame.timeRemaining >= 0.5f) {
         var options = _moleRowManager.options;
@@ -42,6 +42,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
         options.forceVelocity = true;
         options.velocity = Random.insideUnitSphere.normalized * (0.3f * _settings.velocityMultiplier);
         options.vulnerableTimeMax *= _settings.timeMultiplier;
+        options.special = special;
         _moleRowManager.SpawnMoleRow(currentTime, options);
       }
     }

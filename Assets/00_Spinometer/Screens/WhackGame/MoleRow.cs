@@ -18,6 +18,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       public float size;
       public float aspectRatio;
       public double vulnerableTime;
+      public bool special;
     }
 
     private readonly Settings _settings;
@@ -39,6 +40,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     public bool WholeRowEliminated => _wholeRowEliminated;
     private Vector3 _lastCenterPosition;
     public Vector3 LastCenterPosition => _lastCenterPosition;
+    public bool isSpecial = false;
 
     public MoleRow(Settings settings,
                    SpawnOptions options,
@@ -53,6 +55,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _audioSource = audioSource;
       hasFocus = false;
       hasExclusiveFocus = false;
+      isSpecial = options.special;
       SpawnMoles(currentTime, options);
     }
 
@@ -117,7 +120,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
           size = options.size,
           aspectRatio = options.aspectRatio,
           alive = true,
-          activeUntil = currentTime + options.vulnerableTime
+          activeUntil = currentTime + options.vulnerableTime,
+          special = options.special
         };
         _moles.Add(mole);
         mole.presenter = new MolePresenter(_settings, options.presenterOptions, mole, _audioSource);

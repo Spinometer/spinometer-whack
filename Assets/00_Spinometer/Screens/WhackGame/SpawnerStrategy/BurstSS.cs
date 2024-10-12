@@ -13,11 +13,11 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     private CancellationTokenSource _cts;
 
 
-    public BurstSS(Settings settings, MoleRowManager moleRowManager, double currentTime)
+    public BurstSS(Settings settings, MoleRowManager moleRowManager, double currentTime, bool special = false)
     {
       _settings = settings;
       _moleRowManager = moleRowManager;
-      StartBurst(currentTime);
+      StartBurst(currentTime, special);
     }
 
     void IDisposable.Dispose()
@@ -33,7 +33,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
     {
     }
 
-    private void StartBurst(double currentTime)
+    private void StartBurst(double currentTime, bool special = false)
     {
       var options = _moleRowManager.options;
       options.spawnBoundary1 = new Vector3(options.spawnBoundary1.x - 0.8f, 0f, 0f);
@@ -47,6 +47,7 @@ namespace GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy
       options.sizeMax = 0.080f * _settings.textSizeMultiplier;
       options.vulnerableTimeMin = 3f * _settings.timeMultiplier;
       options.vulnerableTimeMax = 4f * _settings.timeMultiplier;
+      options.special = special;
 
       _moleRowManager.SpawnMoleRow(currentTime, options);
     }

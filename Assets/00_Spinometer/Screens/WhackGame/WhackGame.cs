@@ -264,9 +264,9 @@ namespace GetBack.Spinometer.Screens.WhackGame
       RecordGameStateLog();
     }
 
-    public void WholeRowEliminated()
+    public void WholeRowEliminated(MoleRow moleRow)
     {
-      comboGuageValue = Mathf.Min(maxComboGuageValue, comboGuageValue + 0.5f);
+      comboGuageValue = Mathf.Min(maxComboGuageValue, comboGuageValue + (moleRow.isSpecial ? 5.0f : 0.5f));
     }
 
     public void MoleMissed()

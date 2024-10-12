@@ -35,6 +35,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       public float aspectRatioMax; // = 1.1f;
       public float vulnerableTimeMin; // = 0.6f;
       public float vulnerableTimeMax; // = 1.0f;
+      public bool special; // = false;
     }
 
     private Settings _settings;
@@ -62,12 +63,12 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     public SpawnerStrategyStack strategyStack => _spawnerStrategyStack;
 
-    public void PushSpawnerStrategy(SpawnerStrategy strategyEnum, double currentTime)
+    public void PushSpawnerStrategy(SpawnerStrategy strategyEnum, double currentTime, bool special = false)
     {
       ISpawnerStrategy ss = strategyEnum switch {
-        SpawnerStrategy.periodic => new PeriodicSS(_settings, this, currentTime),
+        SpawnerStrategy.periodic => new PeriodicSS(_settings, this, currentTime, special),
         SpawnerStrategy.random => new RandomSS(_settings, this),
-        SpawnerStrategy.burst => new BurstSS(_settings, this, currentTime),
+        SpawnerStrategy.burst => new BurstSS(_settings, this, currentTime, special),
         SpawnerStrategy.composite => new CompositeSS(_settings, this, currentTime, _options.compositeSSOptions)
       };
       _spawnerStrategyStack.Push(ss);
@@ -138,7 +139,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
         var moleRow = _moleRows[i];
         if (moleRow.IsEmpty) {
           if (moleRow.WholeRowEliminated) {
-            _whackGame.WholeRowEliminated();
+            _whackGame.WholeRowEliminated(moleRow);
           } else {
             _whackGame.AddWhackingScore(-1, moleRow.LastCenterPosition, false);
           } 
@@ -197,7 +198,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
         velocity = options.forceVelocity ? options.velocity : Random.insideUnitSphere.normalized * 0.3f,
         size = Random.Range(options.sizeMin, options.sizeMax),
         aspectRatio = Random.Range(options.aspectRatioMin, options.aspectRatioMax),
-        vulnerableTime = Random.Range(options.vulnerableTimeMin, options.vulnerableTimeMax)
+        vulnerableTime = Random.Range(options.vulnerableTimeMin, options.vulnerableTimeMax),
+        special = options.special
       };
       var moleRow = new MoleRow(_settings, spawnOptions, currentTime, _whackGame, this, _audioSource);
       moleRow.hasFocus = !AnyMoleRowHasExclusiveFocus();
