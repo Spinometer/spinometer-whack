@@ -82,6 +82,21 @@ namespace GetBack.Spinometer.Screens.WhackGame
                             speed * duration, duration).SetLink(_moleGO);
         tw.Play();
       }
+      if (_mole.special) {
+        // special moles spawining effect 
+        var tr = _moleGO.transform;
+        float a = 0f;
+        var tw = DOTween.To(() => a,
+                            value =>
+                            {
+                              a = value;
+                              using (Draw.ingame.WithColor(new Color(1f, 1f, 1f, a))) {
+                                Draw.ingame.Circle(tr.position, Vector3.back, (1.1f - a) * Mathf.Sqrt(_mole.size));
+                              }
+                            },
+                            1f, 0.5f).SetLink(_moleGO);
+        tw.Play();
+      }
       _audioSource.PlayOneShot(_options.spawningClip, 0.5f);
     }
 
