@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
+using GetBack.Spinometer.Screens.WhackGame.Buff;
 using R3;
 using TMPro;
 using UnityEngine;
@@ -55,6 +57,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
     public float comboGuageValue;
     public readonly float maxComboGuageValue = 5f;
     private int _comboBonusMultiplier = 0;
+    private List<IBuff> _buffs = new();
+    private FlawlessCombo _flawlessComboBuff = null;
     public State state => _state;
 
     void Awake()
@@ -91,11 +95,18 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _gameStateLog.Clear();
       _replayBuffer.Clear();
       _audioSource.PlayOneShot(_whackCountDownClip);
+
+      _flawlessComboBuff = new FlawlessCombo(this);
+      _buffs.Clear();
+      _buffs.Add(_flawlessComboBuff);
     }
 
     void Update()
     {
       _moleRowManager.NextTick(Time.timeAsDouble, Time.deltaTime);
+      foreach (var buff in _buffs) {
+        buff.NextTick(Time.timeAsDouble, Time.deltaTime);
+      }
 
       var oldTimeRemaining = timeRemaining;
       _timeRemaining -= Time.deltaTime;
@@ -238,7 +249,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
                    x => { t.alpha = x; },
                    0f,
                    duration).SetLink(go).Play();
-        Object.Destroy(go, duration);
+        Destroy(go, duration);
       }
       RecordGameStateLog();
       if (value < 0) {
@@ -268,10 +279,12 @@ namespace GetBack.Spinometer.Screens.WhackGame
 
     public void WholeRowEliminated(MoleRow moleRow)
     {
-      comboGuageValue = Mathf.Min(maxComboGuageValue, comboGuageValue + (moleRow.isSpecial ? 5.0f : 0.5f));
+      comboGuageValue = Mathf.Min(maxComboGuageValue, comboGuageValue + 0.5f);
 
       if (!moleRow.isSpecial)
         return;
+
+      _flawlessComboBuff.Activate(Time.timeAsDouble);
 
       // FIXME:  visual stuff should not be here 
       {
@@ -286,7 +299,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
                    x => { t.alpha = x; },
                    0f,
                    duration).SetLink(go).Play();
-        Object.Destroy(go, duration);
+        Destroy(go, duration);
       }
 
     }
