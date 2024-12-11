@@ -20,10 +20,12 @@ namespace GetBack.Spinometer.Screens.WhackGame
       public GameObject molePrefab;
       public AudioClip spawningClip;
       public GameObject whackedVfx;
+      public GameObject specialMoleVfx;
     }
 
     private Options _options;
     private GameObject _moleGO;
+    private GameObject _specialMoleVfxGo;
     private Mole _mole;
     private AudioSource _audioSource;
     private readonly Settings _settings;
@@ -36,6 +38,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _mole.presenter = this;
       _audioSource = audioSource;
       _moleGO = Object.Instantiate(_options.molePrefab, _mole.position, Quaternion.identity);
+      _specialMoleVfxGo = null;
       _moleGO.transform.localScale = new Vector3(_mole.size / _mole.aspectRatio, _mole.size * _mole.aspectRatio, _mole.size);
       var t = _moleGO.GetComponentInChildren<TextMeshProUGUI>();
       t.text = _mole.text;
@@ -83,19 +86,29 @@ namespace GetBack.Spinometer.Screens.WhackGame
         tw.Play();
       }
       if (_mole.special) {
-        // special moles spawining effect 
-        var tr = _moleGO.transform;
-        float a = 0f;
-        var tw = DOTween.To(() => a,
-                            value =>
-                            {
-                              a = value;
-                              using (Draw.ingame.WithColor(new Color(1f, 1f, 1f, a))) {
-                                Draw.ingame.Circle(tr.position, Vector3.back, (1.1f - a) * Mathf.Sqrt(_mole.size));
-                              }
-                            },
-                            1f, 0.5f).SetLink(_moleGO);
-        tw.Play();
+        {
+          // special moles spawining effect
+          var tr = _moleGO.transform;
+          float a = 0f;
+          var tw = DOTween.To(() => a,
+                              value =>
+                              {
+                                a = value;
+                                using (Draw.ingame.WithColor(new Color(1f, 1f, 1f, a))) {
+                                  Draw.ingame.Circle(tr.position, Vector3.back, ((1.1f - a) * 4f) * Mathf.Sqrt(_mole.size));
+                                }
+                              },
+                              1f, 0.5f).SetLink(_moleGO);
+          tw.Play();
+        }
+        {
+          // special moles vfx
+          var vfxOffset = Vector3.down * _mole.size * 0.3f;
+          var pos0 = _mole.presenter.moleGO().transform.position;
+          _specialMoleVfxGo = Object.Instantiate(_options.specialMoleVfx, pos0 + vfxOffset, Quaternion.identity);
+          var vfx = _specialMoleVfxGo.GetComponent<VisualEffect>();
+          vfx.SetFloat("moleSize", Mathf.Sqrt(_mole.size));
+        }
       }
       _audioSource.PlayOneShot(_options.spawningClip, 0.5f);
     }
@@ -121,6 +134,12 @@ namespace GetBack.Spinometer.Screens.WhackGame
       default:
         _options.moleRow.RemoveMole(_mole);
         break;
+      }
+
+      if (_specialMoleVfxGo) {
+        var vfxOffset = Vector3.down * _mole.size * 0.3f;
+        var pos0 = _moleGO.transform.position;
+        _specialMoleVfxGo.transform.localPosition = pos0 + vfxOffset;
       }
     }
 
@@ -161,6 +180,10 @@ namespace GetBack.Spinometer.Screens.WhackGame
     void IDisposable.Dispose()
     {
       Object.Destroy(_moleGO);
+      if (_specialMoleVfxGo != null) {
+        Object.Destroy(_specialMoleVfxGo);
+        _specialMoleVfxGo = null;
+      }
       _moleGO = null;
     }
   }
