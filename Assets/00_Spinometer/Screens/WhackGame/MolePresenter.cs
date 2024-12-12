@@ -179,6 +179,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
         var go = Object.Instantiate(_options.whackedVfx, pos0 + vfxOffset, Quaternion.identity);
         var vfx = go.GetComponent<VisualEffect>();
         vfx.SetFloat("moleSize", Mathf.Sqrt(_mole.size));
+        vfx.SetFloat("particleSize", _options.whackGame.comboGuageValue * 0.4f + 0.1f);
+        // TODO:  color?
         Object.Destroy(go, 2.0f);
       }
     }
