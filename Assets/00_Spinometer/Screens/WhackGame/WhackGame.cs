@@ -282,20 +282,18 @@ namespace GetBack.Spinometer.Screens.WhackGame
     {
       comboGuageValue = Mathf.Min(maxComboGuageValue, comboGuageValue + 0.5f);
 
-      if (!moleRow.isSpecial)
-        return;
-
-      _flawlessComboBuff.Activate(Time.timeAsDouble);
-
       // FIXME:  visual stuff should not be here 
       {
         var go = Instantiate(_moleScorePrefab, moleRow.LastCenterPosition + new Vector3(0f, 0.1f, 0f), Quaternion.identity);
         go.transform.DOLocalMoveY(1f, 0.5f).SetRelative(true);
         var t = go.GetComponentInChildren<TextMeshProUGUI>();
-        t.text = $"Combo +5";
+        t.text = $"Combo +{(moleRow.isSpecial ? "5" : "0.5")}";
         t.color = new Color(1.0f, 1.0f, 0.7f, 1f);
         float duration = 1.0f;
-        go.transform.DOLocalMoveY(0.15f, duration).SetRelative(true).Play();
+        var sequence = DOTween.Sequence();
+        sequence.Append(go.transform.DOLocalMoveY(0.15f, duration * 0.5f).SetRelative(true));
+        sequence.Append(go.transform.DOLocalMoveY(1.5f, duration * 0.5f));
+        sequence.Play();
         DOTween.To(() => t.alpha,
                    x => { t.alpha = x; },
                    0f,
@@ -303,6 +301,10 @@ namespace GetBack.Spinometer.Screens.WhackGame
         Destroy(go, duration);
       }
 
+      if (!moleRow.isSpecial)
+        return;
+
+      _flawlessComboBuff.Activate(Time.timeAsDouble);
       _audioSource.PlayOneShot(_whackSpecialSuccessClip, 1.5f);
     }
 
