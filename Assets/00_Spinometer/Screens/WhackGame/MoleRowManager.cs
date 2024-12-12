@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GetBack.Spinometer.FakeWordGenerator;
 using GetBack.Spinometer.Screens.WhackGame.SpawnerStrategy;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -174,21 +175,8 @@ namespace GetBack.Spinometer.Screens.WhackGame
         return;
 
       int textLength = Random.Range(options.textLengthMin, options.textLengthMax);
-      char RandomChar()
-      {
-        bool uppercase = Random.Range(0, 2) == 0;
-        return (char)(uppercase ? Random.Range('A', 'Z' + 1) : Random.Range('a', 'z' + 1));
-      }
-      char RandomFirstChar()
-      {
-        for (;;) {
-          var ch = RandomChar();
-          if (!_occupiedHeadChars.ContainsKey(Char.ToLower(ch)))
-            return ch;
-        }
-      }
 
-      var text = RandomFirstChar() + String.Join("", Enumerable.Range(1, textLength).Select(i => RandomChar()));
+      var text = RandomTextGenerator.Generate(textLength, _occupiedHeadChars);
       MoleRow.SpawnOptions spawnOptions = new MoleRow.SpawnOptions {
         presenterOptions = _presenterOptions,
         text = text,
