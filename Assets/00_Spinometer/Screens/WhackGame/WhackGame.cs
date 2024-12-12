@@ -26,6 +26,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
     [SerializeField] private GameObject _moleScorePrefab;
     [SerializeField] private AudioClip _whackCountDownClip;
     [SerializeField] private AudioClip _whackSuccessClip;
+    [SerializeField] private AudioClip _whackSpecialSuccessClip;
     [SerializeField] private AudioClip _whackFailClip;
     [SerializeField] private AudioClip _timeoverClip;
 
@@ -302,6 +303,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
         Destroy(go, duration);
       }
 
+      _audioSource.PlayOneShot(_whackSpecialSuccessClip, 1.5f);
     }
 
     public void MoleMissed()

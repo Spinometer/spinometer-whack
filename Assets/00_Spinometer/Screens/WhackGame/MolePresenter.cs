@@ -19,6 +19,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       public MoleRow moleRow;
       public GameObject molePrefab;
       public AudioClip spawningClip;
+      public AudioClip spawningSpecialClip;
       public GameObject whackedVfx;
       public GameObject specialMoleVfx;
     }
@@ -110,7 +111,12 @@ namespace GetBack.Spinometer.Screens.WhackGame
           vfx.SetFloat("moleSize", Mathf.Sqrt(_mole.size));
         }
       }
-      _audioSource.PlayOneShot(_options.spawningClip, 0.5f);
+
+      if (!_mole.special) {
+        _audioSource.PlayOneShot(_options.spawningClip, 0.5f);
+      } else {
+        _audioSource.PlayOneShot(_options.spawningSpecialClip, 0.5f);
+      }
     }
 
     public GameObject moleGO()
