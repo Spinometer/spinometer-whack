@@ -34,7 +34,7 @@ namespace GetBack.Spinometer.FakeWordGenerator
 
       var (text, lastTail) = FirstElement(occupiedHeadChars);
       text = AddRestElements(text, lastTail, textLength, occupiedHeadChars);
-      return text.Substring(0, Math.Min(textLength, text.Length));
+      return text.Substring(0, Math.Min(textLength, text.Length)).ToUpper();;
     }
 
     private static (string, string) FirstElement(Dictionary<char, bool> occupiedHeadChars)
