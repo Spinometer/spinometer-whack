@@ -92,7 +92,7 @@ namespace GetBack.Spinometer.Screens.WhackGame
       _whackGameUiDataSource.whackingScore = _whackingScore;
       _whackGameUiDataSource.alignmentScore = _alignmentScore;
       _state = State.GettingReady;
-      _timeRemaining = initialTime + 3f;
+      _timeRemaining = initialTime + 3.25f;
       _gameStateLog.Clear();
       _replayBuffer.Clear();
       _audioSource.PlayOneShot(_whackCountDownClip);
